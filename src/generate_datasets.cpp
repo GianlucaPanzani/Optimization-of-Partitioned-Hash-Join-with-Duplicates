@@ -6,10 +6,11 @@
 #include <string>
 #include <vector>
 
-namespace fs = std::filesystem;
+#include "lib/dataset.hpp"
+#include "lib/timing.hpp"
 
 
-struct Config {
+struct Args {
     uint64_t r_size = 1'000'000;
     uint64_t s_size = 1'000'000;
     uint64_t seed = 42;
@@ -18,14 +19,14 @@ struct Config {
 };
 
 
-static Config parse_args(int argc, char** argv) {
-    Config cfg;
-    if (argc > 1) cfg.r_size    = std::stoull(argv[1]);
-    if (argc > 2) cfg.s_size    = std::stoull(argv[2]);
-    if (argc > 3) cfg.seed      = std::stoull(argv[3]);
-    if (argc > 4) cfg.key_space = std::stoull(argv[4]);
-    if (argc > 5) cfg.out_dir   = argv[5];
-    return cfg;
+static Args parse_args(int argc, char** argv) {
+    Args args;
+    if (argc > 1) args.r_size    = std::stoull(argv[1]);
+    if (argc > 2) args.s_size    = std::stoull(argv[2]);
+    if (argc > 3) args.seed      = std::stoull(argv[3]);
+    if (argc > 4) args.key_space = std::stoull(argv[4]);
+    if (argc > 5) args.out_dir   = argv[5];
+    return args;
 }
 
 
@@ -46,28 +47,7 @@ static std::vector<uint64_t> generate_keys(uint64_t n, uint64_t seed, uint64_t k
 }
 
 
-static void write_binary_dataset(const fs::path& path, const std::vector<uint64_t>& data) {
-    // Output file stream
-    std::ofstream out(path, std::ios::binary);
-
-    // Error opening the file
-    if (!out) {
-        throw std::runtime_error("Cannot open output file: " + path.string());
-    }
-    
-    // Write on the output file
-    const uint64_t n = static_cast<uint64_t>(data.size());
-    out.write(reinterpret_cast<const char*>(&n), sizeof(n));
-    out.write(reinterpret_cast<const char*>(data.data()), static_cast<std::streamsize>(n * sizeof(uint64_t)));
-
-    // Error during writing
-    if (!out) {
-        throw std::runtime_error("Error while writing file: " + path.string());
-    }
-}
-
-
-static void write_metadata(const fs::path& path, const Config& cfg) {
+static void write_metadata(const std::filesystem::path& path, const Args& args) {
     // Output file stream
     std::ofstream out(path);
 
@@ -77,52 +57,60 @@ static void write_metadata(const fs::path& path, const Config& cfg) {
     }
 
     // Write on the output file
-    out << "r_size=" << cfg.r_size << "\n";
-    out << "s_size=" << cfg.s_size << "\n";
-    out << "seed=" << cfg.seed << "\n";
-    out << "key_space=" << cfg.key_space << "\n";
+    out << "r_size=" << args.r_size << "\n";
+    out << "s_size=" << args.s_size << "\n";
+    out << "seed=" << args.seed << "\n";
+    out << "key_space=" << args.key_space << "\n";
     out << "format=uint64_count + uint64_keys_binary\n";
 }
 
 
-// ===============================
-// ============ MAIN =============
-// ===============================
+// =========================================================
+// ========================= MAIN ==========================
+// =========================================================
 int main(int argc, char** argv) {
+    // Timing variables
+    double t0, t1;
+
     try {
+        // Pick starting time
+        t0 = get_time();
+
         // Get args from terminal
-        const Config cfg = parse_args(argc, argv);
+        const Args args = parse_args(argc, argv);
 
         // Create the ouput directory
-        fs::create_directories(cfg.out_dir);
+        std::filesystem::create_directories(args.out_dir);
 
         // Generate the keys
-        const std::vector<uint64_t> R = generate_keys(cfg.r_size, cfg.seed, cfg.key_space);
-        const std::vector<uint64_t> S = generate_keys(cfg.s_size, cfg.seed+1, cfg.key_space);
+        const std::vector<uint64_t> R = generate_keys(args.r_size, args.seed, args.key_space);
+        const std::vector<uint64_t> S = generate_keys(args.s_size, args.seed+1, args.key_space);
         std::cout << "Keys generated:\n";
-        std::cout << " - R size: " << cfg.r_size << " keys\n";
-        std::cout << " - S size: " << cfg.s_size << " keys\n";
-        std::cout << " - Seed for R: " << cfg.seed << "\n";
-        std::cout << " - Seed for S: " << (cfg.seed+1) << "\n";
-        std::cout << " - Key space: " << cfg.key_space << "\n";
+        std::cout << " - R size: " << args.r_size << " keys\n";
+        std::cout << " - S size: " << args.s_size << " keys\n";
+        std::cout << " - Seed for R: " << args.seed << "\n";
+        std::cout << " - Seed for S: " << (args.seed+1) << "\n";
+        std::cout << " - Key space: " << args.key_space << "\n";
         
         // Create the datasets in binary files
         std::string R_filename = "R.bin";
         std::string S_filename = "S.bin";
-        write_binary_dataset(fs::path(cfg.out_dir) / R_filename, R);
-        write_binary_dataset(fs::path(cfg.out_dir) / S_filename, S);
-        std::cout << "Datasets generated: " << (fs::path(cfg.out_dir) / R_filename) << ", " << (fs::path(cfg.out_dir) / S_filename) << "\n";
+        write_binary_dataset(std::filesystem::path(args.out_dir) / R_filename, R);
+        write_binary_dataset(std::filesystem::path(args.out_dir) / S_filename, S);
+        std::cout << "Datasets generated: " << (std::filesystem::path(args.out_dir) / R_filename) << ", " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
 
         // Create the metadata file
         std::string metadata_filename = "metadata.txt";
-        write_metadata(fs::path(cfg.out_dir) / metadata_filename, cfg);
-        std::cout << "Metadata file generated: " << (fs::path(cfg.out_dir) / metadata_filename) << "\n\n";
+        write_metadata(std::filesystem::path(args.out_dir) / metadata_filename, args);
+        std::cout << "Metadata file generated: " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
         
-        std::cout << "Execution ended correctly!\n";
+        // Pick ending time
+        t1 = get_time();
+        std::cout << "Execution ended correctly after " << get_diff(t0, t1, 5) << " s\n";
         std::cout << "Files generated:\n";
-        std::cout << "  " << (fs::path(cfg.out_dir) / R_filename) << "\n";
-        std::cout << "  " << (fs::path(cfg.out_dir) / S_filename) << "\n";
-        std::cout << "  " << (fs::path(cfg.out_dir) / metadata_filename) << "\n";
+        std::cout << "  " << (std::filesystem::path(args.out_dir) / R_filename) << "\n";
+        std::cout << "  " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
+        std::cout << "  " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
     } catch (const std::exception& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
         return 1;

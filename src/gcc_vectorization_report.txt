@@ -1,0 +1,311 @@
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/char_traits.h:395:25: missed: statement clobbers memory: _3 = __builtin_strlen (__s_1(D));
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: statement clobbers memory: std::__ostream_insert<char, std::char_traits<char> > (__out_2(D), __s_1(D), _4);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:158:20: missed: statement clobbers memory: std::basic_ios<char>::clear (_12, _14);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/char_traits.h:395:25: missed: statement clobbers memory: _10 = __builtin_strlen (__s_5(D));
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.tcc:225:13: missed: statement clobbers memory: _15 = std::__cxx11::basic_string<char>::_M_create (this_2(D), &__dnew, 0);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/char_traits.h:431:49: missed: statement clobbers memory: __builtin_memcpy (_27, __s_5(D), _10);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:639:28: missed: statement clobbers memory: std::__throw_logic_error ("basic_string: construction from null is not valid");
+plain.cpp:31:5: missed: splitting region at control altering definition R = load_dataset (&D.87889); [return slot optimization]
+plain.cpp:23:38: missed: statement clobbers memory: std::__cxx11::basic_string<char>::basic_string<> (&D.97812, _164, &D.97811);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ext/string_conversions.h:80:34: missed: statement clobbers memory: _177 = strtoull (_165, &__endptr, 10);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_168, _170);
+plain.cpp:40:30: missed: statement clobbers memory: _14 = get_time ();
+plain.cpp:41:45: missed: statement clobbers memory: std::__cxx11::basic_string<char>::basic_string<> (&D.87889, "dataset/R.bin", &D.87888);
+plain.cpp:41:45: missed: not vectorized: statement can throw an exception: R = load_dataset (&D.87889); [return slot optimization]
+plain.cpp:41:45: missed: splitting region at control altering definition S = load_dataset (&D.87909); [return slot optimization]
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_64, _20);
+plain.cpp:42:45: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::basic_string<> (&D.87909, "dataset/S.bin", &D.87908);
+plain.cpp:42:45: missed: not vectorized: statement can throw an exception: S = load_dataset (&D.87909); [return slot optimization]
+plain.cpp:42:45: missed: splitting region at control altering definition _27 = get_time ();
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_17, _68);
+plain.cpp:43:18: missed: not vectorized: statement can throw an exception: _27 = get_time ();
+plain.cpp:43:18: missed: splitting region at control altering definition _29 = get_diff (_14, _27, 5);
+plain.cpp:44:17: missed: not vectorized: statement can throw an exception: _29 = get_diff (_14, _27, 5);
+plain.cpp:44:17: missed: splitting region at control altering definition _69 = std::basic_ostream<char>::_M_insert<double> (&cout, _29);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[time] loading datasets:\t", 25);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _69 = std::basic_ostream<char>::_M_insert<double> (&cout, _29);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb29
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at control altering definition _32 = get_time ();
+plain.cpp:45:55: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_69, " s\n");
+plain.cpp:48:18: missed: not vectorized: statement can throw an exception: _32 = get_time ();
+plain.cpp:48:18: missed: splitting region at control altering definition R_partitions = compute_partitions (&R.keys, cfg$P_171); [return slot optimization]
+plain.cpp:49:75: missed: not vectorized: statement can throw an exception: R_partitions = compute_partitions (&R.keys, cfg$P_171); [return slot optimization]
+plain.cpp:49:75: missed: splitting region at control altering definition S_partitions = compute_partitions (&S.keys, cfg$P_171); [return slot optimization]
+plain.cpp:50:75: missed: not vectorized: statement can throw an exception: S_partitions = compute_partitions (&S.keys, cfg$P_171); [return slot optimization]
+plain.cpp:50:75: missed: splitting region at control altering definition _36 = get_time ();
+plain.cpp:51:18: missed: not vectorized: statement can throw an exception: _36 = get_time ();
+plain.cpp:51:18: missed: splitting region at control altering definition _38 = get_diff (_32, _36, 5);
+plain.cpp:52:17: missed: not vectorized: statement can throw an exception: _38 = get_diff (_32, _36, 5);
+plain.cpp:52:17: missed: splitting region at control altering definition _70 = std::basic_ostream<char>::_M_insert<double> (&cout, _38);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[time] computing partitions:\t", 29);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _70 = std::basic_ostream<char>::_M_insert<double> (&cout, _38);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb37
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at control altering definition _41 = compute_throughput (_3, _38);
+plain.cpp:53:59: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_70, " s\n");
+plain.cpp:56:43: missed: not vectorized: statement can throw an exception: _41 = compute_throughput (_3, _38);
+plain.cpp:56:43: missed: splitting region at control altering definition _43 = get_time ();
+plain.cpp:59:18: missed: not vectorized: statement can throw an exception: _43 = get_time ();
+plain.cpp:59:18: missed: splitting region at control altering definition _45 = compute_checksum (&R_partitions);
+plain.cpp:60:43: missed: not vectorized: statement can throw an exception: _45 = compute_checksum (&R_partitions);
+plain.cpp:60:43: missed: splitting region at control altering definition _47 = compute_checksum (&S_partitions);
+plain.cpp:61:43: missed: not vectorized: statement can throw an exception: _47 = compute_checksum (&S_partitions);
+plain.cpp:61:43: missed: splitting region at control altering definition _49 = get_time ();
+plain.cpp:62:30: missed: not vectorized: statement can throw an exception: _49 = get_time ();
+plain.cpp:62:30: missed: splitting region at control altering definition _51 = get_diff (_43, _49, 5);
+plain.cpp:63:17: missed: not vectorized: statement can throw an exception: _51 = get_diff (_43, _49, 5);
+plain.cpp:63:17: missed: splitting region at control altering definition _71 = std::basic_ostream<char>::_M_insert<double> (&cout, _51);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[time] computing checksums:\t", 28);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _71 = std::basic_ostream<char>::_M_insert<double> (&cout, _51);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb46
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at control altering definition _72 = std::basic_ostream<char>::_M_insert<long unsigned int> (&cout, _45);
+plain.cpp:64:58: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_71, " s\n");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[checksum] R:\t", 14);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: not vectorized: statement can throw an exception: _72 = std::basic_ostream<char>::_M_insert<long unsigned int> (&cout, _45);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: splitting region at dominance boundary bb49
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: splitting region at control altering definition _73 = std::basic_ostream<char>::_M_insert<long unsigned int> (&cout, _47);
+plain.cpp:67:53: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_72, "\n");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[checksum] S:\t", 14);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: not vectorized: statement can throw an exception: _73 = std::basic_ostream<char>::_M_insert<long unsigned int> (&cout, _47);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: splitting region at dominance boundary bb52
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:171:25: missed: splitting region at control altering definition _74 = std::basic_ostream<char>::_M_insert<double> (&cout, _41);
+plain.cpp:68:53: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_73, "\n");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[metric] throughput:\t", 21);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _74 = std::basic_ostream<char>::_M_insert<double> (&cout, _41);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb55
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at control altering definition _57 = get_diff (_14, _49, 5);
+plain.cpp:69:60: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_74, " elems/s\n");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "[time] global:\t", 15);
+plain.cpp:70:79: missed: not vectorized: statement can throw an exception: _57 = get_diff (_14, _49, 5);
+plain.cpp:70:79: missed: splitting region at control altering definition _75 = std::basic_ostream<char>::_M_insert<double> (&cout, _57);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _75 = std::basic_ostream<char>::_M_insert<double> (&cout, _57);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb59
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: splitting region at dominance boundary bb129
+plain.cpp:70:84: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_75, " s\n");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_88, _91);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_84, _87);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_80, _83);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_76, _79);
+plain.cpp:31:5: missed: splitting region at dominance boundary bb127
+plain.cpp:31:5: missed: splitting region at dominance boundary bb124
+plain.cpp:31:5: missed: splitting region at dominance boundary bb121
+plain.cpp:31:5: missed: splitting region at dominance boundary bb118
+plain.cpp:31:5: missed: splitting region at dominance boundary bb115
+plain.cpp:31:5: missed: splitting region at dominance boundary bb114
+plain.cpp:31:5: missed: splitting region at dominance boundary bb113
+plain.cpp:31:5: missed: splitting region at dominance boundary bb112
+plain.cpp:31:5: missed: splitting region at dominance boundary bb111
+plain.cpp:31:5: missed: splitting region at dominance boundary bb110
+plain.cpp:31:5: missed: splitting region at dominance boundary bb109
+plain.cpp:31:5: missed: splitting region at dominance boundary bb106
+plain.cpp:31:5: missed: splitting region at dominance boundary bb105
+plain.cpp:31:5: missed: splitting region at dominance boundary bb75
+plain.cpp:31:5: missed: splitting region at dominance boundary bb104
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_98, _101);
+plain.cpp:31:5: missed: not vectorized: statement can throw an exception: resx 21
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb78
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb103
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_102, _105);
+plain.cpp:31:5: missed: not vectorized: statement can throw an exception: resx 20
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb102
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb101
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb98
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb97
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb81
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:733:7: missed: splitting region at dominance boundary bb72
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_106, _109);
+plain.cpp:31:5: missed: not vectorized: statement can throw an exception: resx 19
+lib/dataset.hpp:9:8: missed: splitting region at dominance boundary bb95
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_95, _97);
+plain.cpp:31:5: missed: not vectorized: statement can throw an exception: resx 14
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb84
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb69
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_110, _113);
+lib/dataset.hpp:9:8: missed: splitting region at dominance boundary bb6
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_92, _94);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb4
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ext/string_conversions.h:86:27: missed: not vectorized: statement can throw an exception: std::__throw_out_of_range ("stoull");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ext/string_conversions.h:86:27: missed: splitting region at dominance boundary bb10
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ext/string_conversions.h:83:31: missed: not vectorized: statement can throw an exception: std::__throw_invalid_argument ("stoull");
+plain.cpp:31:5: missed: not vectorized: statement can throw an exception: resx 28
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_172, _174);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/iostream:74:25: missed: statement clobbers memory: std::ios_base::Init::Init (&__ioinit);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/iostream:74:25: missed: statement clobbers memory: __cxxabiv1::__cxa_atexit (__dt_comp , &__ioinit, &__dso_handle);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.tcc:225:13: missed: statement clobbers memory: _17 = std::__cxx11::basic_string<char>::_M_create (this_1(D), &__dnew, 0);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/char_traits.h:431:49: missed: statement clobbers memory: __builtin_memcpy (_29, __s_3(D), __n_5(D));
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:618:28: missed: statement clobbers memory: std::__throw_logic_error ("basic_string: construction from null is not valid");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/char_traits.h:395:25: missed: statement clobbers memory: _11 = __builtin_strlen (__lhs_4(D));
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.tcc:618:20: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::reserve (__str_6(D), _1);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:1422:18: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::_M_append (__str_6(D), __lhs_4(D), _11);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:1422:18: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::_M_append (__str_6(D), _13, _12);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:393:24: missed: not vectorized: statement can throw an exception: std::__throw_length_error ("basic_string::append");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:393:24: missed: not vectorized: statement can throw an exception: std::__throw_length_error ("basic_string::append");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_14, _16);
+lib/dataset.cpp:34:6: missed: splitting region at control altering definition _127 = std::basic_filebuf<char>::open (&out._M_filebuf, _17, 20);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:59: missed: statement clobbers memory: std::ios_base::ios_base (&MEM[(struct basic_ios *)&out + 248B].D.55488);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:385:19: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::init (_117, 0B);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:797:27: missed: not vectorized: statement can throw an exception: std::basic_filebuf<char>::basic_filebuf (&out._M_filebuf);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:799:12: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::init (&MEM <struct ofstream> [(void *)&out + 248B], &out._M_filebuf.D.81836);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:928:22: missed: not vectorized: statement can throw an exception: _127 = std::basic_filebuf<char>::open (&out._M_filebuf, _17, 20);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: optimized: basic block part vectorized using 32 byte vectors
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: missed: splitting region at dominance boundary bb7
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: missed: splitting region at dominance boundary bb14
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:933:15: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::clear (_202, 0);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:158:20: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::clear (_202, _137);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:158:20: missed: splitting region at dominance boundary bb17
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:801:7: missed: statement clobbers memory: std::basic_filebuf<char>::~basic_filebuf (&out._M_filebuf);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 35
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:801:7: missed: splitting region at dominance boundary bb20
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 34
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:93:26: missed: splitting region at dominance boundary bb72
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: statement clobbers memory: std::ios_base::~ios_base (&MEM[(struct basic_ios *)&out + 248B].D.55488);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: splitting region at dominance boundary bb12
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: splitting region at control altering definition _59 = std::__cxx11::basic_string<char>::insert (&D.88023, 0, "Error while writing file: ");
+lib/dataset.cpp:45:14: missed: not vectorized: statement can throw an exception: std::basic_ostream<char>::write (&out.D.82198, &n, 8);
+lib/dataset.cpp:46:14: missed: not vectorized: statement can throw an exception: std::basic_ostream<char>::write (&out.D.82198, _54, _3);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:254:17: missed: not vectorized: statement can throw an exception: std::basic_filebuf<char>::close (&out._M_filebuf);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: _148 = __builtin_eh_pointer (37);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: __cxa_begin_catch (_148);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: __cxa_end_catch ();
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:257:7: missed: statement clobbers memory: std::__basic_file<char>::~__basic_file (&MEM[(struct basic_filebuf *)&out + 8B]._M_file);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/streambuf:203:9: missed: statement clobbers memory: std::locale::~locale (&MEM[(struct basic_streambuf *)&out + 8B]._M_buf_locale);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: statement clobbers memory: std::ios_base::~ios_base (&MEM[(struct basic_ios *)&out + 248B].D.55488);
+lib/dataset.cpp:50:78: missed: statement clobbers memory: _22 = __cxa_allocate_exception (16);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/fs_path.h:1139:58: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::__ct_base .isra (&D.88023, _57, _58);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:36: missed: not vectorized: statement can throw an exception: _59 = std::__cxx11::basic_string<char>::insert (&D.88023, 0, "Error while writing file: ");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:868:9: optimized: basic block part vectorized using 32 byte vectors
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:868:9: missed: splitting region at dominance boundary bb36
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:868:9: missed: splitting region at dominance boundary bb63
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:46: missed: statement clobbers memory: std::__cxx11::basic_string<char>::basic_string (&D.88024, _59);
+lib/dataset.cpp:50:9: missed: not vectorized: statement can throw an exception: std::runtime_error::runtime_error (_22, &D.88024);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_63, _65);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_60, _62);
+lib/dataset.cpp:50:78: missed: not vectorized: statement can throw an exception: __cxa_throw (_22, &_ZTISt13runtime_error, __dt_comp );
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_72, _74);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 21
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb68
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_75, _77);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 20
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb32
+lib/dataset.cpp:50:78: missed: statement clobbers memory: __cxa_free_exception (_22);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 17
+lib/dataset.cpp:50:78: missed: splitting region at dominance boundary bb30
+lib/dataset.cpp:50:78: missed: splitting region at dominance boundary bb21
+lib/dataset.cpp:50:78: missed: splitting region at control altering definition _42 = std::__cxx11::basic_string<char>::insert (&D.88018, 0, "Cannot open output file: ");
+lib/dataset.cpp:40:77: missed: statement clobbers memory: _31 = __cxa_allocate_exception (16);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/fs_path.h:1139:58: missed: not vectorized: statement can throw an exception: std::__cxx11::basic_string<char>::__ct_base .isra (&D.88018, _40, _41);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:36: missed: not vectorized: statement can throw an exception: _42 = std::__cxx11::basic_string<char>::insert (&D.88018, 0, "Cannot open output file: ");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:36: missed: splitting region at dominance boundary bb23
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:36: missed: splitting region at dominance boundary bb51
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3541:46: missed: statement clobbers memory: std::__cxx11::basic_string<char>::basic_string (&D.88019, _42);
+lib/dataset.cpp:40:9: missed: not vectorized: statement can throw an exception: std::runtime_error::runtime_error (_31, &D.88019);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_46, _48);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_43, _45);
+lib/dataset.cpp:40:77: missed: not vectorized: statement can throw an exception: __cxa_throw (_31, &_ZTISt13runtime_error, __dt_comp );
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_66, _68);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 7
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb56
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_69, _71);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 6
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb71
+lib/dataset.cpp:40:77: missed: statement clobbers memory: __cxa_free_exception (_31);
+lib/dataset.cpp:34:6: missed: not vectorized: statement can throw an exception: resx 3
+lib/dataset.cpp:52:1: missed: statement clobbers memory: std::basic_ofstream<char>::~basic_ofstream (&out);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:137:48: missed: statement clobbers memory: _72 = operator new (prephitmp_64);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_algobase.h:922:11: missed: statement clobbers memory: __builtin_memset (__first_73, 0, _67);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_uninitialized.h:1117:21: missed: statement clobbers memory: __builtin_memmove (iftmp.11_37, prephitmp_36, _34);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (prephitmp_36, _32);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:1894:24: missed: statement clobbers memory: std::__throw_length_error ("vector::_M_default_append");
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_algobase.h:922:11: missed: statement clobbers memory: __builtin_memset (__first_49, 0, _84);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/vector.tcc:693:31: optimized: basic block part vectorized using 32 byte vectors
+lib/dataset.cpp:9:9: missed: splitting region at control altering definition _119 = std::basic_filebuf<char>::open (&in._M_filebuf, _115, 12);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:59: missed: statement clobbers memory: std::ios_base::ios_base (&MEM[(struct basic_ios *)&in + 256B].D.55488);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/istream:608:19: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::init (_108, 0B);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:569:27: missed: not vectorized: statement can throw an exception: std::basic_filebuf<char>::basic_filebuf (&in._M_filebuf);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:571:12: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::init (&MEM <struct ifstream> [(void *)&in + 256B], &in._M_filebuf.D.81836);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:337:20: missed: not vectorized: statement can throw an exception: _119 = std::basic_filebuf<char>::open (&in._M_filebuf, _115, 12);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: optimized: basic block part vectorized using 32 byte vectors
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: missed: splitting region at dominance boundary bb7
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:462:2: missed: splitting region at dominance boundary bb14
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:709:15: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::clear (_216, 0);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:158:20: missed: not vectorized: statement can throw an exception: std::basic_ios<char>::clear (_216, _129);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:158:20: missed: splitting region at dominance boundary bb17
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:573:7: missed: statement clobbers memory: std::basic_filebuf<char>::~basic_filebuf (&in._M_filebuf);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 33
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:573:7: missed: splitting region at dominance boundary bb20
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 32
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/istream:104:19: missed: splitting region at dominance boundary bb81
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: statement clobbers memory: std::ios_base::~ios_base (&MEM[(struct basic_ios *)&in + 256B].D.55488);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: splitting region at dominance boundary bb12
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: splitting region at control altering definition D.87951 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Failed to read dataset payload from: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:18:12: missed: not vectorized: statement can throw an exception: std::basic_istream<char>::read (&in.D.82028, _2, 8);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:1011:21: missed: not vectorized: statement can throw an exception: std::vector<long unsigned int>::_M_default_append (_1, _135);
+lib/dataset.cpp:25:12: missed: not vectorized: statement can throw an exception: std::basic_istream<char>::read (&in.D.82028, prephitmp_210, _6);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:254:17: missed: not vectorized: statement can throw an exception: std::basic_filebuf<char>::close (&in._M_filebuf);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: _148 = __builtin_eh_pointer (35);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: __cxa_begin_catch (_148);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:255:2: missed: statement clobbers memory: __cxa_end_catch ();
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/fstream:257:7: missed: statement clobbers memory: std::__basic_file<char>::~__basic_file (&MEM[(struct basic_filebuf *)&in + 16B]._M_file);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/streambuf:203:9: missed: statement clobbers memory: std::locale::~locale (&MEM[(struct basic_streambuf *)&in + 16B]._M_buf_locale);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_ios.h:282:22: missed: statement clobbers memory: std::ios_base::~ios_base (&MEM[(struct basic_ios *)&in + 256B].D.55488);
+lib/dataset.cpp:27:80: missed: statement clobbers memory: _26 = __cxa_allocate_exception (16);
+lib/dataset.cpp:27:74: missed: not vectorized: statement can throw an exception: D.87951 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Failed to read dataset payload from: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:27:74: missed: splitting region at dominance boundary bb71
+lib/dataset.cpp:27:9: missed: not vectorized: statement can throw an exception: std::runtime_error::runtime_error (_26, &D.87951);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_60, _62);
+lib/dataset.cpp:27:80: missed: not vectorized: statement can throw an exception: __cxa_throw (_26, &_ZTISt13runtime_error, __dt_comp );
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_69, _71);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 22
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb72
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb42
+lib/dataset.cpp:27:80: missed: statement clobbers memory: __cxa_free_exception (_26);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 20
+lib/dataset.cpp:27:80: missed: splitting region at dominance boundary bb28
+lib/dataset.cpp:27:80: missed: splitting region at control altering definition D.87948 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Failed to read dataset size from: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:20:77: missed: statement clobbers memory: _34 = __cxa_allocate_exception (16);
+lib/dataset.cpp:20:71: missed: not vectorized: statement can throw an exception: D.87948 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Failed to read dataset size from: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:20:71: missed: splitting region at dominance boundary bb64
+lib/dataset.cpp:20:9: missed: not vectorized: statement can throw an exception: std::runtime_error::runtime_error (_34, &D.87948);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_54, _56);
+lib/dataset.cpp:20:77: missed: not vectorized: statement can throw an exception: __cxa_throw (_34, &_ZTISt13runtime_error, __dt_comp );
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_66, _68);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 14
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb65
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb74
+lib/dataset.cpp:20:77: missed: statement clobbers memory: __cxa_free_exception (_34);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 12
+lib/dataset.cpp:20:77: missed: splitting region at dominance boundary bb75
+lib/dataset.cpp:20:77: missed: splitting region at dominance boundary bb21
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_72, _75);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 11
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: splitting region at control altering definition D.87801 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Cannot open dataset file: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:13:69: missed: statement clobbers memory: _42 = __cxa_allocate_exception (16);
+lib/dataset.cpp:13:63: missed: not vectorized: statement can throw an exception: D.87801 = std::operator+<char, std::char_traits<char>, std::allocator<char> > ("Cannot open dataset file: ", path_13(D)); [return slot optimization]
+lib/dataset.cpp:13:63: missed: splitting region at dominance boundary bb57
+lib/dataset.cpp:13:9: missed: not vectorized: statement can throw an exception: std::runtime_error::runtime_error (_42, &D.87801);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_15, _51);
+lib/dataset.cpp:13:69: missed: not vectorized: statement can throw an exception: __cxa_throw (_42, &_ZTISt13runtime_error, __dt_comp );
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_63, _65);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 5
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb58
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:795:23: missed: splitting region at dominance boundary bb80
+lib/dataset.cpp:13:69: missed: statement clobbers memory: __cxa_free_exception (_42);
+lib/dataset.cpp:9:9: missed: not vectorized: statement can throw an exception: resx 3
+lib/dataset.cpp:31:1: missed: statement clobbers memory: std::basic_ifstream<char>::~basic_ifstream (&in);
+lib/timing.cpp:9:26: missed: statement clobbers memory: now = std::chrono::_V2::steady_clock::now ();
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/cmath:418:17: missed: statement clobbers memory: _10 = pow (1.0e+1, _9);
+lib/checksum.cpp:13:23: missed: couldn't vectorize loop
+lib/checksum.cpp:14:14: missed: not vectorized: unsupported use in stmt.
+lib/metrics.cpp:8:73: missed: statement clobbers memory: _7 = __cxa_allocate_exception (16);
+lib/metrics.cpp:8:9: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_7, "partition_time_seconds must be > 0");
+lib/metrics.cpp:8:73: missed: statement clobbers memory: __cxa_throw (_7, &_ZTISt16invalid_argument, __dt_comp );
+lib/metrics.cpp:8:73: missed: statement clobbers memory: __cxa_free_exception (_7);
+lib/partition.cpp:14:26: optimized: loop vectorized using 32 byte vectors
+lib/partition.cpp:14:26: optimized: loop vectorized using 16 byte vectors
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:137:48: missed: statement clobbers memory: _50 = operator new (_49);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_algobase.h:922:11: missed: statement clobbers memory: __builtin_memset (__first_51, 0, _92);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:1905:24: missed: statement clobbers memory: std::__throw_length_error ("cannot create std::vector larger than max_size()");
+lib/partition.cpp:8:63: missed: statement clobbers memory: _25 = __cxa_allocate_exception (16);
+lib/partition.cpp:8:9: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_25, "P must be a power of two");
+lib/partition.cpp:8:63: missed: statement clobbers memory: __cxa_throw (_25, &_ZTISt16invalid_argument, __dt_comp );
+lib/partition.cpp:8:63: missed: statement clobbers memory: __cxa_free_exception (_25);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/stl_vector.h:100:4: optimized: basic block part vectorized using 32 byte vectors

@@ -7,28 +7,28 @@ CXXFLAGS      += -Wall
 INCLUDES       = -I. -I./include
 LIBS           =
 
-SOURCES        = $(wildcard *.cpp)
+LIB_SOURCES    = lib/dataset.cpp lib/timing.cpp lib/checksum.cpp lib/metrics.cpp lib/partition.cpp
 
-TARGETS        = generate_datasets plain_novec plain_vec avx2
+TARGETS        = generate_datasets plain_novec plain_vec #avx2
 
 .PHONY: all clean cleanall report
 
 all: $(TARGETS)
 
-generate_datasets: generate_datasets.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ $< $(LIBS)
+generate_datasets: generate_datasets.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ generate_datasets.cpp $(LIB_SOURCES) $(LIBS)
 
-plain_novec: plain.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ $< $(LIBS)
+plain_novec: plain.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ plain.cpp $(LIB_SOURCES) $(LIBS)
 
-plain_vec: plain.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ $< $(LIBS) 2> gcc_vectorization_report.txt
+plain_vec: plain.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ plain.cpp $(LIB_SOURCES) $(LIBS) 2> gcc_vectorization_report.txt
 
-avx2: avx2.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -o $@ $< $(LIBS)
+avx2: avx2.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -o $@ avx2.cpp $(LIB_SOURCES) $(LIBS)
 
-report: plain.cpp
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o plain_vec $< $(LIBS) 2> gcc_vectorization_report.txt
+report: plain.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o plain_vec plain.cpp $(LIB_SOURCES) $(LIBS) 2> gcc_vectorization_report.txt
 
 launch-benchmark: LIBS += -pthread
 
