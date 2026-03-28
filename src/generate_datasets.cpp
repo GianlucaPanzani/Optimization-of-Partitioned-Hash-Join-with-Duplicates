@@ -8,6 +8,7 @@
 
 #include "lib/dataset.hpp"
 #include "lib/timing.hpp"
+#include "lib/config.hpp"
 
 
 struct Args {
@@ -71,6 +72,9 @@ static void write_metadata(const std::filesystem::path& path, const Args& args) 
 int main(int argc, char** argv) {
     // Timing variables
     double t0, t1;
+    // Filenames
+    const std::string R_filename = "R.bin";
+    const std::string S_filename = "S.bin";
 
     try {
         // Pick starting time
@@ -85,32 +89,38 @@ int main(int argc, char** argv) {
         // Generate the keys
         const std::vector<uint64_t> R = generate_keys(args.r_size, args.seed, args.key_space);
         const std::vector<uint64_t> S = generate_keys(args.s_size, args.seed+1, args.key_space);
-        std::cout << "Keys generated:\n";
-        std::cout << " - R size: " << args.r_size << " keys\n";
-        std::cout << " - S size: " << args.s_size << " keys\n";
-        std::cout << " - Seed for R: " << args.seed << "\n";
-        std::cout << " - Seed for S: " << (args.seed+1) << "\n";
-        std::cout << " - Key space: " << args.key_space << "\n";
+        if (VERBOSE) {
+            std::cout << "Keys generated:\n";
+            std::cout << " - R size: " << args.r_size << " keys\n";
+            std::cout << " - S size: " << args.s_size << " keys\n";
+            std::cout << " - Seed for R: " << args.seed << "\n";
+            std::cout << " - Seed for S: " << (args.seed+1) << "\n";
+            std::cout << " - Key space: " << args.key_space << "\n";
+        }
         
         // Create the datasets in binary files
-        std::string R_filename = "R.bin";
-        std::string S_filename = "S.bin";
         write_binary_dataset(std::filesystem::path(args.out_dir) / R_filename, R);
         write_binary_dataset(std::filesystem::path(args.out_dir) / S_filename, S);
-        std::cout << "Datasets generated: " << (std::filesystem::path(args.out_dir) / R_filename) << ", " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
+        if (VERBOSE) {
+            std::cout << "Datasets generated: " << (std::filesystem::path(args.out_dir) / R_filename) << ", " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
+        }
 
         // Create the metadata file
         std::string metadata_filename = "metadata.txt";
         write_metadata(std::filesystem::path(args.out_dir) / metadata_filename, args);
-        std::cout << "Metadata file generated: " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
+        if (VERBOSE) {
+            std::cout << "Metadata file generated: " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
+        }
         
         // Pick ending time
         t1 = get_time();
-        std::cout << "Execution ended correctly after " << get_diff(t0, t1, 5) << " s\n";
-        std::cout << "Files generated:\n";
-        std::cout << "  " << (std::filesystem::path(args.out_dir) / R_filename) << "\n";
-        std::cout << "  " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
-        std::cout << "  " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
+        std::cout << "Execution ended correctly after:\n\t" << get_diff(t0, t1, 5) << " s\n";
+        if (VERBOSE) {
+            std::cout << "Files generated:\n";
+            std::cout << "  " << (std::filesystem::path(args.out_dir) / R_filename) << "\n";
+            std::cout << "  " << (std::filesystem::path(args.out_dir) / S_filename) << "\n";
+            std::cout << "  " << (std::filesystem::path(args.out_dir) / metadata_filename) << "\n";
+        }
     } catch (const std::exception& e) {
         std::cerr << "ERROR: " << e.what() << "\n";
         return 1;

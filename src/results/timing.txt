@@ -1,0 +1,2 @@
+plain_novec: 0.11711
+plain_vec: 0.11697
