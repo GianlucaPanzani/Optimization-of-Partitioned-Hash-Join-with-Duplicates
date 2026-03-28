@@ -1,2 +1,11 @@
-plain_novec: 0.11711
-plain_vec: 0.11697
+./avx2: 0.08093
+./avx2: 0.11498
+./plain_novec: 0.09292
+./plain_vec: 0.07884
+./plain_novec: 0.11986
+./plain_vec: 0.09363
+./plain_novec: 0.09782
+./plain_vec: 0.09455
+./avx2: 0.11982
+./plain_novec: 0.0872
+./plain_vec: 0.09478

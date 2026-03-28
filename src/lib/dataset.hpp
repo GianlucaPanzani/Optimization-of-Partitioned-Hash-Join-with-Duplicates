@@ -3,6 +3,7 @@
 
 #include <cstdint>
 #include <filesystem>
+#include <fstream>
 #include <string>
 #include <vector>
 
@@ -11,9 +12,9 @@ struct Dataset {
     std::vector<uint64_t> keys;
 };
 
+
 Dataset load_dataset(const std::string& path);
-//void write_binary_dataset(const std::filesystem::path& path, const std::vector<uint64_t>& data);
-//void write_binary_dataset(const std::filesystem::path& path, const std::vector<uint32_t>& data);
+
 
 template <typename T>
 void write_binary_dataset(const std::filesystem::path& path, const std::vector<T>& data) {

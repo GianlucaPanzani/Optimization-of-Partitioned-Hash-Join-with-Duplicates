@@ -1,2 +1,8 @@
-plain_novec: 3.48432e+08
-plain_vec: 3.83142e+08
+./plain_novec: 3.43053e+08
+./plain_vec: 3.69686e+08
+./plain_novec: 3.47222e+08
+./plain_vec: 3.67647e+08
+./plain_novec: 3.44234e+08
+./plain_vec: 3.67647e+08
+./plain_novec: 3.47222e+08
+./plain_vec: 3.71747e+08

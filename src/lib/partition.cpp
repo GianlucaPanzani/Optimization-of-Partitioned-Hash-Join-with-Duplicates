@@ -1,4 +1,5 @@
 #include <stdexcept>
+
 #include "partition.hpp"
 
 
@@ -8,7 +9,7 @@ std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, uint
         throw std::invalid_argument("P must be a power of two");
     }
 
-    // Loop for the assigning of the partiotions (to every key)
+    // Loop for assigning the partiotions (to every key)
     std::vector<uint32_t> part_id(keys.size());
     const uint64_t mask = P-1;
     for (size_t i = 0; i < keys.size(); ++i) {
