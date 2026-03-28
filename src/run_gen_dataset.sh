@@ -4,8 +4,8 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --partition=normal
-#SBATCH --output=log/slurm-%j-gen-out.log
-#SBATCH --error=log/slurm-%j-gen-err.log
+#SBATCH --output=out/slurm-%j-gen.log
+#SBATCH --error=err/slurm-%j-gen.log
 
 N=1000000
 SEED=42
@@ -13,8 +13,8 @@ KEY_SPACE=1048576
 
 cd "$SLURM_SUBMIT_DIR"
 
-find . -maxdepth 2 -name "slurm-*-gen-out.log" ! -name "slurm-${SLURM_JOB_ID}-gen-out.log" -delete
-find . -maxdepth 2 -name "slurm-*-gen-err.log" ! -name "slurm-${SLURM_JOB_ID}-gen-err.log" -delete
+find ./out -maxdepth 1 -name "slurm-*-gen.log" ! -name "slurm-${SLURM_JOB_ID}-gen.log" -delete
+find ./err -maxdepth 1 -name "slurm-*-gen.log" ! -name "slurm-${SLURM_JOB_ID}-gen.log" -delete
 
 make generate_datasets
 

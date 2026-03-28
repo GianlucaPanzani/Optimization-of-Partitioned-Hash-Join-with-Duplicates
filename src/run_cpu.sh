@@ -4,15 +4,15 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --partition=normal
-#SBATCH --output=log/slurm-%j-cpu-out.log
-#SBATCH --error=log/slurm-%j-cpu-err.log
+#SBATCH --output=out/slurm-%j-cpu.log
+#SBATCH --error=err/slurm-%j-cpu.log
 
 P=128
 
 cd "$SLURM_SUBMIT_DIR"
 
-find . -maxdepth 2 -name "slurm-*-cpu-out.log" ! -name "slurm-${SLURM_JOB_ID}-cpu-out.log" -delete
-find . -maxdepth 2 -name "slurm-*-cpu-err.log" ! -name "slurm-${SLURM_JOB_ID}-cpu-err.log" -delete
+find ./out -maxdepth 1 -name "slurm-*-cpu.log" ! -name "slurm-${SLURM_JOB_ID}-cpu.log" -delete
+find ./err -maxdepth 1 -name "slurm-*-cpu.log" ! -name "slurm-${SLURM_JOB_ID}-cpu.log" -delete
 
 make plain_vec
 make plain_novec

@@ -1,11 +1,21 @@
-#ifndef METRICS_HPP
-#define METRICS_HPP
+#ifndef RESULTS_HPP
+#define RESULTS_HPP
 
 #include <cstdint>
-#include <filesystem>
-#include <fstream>
+#include <string>
 
 double compute_throughput(std::uint64_t total_elements, double partition_time_seconds);
+
+void update_results_json(
+    const std::string& json_path,
+    const std::string& executable_name,
+    std::uint64_t N,
+    std::uint32_t P,
+    double throughput,
+    double t,
+    const std::string& checksum,
+    const std::string& hash_name
+);
 
 
 template <typename T>

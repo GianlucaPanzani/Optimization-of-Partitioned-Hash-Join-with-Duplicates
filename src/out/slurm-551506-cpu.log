@@ -4,14 +4,14 @@ make: 'plain_novec' is up to date.
 ---------------------------------
 ./plain_novec (P=128)
 [time] computing partitions:
-	0.00576 s
+	0.00574 s
 [time] global:
-	0.0872 s
+	0.08963 s
 ---------------------------------
 ./plain_vec (P=128)
 [time] computing partitions:
-	0.00538 s
+	0.0054 s
 [time] global:
-	0.09478 s
+	0.09303 s
 ---------------------------------
 

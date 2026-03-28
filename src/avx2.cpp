@@ -9,17 +9,19 @@
 #include "lib/dataset.hpp"
 #include "lib/timing.hpp"
 #include "lib/checksum.hpp"
-#include "lib/metrics.hpp"
+#include "lib/results.hpp"
 #include "lib/partition_avx2.hpp"
 
 
 struct Args {
     uint32_t P = 128;
+    std::string hash_name = "";
 };
 
 static Args parse_args(int argc, char** argv) {
     Args args;
     if (argc > 1) args.P = static_cast<uint32_t>(std::stoul(argv[1]));
+    if (argc > 2) args.hash_name = std::stoull(argv[2]);
     return args;
 }
 
@@ -56,6 +58,14 @@ int main(int argc, char** argv) {
         std::cout << "[time] computing partitions:\n\t" << t << " s\n";
     }
 
+    // Checksums
+    const uint64_t checksum_R = compute_checksum(R_partitioned);
+    const uint64_t checksum_S = compute_checksum(S_partitioned);
+    const std::string checksum = std::to_string(checksum_R) + "_" + std::to_string(checksum_S);
+    if (VERBOSE) {
+        std::cout << "[checksum] total checksum:\n\t" << checksum << "\n";
+    }
+
     // Throughput
     const double throughput = compute_throughput(R.size + S.size, t);
     if (VERBOSE) {
@@ -75,17 +85,21 @@ int main(int argc, char** argv) {
     if (VERBOSE) {
         std::cout << "[time] saving parts datasets:\n\t" << t << " s\n";
     }
-
-    // Checksums
-    const uint64_t checksum_R = compute_checksum(R_partitioned);
-    const uint64_t checksum_S = compute_checksum(S_partitioned);
-    if (VERBOSE) {
-        std::cout << "[checksum] R:\n\t" << checksum_R << "\n";
-        std::cout << "[checksum] S:\n\t" << checksum_S << "\n";
-    }
     
     // Global time output
     t1_global = get_time();
-    std::cout << "[time] global:\n\t" << get_diff(t0_global, t1_global, n_digits) << " s\n";
+    if (VERBOSE) {
+        std::cout << "[time] global:\n\t" << get_diff(t0_global, t1_global, n_digits) << " s\n";
+    }
+    update_results_json(
+        "results/results.json",
+        exe_name,
+        R.size,
+        P,
+        throughput,
+        global_time,
+        checksum,
+        args.hash_name
+    );
     return 0;
 }

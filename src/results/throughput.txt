@@ -6,3 +6,7 @@
 ./plain_vec: 3.67647e+08
 ./plain_novec: 3.47222e+08
 ./plain_vec: 3.71747e+08
+./plain_novec: 3.43643e+08
+./plain_vec: 3.67647e+08
+./plain_novec: 3.48432e+08
+./plain_vec: 3.7037e+08

@@ -10,19 +10,21 @@
 #include "lib/dataset.hpp"
 #include "lib/timing.hpp"
 #include "lib/checksum.hpp"
-#include "lib/metrics.hpp"
-#include "lib/partition.hpp"
 #include "lib/config.hpp"
+#include "lib/results.hpp"
+#include "lib/partition.hpp"
 
 
 struct Args {
     uint32_t P = 128;
+    std::string hash_name = "";
 };
 
 static Args parse_args(int argc, char** argv) {
-    Args cfg;
-    if (argc > 1) cfg.P = std::stoull(argv[1]);
-    return cfg;
+    Args args;
+    if (argc > 1) args.P = std::stoull(argv[1]);
+    if (argc > 2) args.hash_name = std::stoull(argv[2]);
+    return args;
 }
 
 
@@ -31,11 +33,10 @@ static Args parse_args(int argc, char** argv) {
 // ========================= MAIN ==========================
 // =========================================================
 int main(int argc, char** argv) {
-    const Args cfg = parse_args(argc, argv);
-    const std::uint32_t P = cfg.P;
+    const Args args = parse_args(argc, argv);
     const std::string exe_name = argv[0];
+    const std::uint32_t P = args.P;
 
-    // Timing variables
     double t0_global, t1_global, global_time, t0, t1, t;
     const int n_digits = 5;
 
@@ -89,10 +90,19 @@ int main(int argc, char** argv) {
 
     // Outputs
     if (VERBOSE) {
-        std::cout << "[checksum] R:\n\t" << checksum_R << "\n";
-        std::cout << "[checksum] S:\n\t" << checksum_S << "\n";
+        std::cout << "[checksum] total checksum:\n\t" << checksum << "\n";
         std::cout << "[metric] throughput:\n\t" << throughput << " elems/s\n";
+        std::cout << "[time] global:\n\t" << global_time << " s\n";
     }
-    std::cout << "[time] global:\n\t" << global_time << " s\n";
+    update_results_json(
+        "results/results.json",
+        exe_name,
+        R.size,
+        args.P,
+        throughput,
+        global_time,
+        checksum,
+        args.hash_name
+    );
     return 0;
 }

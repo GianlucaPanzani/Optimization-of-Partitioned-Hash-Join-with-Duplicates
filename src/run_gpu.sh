@@ -4,15 +4,15 @@
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --partition=gpu-shared
-#SBATCH --output=log/slurm-%j-gpu-out.log
-#SBATCH --error=log/slurm-%j-gpu-err.log
+#SBATCH --output=out/slurm-%j-gpu.log
+#SBATCH --error=err/slurm-%j-gpu.log
 
 P=128
 
 cd "$SLURM_SUBMIT_DIR"
 
-find . -maxdepth 2 -name "slurm-*-gpu-out.log" ! -name "slurm-${SLURM_JOB_ID}-gpu-out.log" -delete
-find . -maxdepth 2 -name "slurm-*-gpu-err.log" ! -name "slurm-${SLURM_JOB_ID}-gpu-err.log" -delete
+find ./out -maxdepth 1 -name "slurm-*-gpu.log" ! -name "slurm-${SLURM_JOB_ID}-gpu.log" -delete
+find ./err -maxdepth 1 -name "slurm-*-gpu.log" ! -name "slurm-${SLURM_JOB_ID}-gpu.log" -delete
 
 make avx2
 
