@@ -35,7 +35,7 @@ plain_vec: plain.cpp $(LIB_SOURCES)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ plain.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
 
 avx2: avx2.cpp $(LIB_SOURCES) $(AVX_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(AVXFLAGS) -o $@ avx2.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -o $@ avx2.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
 
 launch-benchmark: LIBS += -pthread
 
