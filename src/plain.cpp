@@ -16,14 +16,16 @@
 
 
 struct Args {
+    uint64_t N = 10'000'000;
     uint32_t P = 128;
     std::string hash_name = "";
 };
 
 static Args parse_args(int argc, char** argv) {
     Args args;
-    if (argc > 1) args.P = std::stoull(argv[1]);
-    if (argc > 2) args.hash_name = std::stoull(argv[2]);
+    if (argc > 1) args.N = std::stoull(argv[1]);
+    if (argc > 2) args.P = std::stoull(argv[2]);
+    if (argc > 3) args.hash_name = std::string(argv[3]);
     return args;
 }
 
@@ -35,7 +37,6 @@ static Args parse_args(int argc, char** argv) {
 int main(int argc, char** argv) {
     const Args args = parse_args(argc, argv);
     const std::string exe_name = argv[0];
-    const std::uint32_t P = args.P;
 
     double t0_global, t1_global, global_time, t0, t1, t;
     const int n_digits = 5;
@@ -50,10 +51,20 @@ int main(int argc, char** argv) {
         std::cout << "[time] loading datasets:\n\t" << t << " s\n";
     }
 
+    // Get the subset of the dataset if N is smaller than the dataset size
+    if (args.N < R.size || args.N < S.size) {
+        R.keys.resize(args.N);
+        S.keys.resize(args.N);
+        R.size = S.size = args.N;
+        if (VERBOSE) {
+            std::cout << "[resize] Are used only the first " << args.N << " keys of each dataset\n";
+        }
+    }
+
     // Compute the partitions for each dataset
     t0 = get_time();
-    const std::vector<std::uint32_t> R_partitioned = compute_partitions(R.keys, P);
-    const std::vector<std::uint32_t> S_partitioned = compute_partitions(S.keys, P);
+    const std::vector<std::uint32_t> R_partitioned = compute_partitions(R.keys, args.P, args.hash_name);
+    const std::vector<std::uint32_t> S_partitioned = compute_partitions(S.keys, args.P, args.hash_name);
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
     std::cout << "[time] computing partitions:\n\t" << t << " s\n";
@@ -97,7 +108,7 @@ int main(int argc, char** argv) {
     update_results_json(
         "results/results.json",
         exe_name,
-        R.size,
+        args.N,
         args.P,
         throughput,
         global_time,

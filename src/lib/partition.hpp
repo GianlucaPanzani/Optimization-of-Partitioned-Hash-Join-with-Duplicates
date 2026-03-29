@@ -2,6 +2,7 @@
 #define PARTITION_HPP
 
 #include <cstdint>
+#include <string>
 #include <vector>
 
 std::vector<uint32_t> hash_function1(const std::vector<uint64_t>& keys, uint32_t P);

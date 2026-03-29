@@ -1,0 +1,4 @@
+Usage: /var/spool/slurmd/job551679/slurm_script [N] [P] [HASH]
+  N: number of keys to be used --> [100000, 1000000, 10000000, 50000000, 100000000],
+  P: number of partitions --> [64, 128, 256, 512, 1024, 2048, 4096],
+  HASH: hash function to be used --> [h1, h2, h3].

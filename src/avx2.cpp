@@ -14,14 +14,16 @@
 
 
 struct Args {
+    uint64_t N = 10'000'000;
     uint32_t P = 128;
     std::string hash_name = "";
 };
 
 static Args parse_args(int argc, char** argv) {
     Args args;
-    if (argc > 1) args.P = static_cast<uint32_t>(std::stoul(argv[1]));
-    if (argc > 2) args.hash_name = std::stoull(argv[2]);
+    if (argc > 1) args.N = std::stoull(argv[1]);
+    if (argc > 2) args.P = static_cast<uint32_t>(std::stoul(argv[2]));
+    if (argc > 3) args.hash_name = std::string(argv[3]);
     return args;
 }
 
@@ -46,6 +48,16 @@ int main(int argc, char** argv) {
     t1 = get_time();
     if (VERBOSE) {
         std::cout << "[time] loading datasets:\n\t" << get_diff(t0, t1, n_digits) << " s\n";
+    }
+
+    // Get the subset of the dataset if N is smaller than the dataset size
+    if (args.N < R.size || args.N < S.size) {
+        R.keys.resize(args.N);
+        S.keys.resize(args.N);
+        R.size = S.size = args.N;
+        if (VERBOSE) {
+            std::cout << "[resize] Are used only the first " << args.N << " keys of each dataset\n";
+        }
     }
 
     // Compute AVX2 partitions
@@ -94,8 +106,8 @@ int main(int argc, char** argv) {
     update_results_json(
         "results/results.json",
         exe_name,
-        R.size,
-        P,
+        args.N,
+        args.P,
         throughput,
         global_time,
         checksum,

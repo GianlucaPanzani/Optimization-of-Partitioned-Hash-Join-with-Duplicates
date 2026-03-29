@@ -26,7 +26,6 @@ static Args parse_args(int argc, char** argv) {
     if (argc > 2) args.s_size    = std::stoull(argv[2]);
     if (argc > 3) args.seed      = std::stoull(argv[3]);
     if (argc > 4) args.key_space = std::stoull(argv[4]);
-    if (argc > 5) args.out_dir   = argv[5];
     return args;
 }
 

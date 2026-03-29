@@ -42,8 +42,8 @@ std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, uint
 
     std::vector<uint32_t> part_id;
     if (hash_name == "h1") part_id = hash_function1(keys, P);
-    if (hash_name == "h2") part_id = hash_function2(keys, P);
-    if (hash_name == "h3") part_id = hash_function3(keys, P);
+    else if (hash_name == "h2") part_id = hash_function2(keys, P);
+    else if (hash_name == "h3") part_id = hash_function3(keys, P);
     else throw std::invalid_argument("The hash function could only be: h1, h2, h3");
     
 

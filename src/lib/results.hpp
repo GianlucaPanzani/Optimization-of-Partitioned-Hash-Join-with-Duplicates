@@ -2,6 +2,9 @@
 #define RESULTS_HPP
 
 #include <cstdint>
+#include <filesystem>
+#include <fstream>
+#include <stdexcept>
 #include <string>
 
 double compute_throughput(std::uint64_t total_elements, double partition_time_seconds);

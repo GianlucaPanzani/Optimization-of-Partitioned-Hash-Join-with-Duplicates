@@ -14,3 +14,7 @@
 ./plain_novec: 0.08963
 ./plain_vec: 0.09303
 ./avx2: 0.09364
+./plain_novec: 0.09015
+./plain_vec: 0.09423
+./plain_novec: 0.08637
+./plain_vec: 0.0796
