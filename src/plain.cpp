@@ -67,7 +67,7 @@ int main(int argc, char** argv) {
     const std::vector<std::uint32_t> S_partitioned = compute_partitions(S.keys, args.P, args.hash_name);
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
-    std::cout << "[time] computing partitions:\n\t" << t << " s\n";
+    std::cout << "\t[time] " << t << " s\n";
     
     // Compute the throughput of computing partitions
     double throughput = compute_throughput(static_cast<std::uint64_t>(R.size) + static_cast<std::uint64_t>(S.size), t);

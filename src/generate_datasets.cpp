@@ -113,7 +113,7 @@ int main(int argc, char** argv) {
         
         // Pick ending time
         t1 = get_time();
-        std::cout << "Execution ended correctly after:\n\t" << get_diff(t0, t1, 5) << " s\n";
+        std::cout << "Execution ended correctly after: " << get_diff(t0, t1, 5) << " s\n";
         if (VERBOSE) {
             std::cout << "Files generated:\n";
             std::cout << "  " << (std::filesystem::path(args.out_dir) / R_filename) << "\n";

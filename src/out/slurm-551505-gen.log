@@ -1,8 +1,0 @@
-make: 'generate_datasets' is up to date.
-
----------------------------------
-./generate_datasets (N=1000000, SEED=42, KEY_SPACE=1048576)
-Execution ended correctly after:
-	0.12996 s
----------------------------------
-

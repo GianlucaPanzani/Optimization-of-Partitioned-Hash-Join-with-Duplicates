@@ -66,9 +66,7 @@ int main(int argc, char** argv) {
     std::vector<uint32_t> S_partitioned = compute_partitions_avx2(S.keys, P);
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
-    if (VERBOSE) {
-        std::cout << "[time] computing partitions:\n\t" << t << " s\n";
-    }
+    std::cout << "\t[time] " << t << " s\n";
 
     // Checksums
     const uint64_t checksum_R = compute_checksum(R_partitioned);

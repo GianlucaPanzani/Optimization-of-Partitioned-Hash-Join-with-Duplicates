@@ -7,11 +7,7 @@ CXXFLAGS       	   += -Wall
 INCLUDES       		= -I. -I./include
 LIBS           		=
 
-TARGETS_DATA 		= generate_datasets
-TARGETS_CPU    		= plain_novec plain_vec
-TARGETS_GPU			= avx2
-TARGETS_ALL			= $(TARGETS_DATA) $(TARGETS_CPU) $(TARGETS_GPU)
-
+TARGETS 			= generate_datasets plain_novec plain_vec avx2
 LIB_SOURCES    		= lib/dataset.cpp lib/timing.cpp lib/checksum.cpp lib/results.cpp lib/partition.cpp lib/config.cpp
 AVX_SOURCES 		= lib/partition_avx2.cpp
 GCC_VEC_REPORT  	= results/gcc_vec_report.txt
@@ -23,7 +19,7 @@ LOG_FILES			= out/*.log err/*.log
 
 .PHONY: all clean cleanlogs cleanall
 
-all: $(TARGETS_ALL)
+all: $(TARGETS)
 
 generate_datasets: generate_datasets.cpp $(LIB_SOURCES)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ generate_datasets.cpp $(LIB_SOURCES) $(LIBS)
@@ -46,4 +42,4 @@ cleanlogs: clean
 	-rm -fr $(LOG_FILES)
 
 cleanall: clean
-	-rm -fr $(TARGETS) $(GCC_REPORT_PATH) $(RESULTS_FILES) $(LOG_FILES)
+	-rm -fr $(TARGETS) $(GCC_VEC_REPORT) $(GCC_NOVEC_REPORT) $(GCC_AVX2_REPORT) $(RESULTS_FILES) $(LOG_FILES)

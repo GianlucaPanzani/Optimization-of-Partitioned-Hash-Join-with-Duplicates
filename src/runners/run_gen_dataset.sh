@@ -7,7 +7,9 @@
 #SBATCH --output=out/slurm-%j-gen.log
 #SBATCH --error=err/slurm-%j-gen.log
 
-N=10000000
+set -e
+
+N=100000000
 SEED=42
 KEY_SPACE=1048576
 
@@ -16,5 +18,5 @@ cd "$SLURM_SUBMIT_DIR"
 find ./out -maxdepth 1 -name "slurm-*-gen.log" ! -name "slurm-${SLURM_JOB_ID}-gen.log" -delete
 find ./err -maxdepth 1 -name "slurm-*-gen.log" ! -name "slurm-${SLURM_JOB_ID}-gen.log" -delete
 
-./generate_datasets $N $N $SEED $KEY_SPACE
-echo "\tDatasets correctly generated (N=$N, SEED=$SEED, KEY_SPACE=$KEY_SPACE)"
+"$SLURM_SUBMIT_DIR/generate_datasets" "$N" "$N" "$SEED" "$KEY_SPACE"
+echo "Datasets correctly generated (N=$N, SEED=$SEED, KEY_SPACE=$KEY_SPACE)"
