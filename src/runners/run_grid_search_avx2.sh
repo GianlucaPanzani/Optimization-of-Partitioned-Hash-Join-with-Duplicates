@@ -1,6 +1,6 @@
 #!/bin/bash
-#SBATCH --job-name=avx2_with_timeout_5min
-#SBATCH --time=00:05:00
+#SBATCH --job-name=avx2_with_timeout_6min
+#SBATCH --time=00:06:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
 #SBATCH --partition=gpu-shared
@@ -20,7 +20,7 @@ for N in "${N_VALUES[@]}"; do
         for HASH in "${HASH_VALUES[@]}"; do
             COUNT=$((COUNT + 1))
 
-            echo -n "[$COUNT/$TOTAL] N=$N P=$P HASH=$HASH"
+            echo -n "[$COUNT/$TOTAL] N=$N P=$P HASH=$HASH "
             bash "$SLURM_SUBMIT_DIR/runners/run_avx2.sh" "$N" "$P" "$HASH"
 
         done

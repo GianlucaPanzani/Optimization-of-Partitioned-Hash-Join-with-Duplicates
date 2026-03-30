@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -e
+
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
@@ -15,11 +17,14 @@ make cleanall
 echo ">>> Compiling files <<<"
 make
 
-echo ">>> Optimizations got by compiling with vectorization:"
-grep optimized results/gcc_vec_report.txt | grep "lib/"
+echo ">>> Optimizations of plain_vec got by compiling with vectorization:"
+grep optimized results/gcc_vec_report.txt | grep "lib/" || true
 
-echo ">>> Optimizations got by compiling with NO vectorization:"
-grep optimized results/gcc_novec_report.txt | grep "lib/"
+echo ">>> Optimizations of plain_novec got by compiling with NO vectorization <<<"
+grep optimized results/gcc_novec_report.txt | grep "lib/" || true
+
+echo ">>> Optimizations of avx2 got by compiling with NO vectorization <<<"
+grep optimized results/gcc_avx2_report.txt | grep "lib/" || true
 
 echo ">>> Generating datasets <<<"
 GEN_JOB_ID=$(sbatch --parsable runners/run_gen_dataset.sh)

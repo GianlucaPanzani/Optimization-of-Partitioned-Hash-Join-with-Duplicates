@@ -13,7 +13,7 @@
 #include "lib/config.hpp"
 #include "lib/results.hpp"
 #include "lib/partition.hpp"
-#if defined(__AVX2__)
+#ifdef ENABLE_AVX2
 #include "lib/partition_avx2.hpp"
 #endif
 
@@ -69,7 +69,7 @@ int main(int argc, char** argv) {
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
     if (VERBOSE) {
-        std::cout << "[loading_time] " << t << " s\n";
+        std::cout << "LOADING_TIME[s]=" << t << "\n";
     }
 
     // Get the subset of the dataset if N is smaller than the dataset size
@@ -80,25 +80,25 @@ int main(int argc, char** argv) {
     S.keys.resize(args.N);
     R.size = S.size = args.N;
     if (VERBOSE) {
-        std::cout << "[resize] Using the first " << args.N << " keys of each dataset\n";
+        std::cout << "[resize] Are used the first " << args.N << " keys of each dataset\n";
     }
 
     // Compute the partitions for each dataset
     t0 = get_time();
     if (args.exec_type == "avx2") {
-#if defined(__AVX2__)
-        R_partitioned = compute_partitions_avx2(R.keys, args.P);
-        S_partitioned = compute_partitions_avx2(S.keys, args.P);
-#else
-        throw std::invalid_argument("AVX2 execution requested by a binary built without AVX2 support");
-#endif
+        #ifdef ENABLE_AVX2
+            R_partitioned = compute_partitions_avx2(R.keys, args.P);
+            S_partitioned = compute_partitions_avx2(S.keys, args.P);
+        #else
+            throw std::invalid_argument("This binary was compiled without AVX2 support");
+        #endif
     } else {
         R_partitioned = compute_partitions(R.keys, args.P, args.hash_name);
         S_partitioned = compute_partitions(S.keys, args.P, args.hash_name);
     }
     t1 = get_time();
     partition_time = get_diff(t0, t1, n_digits);
-    std::cout << "[partition_time] " << partition_time << " s\n";
+    std::cout << "PARTITION_TIME[s]=" << partition_time << "\n";
     
     // Compute the throughput of computing partitions
     const double throughput = compute_throughput(
@@ -110,11 +110,11 @@ int main(int argc, char** argv) {
     t0 = get_time();
     uint64_t checksum_R = compute_checksum(R_partitioned);
     uint64_t checksum_S = compute_checksum(S_partitioned);
-    std::string checksum = std::to_string(checksum_R) + "_" + std::to_string(checksum_S);
+    std::string checksum = std::to_string(checksum_R) + std::to_string(checksum_S);
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
     if (VERBOSE) {
-        std::cout << "[checksum_time] " << t << " s\n";
+        std::cout << "CHECKSUM_TIME[s]=" << t << "\n";
     }
 
     // Save the partitioned datasets
@@ -127,14 +127,14 @@ int main(int argc, char** argv) {
     t = get_diff(t0, t1, n_digits);
     global_time = get_diff(t0_global, t1_global, n_digits);
     if (VERBOSE) {
-        std::cout << "[save_time] " << t << " s\n";
+        std::cout << "SAVE_TIME[s]=" << t << "\n";
     }
 
     // Outputs
     if (VERBOSE) {
-        std::cout << "[checksum] " << checksum << "\n";
-        std::cout << "[throughput] " << throughput << " elems/s\n";
-        std::cout << "[global_time] " << global_time << " s\n";
+        std::cout << "CHECKSUM=" << checksum << "\n";
+        std::cout << "THROUGHPUT[elems/s]=" << throughput << "\n";
+        std::cout << "GLOBAL_TIME[s]=" << global_time << "\n";
     }
     append_to_csv(
         RESULTS_CSV_FILE,
