@@ -33,8 +33,8 @@ echo ">>> Executing grid search with NO vectorization <<<"
 PLAIN_NOVEC_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_VEC_JOB_ID} runners/run_grid_search_plain_novec.sh)
 echo "runners/run_grid_search_plain_novec.sh -> job $PLAIN_NOVEC_JOB_ID"
 
-#echo ">>> Executing grid search with AVX2 <<<"
-#GPU_GRID_SEARCH_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_NOVEC_JOB_ID} runners/run_grid_search_avx2.sh)
-#echo "runners/run_grid_search_avx2.sh -> job $GPU_GRID_SEARCH_JOB_ID"
+echo ">>> Executing grid search with AVX2 <<<"
+AVX2_GRID_SEARCH_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_NOVEC_JOB_ID} runners/run_grid_search_avx2.sh)
+echo "runners/run_grid_search_avx2.sh -> job $AVX2_GRID_SEARCH_JOB_ID"
 
 echo ">>> Results will be available in: results/results.csv"

@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gpanzani_partition_map_avx2
+#SBATCH --job-name=avx2_with_timeout_5min
 #SBATCH --time=00:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1

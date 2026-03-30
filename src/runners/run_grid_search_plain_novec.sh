@@ -1,5 +1,5 @@
 #!/bin/bash
-#SBATCH --job-name=gpanzani_partition_map_plain_novec
+#SBATCH --job-name=plain_novec_with_timeout_5min
 #SBATCH --time=00:05:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
