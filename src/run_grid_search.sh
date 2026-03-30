@@ -3,6 +3,12 @@
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
 
+mkdir -p results
+rm -f results/results_tmp.csv
+if [ -f results/results.csv ]; then
+    mv results/results.csv results/results_tmp.csv
+fi
+
 echo ">>> Cleaning previous results and logs <<<"
 make cleanall
 
@@ -31,4 +37,4 @@ echo "runners/run_grid_search_plain_novec.sh -> job $PLAIN_NOVEC_JOB_ID"
 #GPU_GRID_SEARCH_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_NOVEC_JOB_ID} runners/run_grid_search_avx2.sh)
 #echo "runners/run_grid_search_avx2.sh -> job $GPU_GRID_SEARCH_JOB_ID"
 
-echo ">>> Results will be available in: results/results.json"
+echo ">>> Results will be available in: results/results.csv"

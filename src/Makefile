@@ -13,7 +13,7 @@ AVX_SOURCES 		= lib/partition_avx2.cpp
 GCC_VEC_REPORT  	= results/gcc_vec_report.txt
 GCC_NOVEC_REPORT	= results/gcc_novec_report.txt
 GCC_AVX2_REPORT 	= results/gcc_avx2_report.txt
-RESULTS_FILES		= results/gcc_vec_report.txt results/checksum.txt results/throughput.txt results/timing.txt
+RESULTS_FILES		=
 LOG_FILES			= out/*.log err/*.log
 
 
@@ -24,14 +24,14 @@ all: $(TARGETS)
 generate_datasets: generate_datasets.cpp $(LIB_SOURCES)
 	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ generate_datasets.cpp $(LIB_SOURCES) $(LIBS)
 
-plain_novec: plain.cpp $(LIB_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ plain.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_NOVEC_REPORT)
+plain_novec: main.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_NOVEC_REPORT)
 
-plain_vec: plain.cpp $(LIB_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ plain.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
+plain_vec: main.cpp $(LIB_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
 
-avx2: avx2.cpp $(LIB_SOURCES) $(AVX_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -o $@ avx2.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
+avx2: main.cpp $(LIB_SOURCES) $(AVX_SOURCES)
+	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
 
 launch-benchmark: LIBS += -pthread
 

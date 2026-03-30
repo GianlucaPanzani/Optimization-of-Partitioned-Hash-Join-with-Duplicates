@@ -1,32 +1,54 @@
 #include <cstdint>
-#include <cstddef>
 #include <filesystem>
+#include <fstream>
 #include <iostream>
+#include <sstream>
 #include <stdexcept>
 #include <string>
 #include <vector>
 
-#include "lib/config.hpp"
 #include "lib/dataset.hpp"
 #include "lib/timing.hpp"
 #include "lib/checksum.hpp"
+#include "lib/config.hpp"
 #include "lib/results.hpp"
+#include "lib/partition.hpp"
+#if defined(__AVX2__)
 #include "lib/partition_avx2.hpp"
+#endif
 
 
 struct Args {
     uint64_t N = 10'000'000;
     uint32_t P = 128;
-    std::string hash_name = "";
+    std::string hash_name = "mask";
+    std::string exec_type = "plain_novec";
 };
 
 static Args parse_args(int argc, char** argv) {
     Args args;
     if (argc > 1) args.N = std::stoull(argv[1]);
-    if (argc > 2) args.P = static_cast<uint32_t>(std::stoul(argv[2]));
+    if (argc > 2) args.P = std::stoull(argv[2]);
     if (argc > 3) args.hash_name = std::string(argv[3]);
+    if (argc > 4) args.exec_type = std::string(argv[4]);
     return args;
 }
+
+void check_args(const Args& args) {
+    if (args.N == 0) {
+        throw std::invalid_argument("N must be > 0");
+    }
+    if (args.P == 0) {
+        throw std::invalid_argument("P must be > 0");
+    }
+    if (args.hash_name != "mask" && args.hash_name != "mul" && args.hash_name != "fmix64") {
+        throw std::invalid_argument("Unsupported hash function: " + args.hash_name);
+    }
+    if (args.exec_type != "plain_novec" && args.exec_type != "plain_vec" && args.exec_type != "avx2") {
+        throw std::invalid_argument("Unsupported execution type: " + args.exec_type);
+    }
+}
+
 
 
 // =========================================================
@@ -34,19 +56,20 @@ static Args parse_args(int argc, char** argv) {
 // =========================================================
 int main(int argc, char** argv) {
     const Args args = parse_args(argc, argv);
-    const uint32_t P = args.P;
+    check_args(args);
+
+    std::vector<std::uint32_t> R_partitioned, S_partitioned;
     double t0_global, t1_global, global_time, t0, t1, t, partition_time;
     const int n_digits = 5;
 
-    t0_global = get_time();
-
     // Loading datasets
-    t0 = get_time();
+    t0 = t0_global = get_time();
     Dataset R = load_dataset("dataset/R.bin");
     Dataset S = load_dataset("dataset/S.bin");
     t1 = get_time();
+    t = get_diff(t0, t1, n_digits);
     if (VERBOSE) {
-        std::cout << "[loading_time] " << get_diff(t0, t1, n_digits) << " s\n";
+        std::cout << "[loading_time] " << t << " s\n";
     }
 
     // Get the subset of the dataset if N is smaller than the dataset size
@@ -57,25 +80,37 @@ int main(int argc, char** argv) {
     S.keys.resize(args.N);
     R.size = S.size = args.N;
     if (VERBOSE) {
-        std::cout << "[resize] Are used only the first " << args.N << " instead of " << R.size << " keys of each dataset\n";
+        std::cout << "[resize] Using the first " << args.N << " keys of each dataset\n";
     }
 
-    // Compute AVX2 partitions
+    // Compute the partitions for each dataset
     t0 = get_time();
-    std::vector<uint32_t> R_partitioned = compute_partitions_avx2(R.keys, P);
-    std::vector<uint32_t> S_partitioned = compute_partitions_avx2(S.keys, P);
+    if (args.exec_type == "avx2") {
+#if defined(__AVX2__)
+        R_partitioned = compute_partitions_avx2(R.keys, args.P);
+        S_partitioned = compute_partitions_avx2(S.keys, args.P);
+#else
+        throw std::invalid_argument("AVX2 execution requested by a binary built without AVX2 support");
+#endif
+    } else {
+        R_partitioned = compute_partitions(R.keys, args.P, args.hash_name);
+        S_partitioned = compute_partitions(S.keys, args.P, args.hash_name);
+    }
     t1 = get_time();
     partition_time = get_diff(t0, t1, n_digits);
     std::cout << "[partition_time] " << partition_time << " s\n";
+    
+    // Compute the throughput of computing partitions
+    const double throughput = compute_throughput(
+        static_cast<std::uint64_t>(R.size) + static_cast<std::uint64_t>(S.size),
+        partition_time
+    );
 
-    // Throughput
-    const double throughput = compute_throughput(R.size + S.size, partition_time);
-
-    // Checksums
+    // Generate the checksum of the datasets
     t0 = get_time();
-    const uint64_t checksum_R = compute_checksum(R_partitioned);
-    const uint64_t checksum_S = compute_checksum(S_partitioned);
-    const std::string checksum = std::to_string(checksum_R) + "_" + std::to_string(checksum_S);
+    uint64_t checksum_R = compute_checksum(R_partitioned);
+    uint64_t checksum_S = compute_checksum(S_partitioned);
+    std::string checksum = std::to_string(checksum_R) + "_" + std::to_string(checksum_S);
     t1 = get_time();
     t = get_diff(t0, t1, n_digits);
     if (VERBOSE) {
@@ -94,11 +129,11 @@ int main(int argc, char** argv) {
     if (VERBOSE) {
         std::cout << "[save_time] " << t << " s\n";
     }
-    
-    // Global time output
+
+    // Outputs
     if (VERBOSE) {
         std::cout << "[checksum] " << checksum << "\n";
-        std::cout << "[throughput] " << throughput << " elem/s\n";
+        std::cout << "[throughput] " << throughput << " elems/s\n";
         std::cout << "[global_time] " << global_time << " s\n";
     }
     append_to_csv(
@@ -106,7 +141,7 @@ int main(int argc, char** argv) {
         args.N,
         args.P,
         args.hash_name,
-        "avx2",
+        args.exec_type,
         checksum,
         throughput,
         partition_time,
