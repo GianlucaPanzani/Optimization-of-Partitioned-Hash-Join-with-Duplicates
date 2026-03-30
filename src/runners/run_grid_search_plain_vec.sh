@@ -20,8 +20,8 @@ for N in "${N_VALUES[@]}"; do
         for HASH in "${HASH_VALUES[@]}"; do
             COUNT=$((COUNT + 1))
 
-            echo -n "[$COUNT/$TOTAL] Executing combination N=$N P=$P HASH=$HASH"
-            bash "$SLURM_SUBMIT_DIR/runners/run_plain_vec.sh" "$N" "$P" "$HASH" "plain_vec"
+            echo -n "[$COUNT/$TOTAL] N=$N P=$P HASH=$HASH"
+            bash "$SLURM_SUBMIT_DIR/runners/run_plain_vec.sh" "$N" "$P" "$HASH"
 
         done
     done
