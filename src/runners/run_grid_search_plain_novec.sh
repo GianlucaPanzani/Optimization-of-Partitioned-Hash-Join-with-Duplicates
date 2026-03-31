@@ -2,8 +2,7 @@
 #SBATCH --job-name=plain_novec_with_timeout_5min
 #SBATCH --time=00:05:00
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --partition=normal
+#SBATCH --partition=gpu-shared
 #SBATCH --output=out/slurm-%j-plain_novec.log
 #SBATCH --error=err/slurm-%j-plain_novec.log
 

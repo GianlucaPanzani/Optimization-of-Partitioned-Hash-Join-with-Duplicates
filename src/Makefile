@@ -3,8 +3,7 @@ OPTFLAGS       		= -O3
 AVXFLAGS       		= -mavx2
 AUTOFLAGS      		= -fopt-info-vec-optimized -fopt-info-vec-missed
 NOVECFLAGS     		= -fno-tree-vectorize
-CXXFLAGS       	   += -Wall
-INCLUDES       		= -I. -I./include
+CXXFLAGS       	    = -Wall -Wextra -I.
 LIBS           		=
 
 TARGETS 			= generate_datasets plain_novec plain_vec avx2
@@ -22,18 +21,16 @@ LOG_FILES			= out/*.log err/*.log
 all: $(TARGETS)
 
 generate_datasets: generate_datasets.cpp $(LIB_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) -o $@ generate_datasets.cpp $(LIB_SOURCES) $(LIBS)
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) -o $@ generate_datasets.cpp $(LIB_SOURCES) $(LIBS)
 
 plain_novec: main.cpp $(LIB_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_NOVEC_REPORT)
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_NOVEC_REPORT)
 
 plain_vec: main.cpp $(LIB_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
 
 avx2: main.cpp $(LIB_SOURCES) $(AVX_SOURCES)
-	$(CXX) $(INCLUDES) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) -DENABLE_AVX2 -o $@ main.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
-
-launch-benchmark: LIBS += -pthread
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) $(AUTOFLAGS) -DENABLE_AVX2 -o $@ main.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
 
 clean:
 	-rm -fr *.o *~

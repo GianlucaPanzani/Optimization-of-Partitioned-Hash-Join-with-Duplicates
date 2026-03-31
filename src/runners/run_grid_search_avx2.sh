@@ -2,7 +2,6 @@
 #SBATCH --job-name=avx2_with_timeout_6min
 #SBATCH --time=00:06:00
 #SBATCH --nodes=1
-#SBATCH --ntasks=1
 #SBATCH --partition=gpu-shared
 #SBATCH --output=out/slurm-%j-avx2.log
 #SBATCH --error=err/slurm-%j-avx2.log

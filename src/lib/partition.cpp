@@ -47,7 +47,7 @@ std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>&
 
 
 
-std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, uint32_t P, std::string hash_name) {
+std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, uint32_t P, const std::string& hash_name) {
     // P validation check
     if (P == 0 || (P & (P - 1)) != 0) {
         throw std::invalid_argument("P must be a power of two");

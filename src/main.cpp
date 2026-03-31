@@ -87,8 +87,8 @@ int main(int argc, char** argv) {
     t0 = get_time();
     if (args.exec_type == "avx2") {
         #ifdef ENABLE_AVX2
-            R_partitioned = compute_partitions_avx2(R.keys, args.P);
-            S_partitioned = compute_partitions_avx2(S.keys, args.P);
+            R_partitioned = compute_partitions_avx2(R.keys, args.P, args.hash_name);
+            S_partitioned = compute_partitions_avx2(S.keys, args.P, args.hash_name);
         #else
             throw std::invalid_argument("This binary was compiled without AVX2 support");
         #endif
