@@ -1,0 +1,5 @@
+#!/bin/bash
+
+N_VALUES=(10000000)
+P_VALUES=(32 256 2048)
+HASH_VALUES=(mask)

@@ -23,6 +23,7 @@ struct Args {
     uint32_t P = 128;
     std::string hash_name = "mask";
     std::string exec_type = "plain_novec";
+    std::string output_csv = RESULTS_CSV_FILE; // default value defined in config.hpp
 };
 
 static Args parse_args(int argc, char** argv) {
@@ -31,6 +32,7 @@ static Args parse_args(int argc, char** argv) {
     if (argc > 2) args.P = std::stoull(argv[2]);
     if (argc > 3) args.hash_name = std::string(argv[3]);
     if (argc > 4) args.exec_type = std::string(argv[4]);
+    if (argc > 5) args.output_csv = std::string(argv[5]);
     return args;
 }
 
@@ -46,6 +48,9 @@ void check_args(const Args& args) {
     }
     if (args.exec_type != "plain_novec" && args.exec_type != "plain_vec" && args.exec_type != "avx2") {
         throw std::invalid_argument("Unsupported execution type: " + args.exec_type);
+    }
+    if (args.output_csv.empty()) {
+        throw std::invalid_argument("Output CSV path cannot be empty");
     }
 }
 
@@ -130,14 +135,14 @@ int main(int argc, char** argv) {
         std::cout << "SAVE_TIME[s]=" << t << "\n";
     }
 
-    // Outputs
+    // Final outputs
     if (VERBOSE) {
         std::cout << "CHECKSUM=" << checksum << "\n";
         std::cout << "THROUGHPUT[elems/s]=" << throughput << "\n";
         std::cout << "GLOBAL_TIME[s]=" << global_time << "\n";
     }
     append_to_csv(
-        RESULTS_CSV_FILE,
+        args.output_csv,
         args.N,
         args.P,
         args.hash_name,

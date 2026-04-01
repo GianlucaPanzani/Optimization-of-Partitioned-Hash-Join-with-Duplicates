@@ -3,7 +3,7 @@
 #SBATCH --time=00:01:00
 #SBATCH --nodes=1
 #SBATCH --ntasks=1
-#SBATCH --partition=normal
+#SBATCH --partition=gpu-shared
 #SBATCH --output=out/slurm-%j-gen.log
 #SBATCH --error=err/slurm-%j-gen.log
 

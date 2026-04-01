@@ -6,6 +6,5 @@
 #include <vector>
 
 std::vector<uint32_t> compute_partitions_avx2(const std::vector<uint64_t>& keys, uint32_t P, const std::string& hash_name);
-std::vector<uint32_t> compute_partitions_avx2_mask(const std::vector<uint64_t>& keys, uint32_t P);
 
 #endif

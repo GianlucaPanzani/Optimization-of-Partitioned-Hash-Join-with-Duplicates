@@ -4,14 +4,21 @@ set -e
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd "$SCRIPT_DIR"
+source "$SCRIPT_DIR/runners/grid_benchmark_config.sh"
 
-if [ "$#" -gt 1 ]; then
-    echo "Usage: $0 [OUTPUT_CSV(optional)]"
+if [ "$#" -lt 1 ] || [ "$#" -gt 2 ]; then
+    echo "Usage: $0 [M] [OUTPUT_CSV(optional)]"
+    echo "  M: number of repetitions for each configuration in $GRID_CONFIG_FILE."
     exit 1
 fi
 
-OUTPUT_CSV=${1:-}
-RESULTS_FILE=${OUTPUT_CSV:-results/results.csv}
+M=$1
+OUTPUT_CSV=${2:-$DEFAULT_OUTPUT_CSV}
+
+if ! [[ "$M" =~ ^[1-9][0-9]*$ ]]; then
+    echo "M must be a positive integer, received: $M"
+    exit 1
+fi
 
 build_backup_path() {
     local output_path="$1"
@@ -47,11 +54,11 @@ show_vectorization_report() {
     fi
 }
 
-mkdir -p "$(dirname "$RESULTS_FILE")"
-BACKUP_RESULTS_FILE=$(build_backup_path "$RESULTS_FILE")
+mkdir -p "$(dirname "$OUTPUT_CSV")"
+BACKUP_RESULTS_FILE=$(build_backup_path "$OUTPUT_CSV")
 rm -f "$BACKUP_RESULTS_FILE"
-if [ -f "$RESULTS_FILE" ]; then
-    mv "$RESULTS_FILE" "$BACKUP_RESULTS_FILE"
+if [ -f "$OUTPUT_CSV" ]; then
+    mv "$OUTPUT_CSV" "$BACKUP_RESULTS_FILE"
 fi
 
 echo ">>> Cleaning previous results and logs <<<"
@@ -77,28 +84,16 @@ echo ">>> Generating datasets <<<"
 GEN_JOB_ID=$(sbatch --parsable runners/run_gen_dataset.sh)
 echo "runners/run_gen_dataset.sh -> job $GEN_JOB_ID"
 
-echo ">>> Executing grid search with NO vectorization <<<"
-PLAIN_NOVEC_SBATCH_ARGS=()
-if [ -n "$OUTPUT_CSV" ]; then
-    PLAIN_NOVEC_SBATCH_ARGS+=("$OUTPUT_CSV")
-fi
-PLAIN_NOVEC_JOB_ID=$(sbatch --parsable --dependency=afterok:${GEN_JOB_ID} runners/run_grid_search_plain_novec.sh "${PLAIN_NOVEC_SBATCH_ARGS[@]}")
+echo ">>> Executing repeated grid search with NO vectorization <<<"
+PLAIN_NOVEC_JOB_ID=$(sbatch --parsable --dependency=afterok:${GEN_JOB_ID} runners/run_grid_search_plain_novec.sh "$OUTPUT_CSV" "$GRID_CONFIG_FILE" "$M")
 echo "runners/run_grid_search_plain_novec.sh -> job $PLAIN_NOVEC_JOB_ID"
 
-echo ">>> Executing grid search with vectorization <<<"
-PLAIN_VEC_SBATCH_ARGS=()
-if [ -n "$OUTPUT_CSV" ]; then
-    PLAIN_VEC_SBATCH_ARGS+=("$OUTPUT_CSV")
-fi
-PLAIN_VEC_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_NOVEC_JOB_ID} runners/run_grid_search_plain_vec.sh "${PLAIN_VEC_SBATCH_ARGS[@]}")
+echo ">>> Executing repeated grid search with vectorization <<<"
+PLAIN_VEC_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_NOVEC_JOB_ID} runners/run_grid_search_plain_vec.sh "$OUTPUT_CSV" "$GRID_CONFIG_FILE" "$M")
 echo "runners/run_grid_search_plain_vec.sh -> job $PLAIN_VEC_JOB_ID"
 
-echo ">>> Executing grid search with AVX2 <<<"
-AVX2_SBATCH_ARGS=()
-if [ -n "$OUTPUT_CSV" ]; then
-    AVX2_SBATCH_ARGS+=("$OUTPUT_CSV")
-fi
-AVX2_GRID_SEARCH_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_VEC_JOB_ID} runners/run_grid_search_avx2.sh "${AVX2_SBATCH_ARGS[@]}")
+echo ">>> Executing repeated grid search with AVX2 <<<"
+AVX2_GRID_SEARCH_JOB_ID=$(sbatch --parsable --dependency=afterok:${PLAIN_VEC_JOB_ID} runners/run_grid_search_avx2.sh "$OUTPUT_CSV" "$GRID_CONFIG_FILE" "$M")
 echo "runners/run_grid_search_avx2.sh -> job $AVX2_GRID_SEARCH_JOB_ID"
 
-echo ">>> Results will be available in: $RESULTS_FILE <<<"
+echo ">>> Results will be available in: $OUTPUT_CSV <<<"
