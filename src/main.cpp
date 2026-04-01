@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <string>
 #include <vector>
+#include <functional>
 
 #include "lib/dataset.hpp"
 #include "lib/timing.hpp"
@@ -88,28 +89,36 @@ int main(int argc, char** argv) {
         std::cout << "[resize] Are used the first " << args.N << " keys of each dataset\n";
     }
 
-    // Compute the partitions for each dataset
-    t0 = get_time();
+    // Choose the right partition function
+    using PartitionFn = std::function<std::vector<uint32_t>(const std::vector<uint64_t>&, uint32_t, const std::string&)>;
+    PartitionFn partition_fn;
     if (args.exec_type == "avx2") {
         #ifdef ENABLE_AVX2
-            R_partitioned = compute_partitions_avx2(R.keys, args.P, args.hash_name);
-            S_partitioned = compute_partitions_avx2(S.keys, args.P, args.hash_name);
+            partition_fn = compute_partitions_avx2;
         #else
             throw std::invalid_argument("This binary was compiled without AVX2 support");
         #endif
     } else {
-        R_partitioned = compute_partitions(R.keys, args.P, args.hash_name);
-        S_partitioned = compute_partitions(S.keys, args.P, args.hash_name);
+        partition_fn = compute_partitions;
     }
+
+    // Compute the partitions for each dataset
+    t0 = get_time();
+    R_partitioned = partition_fn(R.keys, args.P, args.hash_name);
     t1 = get_time();
     partition_time = get_diff(t0, t1, n_digits);
-    std::cout << "PARTITION_TIME[s]=" << partition_time << "\n";
+    t0 = get_time();
+    S_partitioned = partition_fn(S.keys, args.P, args.hash_name);
+    t1 = get_time();
+    partition_time += get_diff(t0, t1, n_digits);
+    std::cout << "PARTITION_TIME[s]=" << partition_time << " ";
     
     // Compute the throughput of computing partitions
     const double throughput = compute_throughput(
         static_cast<std::uint64_t>(R.size) + static_cast<std::uint64_t>(S.size),
         partition_time
     );
+    std::cout << "THROUGHPUT[elems/s]=" << throughput << "\n";
 
     // Generate the checksum of the datasets
     t0 = get_time();
