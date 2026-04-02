@@ -3,8 +3,7 @@
 #include "partition.hpp"
 
 
-std::vector<uint32_t> partition_with_mask_hashing(const std::vector<uint64_t>& keys, uint32_t P) {
-    std::vector<uint32_t> part_id(keys.size());
+std::vector<uint32_t> partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint64_t mask = static_cast<uint64_t>(P - 1);
 
     for (size_t i = 0; i < keys.size(); ++i) {
@@ -15,8 +14,7 @@ std::vector<uint32_t> partition_with_mask_hashing(const std::vector<uint64_t>& k
 }
 
 
-std::vector<uint32_t> partition_with_mul_hashing(const std::vector<uint64_t>& keys, uint32_t P) {
-    std::vector<uint32_t> part_id(keys.size());
+std::vector<uint32_t> partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint32_t bits = __builtin_ctz(P);
     constexpr uint64_t kMul = 11400714819323198485ull; // Fibonacci hashing constant
 
@@ -28,8 +26,7 @@ std::vector<uint32_t> partition_with_mul_hashing(const std::vector<uint64_t>& ke
 }
 
 
-std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, uint32_t P) {
-    std::vector<uint32_t> part_id(keys.size());
+std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint64_t mask = static_cast<uint64_t>(P - 1);
 
     for (size_t i = 0; i < keys.size(); ++i) {
@@ -47,16 +44,14 @@ std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>&
 
 
 
-std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, uint32_t P, const std::string& hash_name) {
-    // P validation check
+std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
     if (P == 0 || (P & (P - 1)) != 0) {
         throw std::invalid_argument("P must be a power of two");
     }
 
-    std::vector<uint32_t> part_id;
-    if (hash_name == "mask") part_id = partition_with_mask_hashing(keys, P);
-    else if (hash_name == "mul") part_id = partition_with_mul_hashing(keys, P);
-    else if (hash_name == "fmix64") part_id = partition_with_fmix64_hashing(keys, P);
+    if (hash_name == "mask") partition_with_mask_hashing(keys, part_id, P);
+    else if (hash_name == "mul") partition_with_mul_hashing(keys, part_id, P);
+    else if (hash_name == "fmix64") partition_with_fmix64_hashing(keys, part_id, P);
     else throw std::invalid_argument("The hash function could only be: mask, mul, fmix64");
 
     return part_id;

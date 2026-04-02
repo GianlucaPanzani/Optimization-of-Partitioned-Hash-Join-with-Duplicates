@@ -64,7 +64,7 @@ int main(int argc, char** argv) {
     const Args args = parse_args(argc, argv);
     check_args(args);
 
-    std::vector<std::uint32_t> R_partitioned, S_partitioned;
+    std::vector<std::uint32_t> R_partitioned(args.N), S_partitioned(args.N);
     double t0_global, t1_global, global_time, t0, t1, t, partition_time;
     const int n_digits = 5;
 
@@ -90,7 +90,7 @@ int main(int argc, char** argv) {
     }
 
     // Choose the right partition function
-    using PartitionFn = std::function<std::vector<uint32_t>(const std::vector<uint64_t>&, uint32_t, const std::string&)>;
+    using PartitionFn = std::function<std::vector<uint32_t>(const std::vector<uint64_t>&, std::vector<uint32_t>&, uint32_t, const std::string&)>;
     PartitionFn partition_fn;
     if (args.exec_type == "avx2") {
         #ifdef ENABLE_AVX2
@@ -104,11 +104,11 @@ int main(int argc, char** argv) {
 
     // Compute the partitions for each dataset
     t0 = get_time();
-    R_partitioned = partition_fn(R.keys, args.P, args.hash_name);
+    partition_fn(R.keys, R_partitioned, args.P, args.hash_name);
     t1 = get_time();
     partition_time = get_diff(t0, t1, n_digits);
     t0 = get_time();
-    S_partitioned = partition_fn(S.keys, args.P, args.hash_name);
+    partition_fn(S.keys, S_partitioned, args.P, args.hash_name);
     t1 = get_time();
     partition_time += get_diff(t0, t1, n_digits);
     std::cout << "PARTITION_TIME[s]=" << partition_time << " ";

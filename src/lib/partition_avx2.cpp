@@ -4,13 +4,11 @@
 #include "partition_avx2.hpp"
 
 
-std::vector<uint32_t> compute_partitions_avx2(const std::vector<uint64_t>& keys, uint32_t P, const std::string& hash_name) {
+std::vector<uint32_t> compute_partitions_avx2(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
     // P validation check
     if (P == 0 || (P & (P - 1)) != 0) {
         throw std::invalid_argument("P must be a power of two");
     }
-
-    std::vector<uint32_t> part_id(keys.size());
     const uint64_t P_mask = static_cast<uint64_t>(P - 1);
 
     // Build the mask vector to be applied to 4 progressive uint64_t keys
