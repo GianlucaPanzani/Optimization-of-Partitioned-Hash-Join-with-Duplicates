@@ -3,30 +3,36 @@
 #include "partition.hpp"
 
 
-std::vector<uint32_t> partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
+static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
+    const std::size_t n = keys.size();
     const uint64_t mask = static_cast<uint64_t>(P - 1);
+    const uint64_t* in = keys.data();
 
-    for (size_t i = 0; i < keys.size(); ++i) {
-        part_id[i] = static_cast<uint32_t>(keys[i] & mask); // bitwise AND between corresponding binary values
+    std::size_t i = 0;
+    for (; i < n-4; ++i) {
+        part_id[i] = static_cast<uint32_t>(in[i] & mask);
+        part_id[i+1] = static_cast<uint32_t>(in[i+1] & mask);
+        part_id[i+2] = static_cast<uint32_t>(in[i+2] & mask);
+        part_id[i+3] = static_cast<uint32_t>(in[i+3] & mask);
     }
-
-    return part_id;
+    // Handle remaining elements
+    for (; i < n; ++i) {
+        part_id[i] = static_cast<uint32_t>(in[i] & mask);
+    }
 }
 
 
-std::vector<uint32_t> partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
+static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint32_t bits = __builtin_ctz(P);
     constexpr uint64_t kMul = 11400714819323198485ull; // Fibonacci hashing constant
 
     for (size_t i = 0; i < keys.size(); ++i) {
         part_id[i] = static_cast<uint32_t>((keys[i] * kMul) >> (64 - bits));
     }
-
-    return part_id;
 }
 
 
-std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
+static void partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint64_t mask = static_cast<uint64_t>(P - 1);
 
     for (size_t i = 0; i < keys.size(); ++i) {
@@ -38,13 +44,10 @@ std::vector<uint32_t> partition_with_fmix64_hashing(const std::vector<uint64_t>&
         x ^= x >> 33;
         part_id[i] = static_cast<uint32_t>(x & mask);
     }
-
-    return part_id;
 }
 
 
-
-std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
+void compute_partitions(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
     if (P == 0 || (P & (P - 1)) != 0) {
         throw std::invalid_argument("P must be a power of two");
     }
@@ -53,6 +56,4 @@ std::vector<uint32_t> compute_partitions(const std::vector<uint64_t>& keys, std:
     else if (hash_name == "mul") partition_with_mul_hashing(keys, part_id, P);
     else if (hash_name == "fmix64") partition_with_fmix64_hashing(keys, part_id, P);
     else throw std::invalid_argument("The hash function could only be: mask, mul, fmix64");
-
-    return part_id;
 }

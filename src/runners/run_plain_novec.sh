@@ -14,7 +14,7 @@ P=$2
 HASH=$3
 OUTPUT_CSV=${4:-}
 
-CMD=(./plain_novec "$N" "$P" "$HASH" plain_novec)
+CMD=(./plain_novec "$N" "$P" "$HASH")
 if [ -n "$OUTPUT_CSV" ]; then
     CMD+=("$OUTPUT_CSV")
 fi

@@ -1,5 +1,5 @@
 CXX            		= g++ -std=c++17
-OPTFLAGS       		= -O3
+OPTFLAGS       		= -O3 -march=native
 AVXFLAGS       		= -mavx2
 AUTOFLAGS      		= -fopt-info-vec-optimized -fopt-info-vec-missed
 NOVECFLAGS     		= -fno-tree-vectorize

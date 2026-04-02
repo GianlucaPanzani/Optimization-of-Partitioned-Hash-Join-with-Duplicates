@@ -14,7 +14,7 @@ P=$2
 HASH=$3
 OUTPUT_CSV=${4:-}
 
-CMD=(./avx2 "$N" "$P" "$HASH" avx2)
+CMD=(./avx2 "$N" "$P" "$HASH")
 if [ -n "$OUTPUT_CSV" ]; then
     CMD+=("$OUTPUT_CSV")
 fi

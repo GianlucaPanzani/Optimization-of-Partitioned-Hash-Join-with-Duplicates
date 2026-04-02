@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=plain_novec_with_timeout_5min
-#SBATCH --time=00:05:00
+#SBATCH --time=00:07:00
 #SBATCH --nodes=1
 #SBATCH --partition=gpu-shared
 #SBATCH --output=out/slurm-%j-plain_novec.log

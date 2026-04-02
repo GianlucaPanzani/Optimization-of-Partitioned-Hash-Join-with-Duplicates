@@ -14,7 +14,7 @@ P=$2
 HASH=$3
 OUTPUT_CSV=${4:-}
 
-CMD=(./plain_vec "$N" "$P" "$HASH" plain_vec)
+CMD=(./plain_vec "$N" "$P" "$HASH")
 if [ -n "$OUTPUT_CSV" ]; then
     CMD+=("$OUTPUT_CSV")
 fi
