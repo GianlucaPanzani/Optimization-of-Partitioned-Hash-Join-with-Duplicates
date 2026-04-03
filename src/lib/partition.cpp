@@ -42,17 +42,31 @@ static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::v
 }
 
 
+
+inline uint32_t fmix64(uint64_t x, uint64_t mask) {
+    x ^= x >> 33;
+    x *= 0xff51afd7ed558ccdull;
+    x ^= x >> 33;
+    x *= 0xc4ceb9fe1a85ec53ull;
+    x ^= x >> 33;
+    return static_cast<uint32_t>(x & mask);
+}
+
 static void partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint64_t mask = static_cast<uint64_t>(P - 1);
+    const std::size_t n = keys.size();
+    const uint64_t* in = keys.data();
 
-    for (size_t i = 0; i < keys.size(); ++i) {
-        uint64_t x = keys[i];
-        x ^= x >> 33;
-        x *= 0xff51afd7ed558ccdull;
-        x ^= x >> 33;
-        x *= 0xc4ceb9fe1a85ec53ull;
-        x ^= x >> 33;
-        part_id[i] = static_cast<uint32_t>(x & mask);
+    std::size_t i = 0;
+    for (; i < n-4; ++i) {
+        part_id[i] = fmix64(in[i], mask);
+        part_id[i+1] = fmix64(in[i+1], mask);
+        part_id[i+2] = fmix64(in[i+2], mask);
+        part_id[i+3] = fmix64(in[i+3], mask);
+    }
+    // Handle remaining elements
+    for (; i < n; ++i) {
+        part_id[i] = fmix64(in[i], mask);
     }
 }
 

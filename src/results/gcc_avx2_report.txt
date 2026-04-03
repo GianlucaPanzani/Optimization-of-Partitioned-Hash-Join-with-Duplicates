@@ -833,18 +833,24 @@ lib/partition.cpp:40:49: missed: not vectorized: no vectype for stmt: _133 = *_1
 lib/partition.cpp:32:14: missed: couldn't vectorize loop
 lib/partition.cpp:33:49: missed: not vectorized: no vectype for stmt: _94 = *_93;
  scalar_type: const uint64_t
-lib/partition.cpp:48:26: optimized: loop vectorized using 32 byte vectors
+lib/partition.cpp:68:14: missed: couldn't vectorize loop
+lib/partition.cpp:69:28: missed: not vectorized: no vectype for stmt: _217 = *_216;
+ scalar_type: const uint64_t
+lib/partition.cpp:61:14: missed: couldn't vectorize loop
+lib/partition.cpp:62:28: missed: not vectorized: no vectype for stmt: _151 = *_150;
+ scalar_type: const uint64_t
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3601:27: missed: statement clobbers memory: _22 = std::__cxx11::basic_string<char>::compare (hash_name_6(D), "mask");
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3601:27: missed: statement clobbers memory: _23 = std::__cxx11::basic_string<char>::compare (hash_name_6(D), "mul");
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3601:27: missed: statement clobbers memory: _24 = std::__cxx11::basic_string<char>::compare (hash_name_6(D), "fmix64");
-lib/partition.cpp:68:90: missed: statement clobbers memory: _8 = __cxa_allocate_exception (16);
-lib/partition.cpp:68:10: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_8, "The hash function could only be: mask, mul, fmix64");
-lib/partition.cpp:68:90: missed: statement clobbers memory: __cxa_throw (_8, &_ZTISt16invalid_argument, __dt_comp );
-lib/partition.cpp:68:90: missed: statement clobbers memory: __cxa_free_exception (_8);
-lib/partition.cpp:62:63: missed: statement clobbers memory: _18 = __cxa_allocate_exception (16);
-lib/partition.cpp:62:9: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_18, "P must be a power of two");
-lib/partition.cpp:62:63: missed: statement clobbers memory: __cxa_throw (_18, &_ZTISt16invalid_argument, __dt_comp );
-lib/partition.cpp:62:63: missed: statement clobbers memory: __cxa_free_exception (_18);
+lib/partition.cpp:82:90: missed: statement clobbers memory: _8 = __cxa_allocate_exception (16);
+lib/partition.cpp:82:10: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_8, "The hash function could only be: mask, mul, fmix64");
+lib/partition.cpp:82:90: missed: statement clobbers memory: __cxa_throw (_8, &_ZTISt16invalid_argument, __dt_comp );
+lib/partition.cpp:82:90: missed: statement clobbers memory: __cxa_free_exception (_8);
+lib/partition.cpp:76:63: missed: statement clobbers memory: _18 = __cxa_allocate_exception (16);
+lib/partition.cpp:76:9: missed: not vectorized: statement can throw an exception: std::invalid_argument::invalid_argument (_18, "P must be a power of two");
+lib/partition.cpp:76:63: missed: statement clobbers memory: __cxa_throw (_18, &_ZTISt16invalid_argument, __dt_comp );
+lib/partition.cpp:76:63: missed: statement clobbers memory: __cxa_free_exception (_18);
+lib/partition.cpp:13:20: optimized: basic block part vectorized using 32 byte vectors
 lib/partition.cpp:13:20: optimized: basic block part vectorized using 32 byte vectors
 lib/partition.cpp:13:20: optimized: basic block part vectorized using 32 byte vectors
 lib/partition_avx2.cpp:44:14: optimized: loop vectorized using 16 byte vectors
