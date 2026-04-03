@@ -25,9 +25,19 @@ static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::
 static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint32_t bits = __builtin_ctz(P);
     constexpr uint64_t kMul = 11400714819323198485ull; // Fibonacci hashing constant
+    const std::size_t n = keys.size();
+    const uint64_t* in = keys.data();
 
-    for (size_t i = 0; i < keys.size(); ++i) {
-        part_id[i] = static_cast<uint32_t>((keys[i] * kMul) >> (64 - bits));
+    std::size_t i = 0;
+    for (; i < n-4; ++i) {
+        part_id[i] = static_cast<uint32_t>((in[i] * kMul) >> (64 - bits));
+        part_id[i+1] = static_cast<uint32_t>((in[i+1] * kMul) >> (64 - bits));
+        part_id[i+2] = static_cast<uint32_t>((in[i+2] * kMul) >> (64 - bits));
+        part_id[i+3] = static_cast<uint32_t>((in[i+3] * kMul) >> (64 - bits));
+    }
+    // Handle remaining elements
+    for (; i < n; ++i) {
+        part_id[i] = static_cast<uint32_t>((in[i] * kMul) >> (64 - bits));
     }
 }
 

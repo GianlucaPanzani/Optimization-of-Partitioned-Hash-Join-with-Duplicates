@@ -103,14 +103,19 @@ int main(int argc, char** argv) {
     }
 
     // Compute the partitions for each dataset
-    t0 = get_time();
-    partition_fn(R.keys, R_partitioned, args.P, args.hash_name);
-    t1 = get_time();
-    partition_time = get_diff(t0, t1, n_digits);
-    t0 = get_time();
-    partition_fn(S.keys, S_partitioned, args.P, args.hash_name);
-    t1 = get_time();
-    partition_time += get_diff(t0, t1, n_digits);
+    try {
+        t0 = get_time();
+        partition_fn(R.keys, R_partitioned, args.P, args.hash_name);
+        t1 = get_time();
+        partition_time = get_diff(t0, t1, n_digits);
+        t0 = get_time();
+        partition_fn(S.keys, S_partitioned, args.P, args.hash_name);
+        t1 = get_time();
+        partition_time += get_diff(t0, t1, n_digits);
+    } catch (const std::exception&) {
+        std::cout << "--> The hash function " << args.hash_name << " is not supported for the execution type " << args.exec_type << "\n";
+        return 0;
+    }
     std::cout << "PARTITION_TIME[s]=" << partition_time << " ";
     
     // Compute the throughput of computing partitions

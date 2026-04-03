@@ -1,0 +1,56 @@
+[1/54] run=1/1 N=100000 P=16 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[2/54] run=1/1 N=100000 P=16 HASH=mul The hash function mul is not supported for the execution type avx2
+[3/54] run=1/1 N=100000 P=32 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[4/54] run=1/1 N=100000 P=32 HASH=mul The hash function mul is not supported for the execution type avx2
+[5/54] run=1/1 N=100000 P=64 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[6/54] run=1/1 N=100000 P=64 HASH=mul The hash function mul is not supported for the execution type avx2
+[7/54] run=1/1 N=100000 P=128 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[8/54] run=1/1 N=100000 P=128 HASH=mul The hash function mul is not supported for the execution type avx2
+[9/54] run=1/1 N=100000 P=256 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[10/54] run=1/1 N=100000 P=256 HASH=mul The hash function mul is not supported for the execution type avx2
+[11/54] run=1/1 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00018 THROUGHPUT[elems/s]=1.11111e+09
+[12/54] run=1/1 N=100000 P=512 HASH=mul The hash function mul is not supported for the execution type avx2
+[13/54] run=1/1 N=100000 P=1024 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[14/54] run=1/1 N=100000 P=1024 HASH=mul The hash function mul is not supported for the execution type avx2
+[15/54] run=1/1 N=100000 P=2048 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[16/54] run=1/1 N=100000 P=2048 HASH=mul The hash function mul is not supported for the execution type avx2
+[17/54] run=1/1 N=100000 P=4096 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[18/54] run=1/1 N=100000 P=4096 HASH=mul The hash function mul is not supported for the execution type avx2
+[19/54] run=1/1 N=1000000 P=16 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[20/54] run=1/1 N=1000000 P=16 HASH=mul The hash function mul is not supported for the execution type avx2
+[21/54] run=1/1 N=1000000 P=32 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[22/54] run=1/1 N=1000000 P=32 HASH=mul The hash function mul is not supported for the execution type avx2
+[23/54] run=1/1 N=1000000 P=64 HASH=mask PARTITION_TIME[s]=0.00151 THROUGHPUT[elems/s]=1.3245e+09
+[24/54] run=1/1 N=1000000 P=64 HASH=mul The hash function mul is not supported for the execution type avx2
+[25/54] run=1/1 N=1000000 P=128 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[26/54] run=1/1 N=1000000 P=128 HASH=mul The hash function mul is not supported for the execution type avx2
+[27/54] run=1/1 N=1000000 P=256 HASH=mask PARTITION_TIME[s]=0.00159 THROUGHPUT[elems/s]=1.25786e+09
+[28/54] run=1/1 N=1000000 P=256 HASH=mul The hash function mul is not supported for the execution type avx2
+[29/54] run=1/1 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00152 THROUGHPUT[elems/s]=1.31579e+09
+[30/54] run=1/1 N=1000000 P=512 HASH=mul The hash function mul is not supported for the execution type avx2
+[31/54] run=1/1 N=1000000 P=1024 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[32/54] run=1/1 N=1000000 P=1024 HASH=mul The hash function mul is not supported for the execution type avx2
+[33/54] run=1/1 N=1000000 P=2048 HASH=mask PARTITION_TIME[s]=0.00152 THROUGHPUT[elems/s]=1.31579e+09
+[34/54] run=1/1 N=1000000 P=2048 HASH=mul The hash function mul is not supported for the execution type avx2
+[35/54] run=1/1 N=1000000 P=4096 HASH=mask PARTITION_TIME[s]=0.00151 THROUGHPUT[elems/s]=1.3245e+09
+[36/54] run=1/1 N=1000000 P=4096 HASH=mul The hash function mul is not supported for the execution type avx2
+[37/54] run=1/1 N=10000000 P=16 HASH=mask PARTITION_TIME[s]=0.01463 THROUGHPUT[elems/s]=1.36705e+09
+[38/54] run=1/1 N=10000000 P=16 HASH=mul The hash function mul is not supported for the execution type avx2
+[39/54] run=1/1 N=10000000 P=32 HASH=mask PARTITION_TIME[s]=0.01466 THROUGHPUT[elems/s]=1.36426e+09
+[40/54] run=1/1 N=10000000 P=32 HASH=mul The hash function mul is not supported for the execution type avx2
+[41/54] run=1/1 N=10000000 P=64 HASH=mask PARTITION_TIME[s]=0.01475 THROUGHPUT[elems/s]=1.35593e+09
+[42/54] run=1/1 N=10000000 P=64 HASH=mul The hash function mul is not supported for the execution type avx2
+[43/54] run=1/1 N=10000000 P=128 HASH=mask PARTITION_TIME[s]=0.01478 THROUGHPUT[elems/s]=1.35318e+09
+[44/54] run=1/1 N=10000000 P=128 HASH=mul The hash function mul is not supported for the execution type avx2
+[45/54] run=1/1 N=10000000 P=256 HASH=mask PARTITION_TIME[s]=0.01476 THROUGHPUT[elems/s]=1.35501e+09
+[46/54] run=1/1 N=10000000 P=256 HASH=mul The hash function mul is not supported for the execution type avx2
+[47/54] run=1/1 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.01479 THROUGHPUT[elems/s]=1.35227e+09
+[48/54] run=1/1 N=10000000 P=512 HASH=mul The hash function mul is not supported for the execution type avx2
+[49/54] run=1/1 N=10000000 P=1024 HASH=mask PARTITION_TIME[s]=0.01469 THROUGHPUT[elems/s]=1.36147e+09
+[50/54] run=1/1 N=10000000 P=1024 HASH=mul The hash function mul is not supported for the execution type avx2
+[51/54] run=1/1 N=10000000 P=2048 HASH=mask PARTITION_TIME[s]=0.01479 THROUGHPUT[elems/s]=1.35227e+09
+[52/54] run=1/1 N=10000000 P=2048 HASH=mul The hash function mul is not supported for the execution type avx2
+[53/54] run=1/1 N=10000000 P=4096 HASH=mask PARTITION_TIME[s]=0.01471 THROUGHPUT[elems/s]=1.35962e+09
+[54/54] run=1/1 N=10000000 P=4096 HASH=mul The hash function mul is not supported for the execution type avx2
+
+All jobs submitted.
