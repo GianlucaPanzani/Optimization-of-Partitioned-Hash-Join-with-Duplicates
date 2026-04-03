@@ -412,7 +412,7 @@ main.cpp:115:7: missed: statement clobbers memory: _165 = __builtin_eh_filter (3
 main.cpp:63:5: missed: not vectorized: statement can throw an exception: resx 34
 main.cpp:115:34: missed: statement clobbers memory: _12 = __builtin_eh_pointer (34);
 main.cpp:115:34: missed: statement clobbers memory: __cxa_begin_catch (_12);
-/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "The hash function ", 18);
+/opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "--> The hash function ", 22);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: not vectorized: statement can throw an exception: _224 = std::__ostream_insert<char, std::char_traits<char> > (&cout, _223, _222);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: splitting region at dominance boundary bb264
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: splitting region at control altering definition _228 = std::__ostream_insert<char, std::char_traits<char> > (_224, _227, _226);
@@ -420,7 +420,7 @@ main.cpp:115:34: missed: statement clobbers memory: __cxa_begin_catch (_12);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: not vectorized: statement can throw an exception: _228 = std::__ostream_insert<char, std::char_traits<char> > (_224, _227, _226);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: splitting region at dominance boundary bb268
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/basic_string.h:3888:30: missed: splitting region at dominance boundary bb236
-main.cpp:116:129: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_228, "\n");
+main.cpp:116:133: missed: not vectorized: statement can throw an exception: std::operator<<.isra (_228, "\n");
 main.cpp:118:5: missed: statement clobbers memory: __cxa_end_catch ();
 main.cpp:118:5: missed: splitting region at dominance boundary bb269
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/std_function.h:244:12: missed: statement clobbers memory: _214 (&MEM[(struct _Function_base *)&partition_fn]._M_functor, &MEM[(struct _Function_base *)&partition_fn]._M_functor, 3);
