@@ -1,0 +1,167 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[hypertexnames=false]{hyperref}
+
+\title{Optimization of Partitioned Hash Join with Duplicates}
+\author{Gianluca Panzani}
+\date{\today}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+
+\newcommand{\plotplaceholder}[2]{
+    \begin{figure}[H]
+        \centering
+        \fbox{
+            \parbox[c][5cm][c]{0.9\linewidth}{
+                \centering
+                \textbf{Placeholder for plot}\\[0.4em]
+                #1
+            }
+        }
+        \caption{#2}
+    \end{figure}
+}
+
+\begin{document}
+\begin{titlepage}
+    \centering
+    {\Large University of Pisa\par}
+    \vspace{0.6cm}
+    {\large Parallel and Distributed Systems\par}
+    \vspace{2.0cm}
+    {\LARGE \textbf{Optimization of Partitioned Hash Join with Duplicates}\par}
+    \vspace{1.2cm}
+    {\large Assignment 1 - Report\par}
+    \vfill
+    {\large Gianluca Panzani\par}
+    \vspace{0.3cm}
+    {\large \today\par}
+\end{titlepage}
+
+\pagenumbering{roman}
+\tableofcontents
+\newpage
+\pagenumbering{arabic}
+
+
+\section{Implementation}
+The implemented project focuses on the partition phase of a Partitioned Hash Join under duplicate-heavy workloads.
+
+\subsection{Execution Variants}
+The codebase provides a reproducible benchmarking pipeline to compare three execution variants: \texttt{plain\_novec}, 
+\texttt{plain\_vec}, and \texttt{avx2}. Each variant is got by a different compilation of the same file (\texttt{main.cpp}) 
+and applies the same high-level algorithm but uses different optimization strategies.
+
+The executable targets can be built with the commands: \texttt{make plain\_novec}, \texttt{make plain\_vec} and \texttt{make avx2}. 
+The corresponding compiler invocations defined in the Makefile are:
+\begin{verbatim}
+g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -fno-tree-vectorize \
+    -o plain_novec main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
+    lib/results.cpp lib/partition.cpp lib/config.cpp
+
+g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -mavx2 \
+    -fopt-info-vec-optimized -fopt-info-vec-missed \
+    -o plain_vec main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
+    lib/results.cpp lib/partition.cpp lib/config.cpp
+
+g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -mavx2 \
+    -fopt-info-vec-optimized -fopt-info-vec-missed -DENABLE_AVX2 \
+    -o avx2 main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
+    lib/results.cpp lib/partition.cpp lib/config.cpp lib/partition_avx2.cpp
+\end{verbatim}
+
+Executing the programs as defined in the \texttt{README.md} file, they receive the same command-line arguments, which include:
+\begin{itemize}
+    \item the dataset size \texttt{N},
+    \item the number of partitions \texttt{P},
+    \item the hash function name,
+    \item the output CSV file path. 
+\end{itemize}
+The runtime workflow includes: loading the two input datasets, partitioning both relations with the 
+selected hash function, computing throughput and checksums, writing partitioned binary outputs, and appending one result row 
+to the CSV file. This row contains the full experiment metadata (\texttt{N}, \texttt{P}, hash, execution type), timing metrics 
+(partition time, global time) and other fields (like throughput and checksum), which are then used by the analysis notebooks 
+to extract statistics.
+
+\subsection{Grid Search approach}
+The experimental automation is handled by Bash scripts and Slurm runners. The script \texttt{run\_grid\_search.sh} executes 
+the complete sweep across all configured \texttt{N}, \texttt{P} and hash-function combinations. The script \texttt{stability\_benchmark.sh} 
+executes repeated runs over a restricted configuration with \texttt{N} fixed, hash fixed and varying \texttt{P} to quantify run-to-run 
+stability and variance. Both scripts regenerate datasets, rebuild binaries, 
+and produce CSV outputs consumed then by \texttt{statistics.ipynb} and \texttt{stable\_statistics.ipynb}.
+
+Overall, the implementation combines algorithmic flexibility (multiple hashes and partition counts), systems-level optimization 
+(scalar vs vectorized vs AVX2 variants), and reproducible experimentation (scripted batch execution and notebook-based analysis). 
+This makes the project suitable for both performance tuning and methodological comparison.
+
+
+\section{Results Analysis}
+This section summarizes the expected interpretation of the two analysis notebooks:
+\begin{itemize}
+    \item \texttt{statistics.ipynb}: full grid-search analysis on all values of \texttt{N}, \texttt{P}, and hash functions.
+    \item \texttt{stable\_statistics.ipynb}: repeated-run stability analysis with fixed $N=10^7$ and fixed hash function \texttt{mask}, varying only \texttt{P}.
+\end{itemize}
+
+\subsection{Varying on \texttt{P}}
+The first family of plots should show how throughput and partition time evolve as the number of partitions increases, and how this 
+behavior changes with input size. In general, low values of \texttt{P} can reduce overhead but may worsen key distribution; very high 
+\texttt{P} can improve distribution but increase bookkeeping and memory-pressure costs. The best operating region is usually in the middle, 
+where the partitioning work is balanced and overhead is still moderate.
+
+\plotplaceholder
+{Insert a line plot or heatmap generated from \texttt{statistics.ipynb} that compares throughput across \texttt{P} for all tested \texttt{N} values and hash functions.}
+{Throughput trends across \texttt{N}, \texttt{P}, and hash functions (from \texttt{statistics.ipynb}).}
+
+\subsection{Varying on hash functions}
+Hash-function comparisons should highlight that different mixing strategies can produce distinct locality and collision patterns, 
+which in turn affect partitioning efficiency. The analysis should discuss whether one hash is consistently better or only better 
+in specific regions of \texttt{N} and \texttt{P}. If performance rankings change with configuration size, this indicates that the 
+optimal hash choice is workload-dependent rather than absolute.
+
+\plotplaceholder
+{Insert a grouped-bar chart generated from \texttt{statistics.ipynb} that compares partition time for \texttt{mask}, \texttt{mul}, and \texttt{fmix64} at representative \texttt{P} values.}
+{Partition time comparison among hash functions at different partition counts.}
+
+\subsection{Speedup of vectorized and AVX2 kernels}
+A key result is the relative speedup of the optimized kernels with respect to the non-vectorized baseline. The expected observation 
+is that \texttt{plain\_vec} improves performance over \texttt{plain\_novec}, while \texttt{avx2} can provide additional gains when 
+memory access and data layout permit efficient SIMD execution. The analysis should identify where speedup saturates, because this 
+typically signals that the bottleneck has moved from arithmetic to memory subsystem limits.
+
+\plotplaceholder
+{Insert a speedup chart (baseline: \texttt{plain\_novec}) from \texttt{statistics.ipynb} for both \texttt{plain\_vec} and \texttt{avx2} over varying \texttt{P}.}
+{Speedup of vectorized implementations over the scalar baseline.}
+
+When discussing these plots, it is important to separate algorithmic effects (hash quality, partition count) from architectural effects 
+(vectorization and AVX2 usage). This distinction clarifies whether a performance gain is due to better parameter tuning or due to low-level kernel optimization.
+
+\subsection{Repeated Runs for Stable Results}
+The repeated benchmark should quantify not only mean performance but also variance and distribution shape. Even when average throughput 
+is high, large variability can reduce predictability in production workloads. Therefore, this section should report central tendency 
+(mean/median), spread (standard deviation or interquartile range), and potentially coefficient of variation for each \texttt{P} value.
+
+\plotplaceholder
+{Insert a boxplot or violin plot from \texttt{stable\_statistics.ipynb} showing the distribution of throughput over repeated runs for each \texttt{P}.}
+{Run-to-run throughput distribution for fixed \texttt{N} and fixed hash function.}
+
+If the variance is low in the same \texttt{P} range where throughput is high, that region is a strong candidate for practical deployment. 
+If the best mean appears in a highly unstable region, then a slightly lower but more stable configuration may be preferable depending on service-level constraints.
+
+\plotplaceholder
+{Insert an error-bar plot from \texttt{stable\_statistics.ipynb} with mean partition time and variability bands versus \texttt{P}.}
+{Stability of partition time across repeated runs.}
+
+\plotplaceholder
+{Optional: insert a coefficient-of-variation plot from \texttt{stable\_statistics.ipynb} to emphasize robustness across partition counts.}
+{Relative variability (CV) as a function of \texttt{P}.}
+
+
+\section{Conclusions}
+The experiments show that partition performance depends on both parameter selection (\texttt{N}, \texttt{P}, hash) and implementation 
+strategy (scalar, vectorized, AVX2), with clear non-linear trade-offs.\\
+Across the tested configurations, the best practical region is the one that jointly maximizes throughput and maintains low run-to-run variability.
+
+\end{document}
