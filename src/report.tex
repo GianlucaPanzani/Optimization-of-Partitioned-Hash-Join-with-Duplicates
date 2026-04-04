@@ -11,20 +11,6 @@
 \setcounter{secnumdepth}{3}
 \setcounter{tocdepth}{3}
 
-\newcommand{\plotplaceholder}[2]{
-    \begin{figure}[H]
-        \centering
-        \fbox{
-            \parbox[c][5cm][c]{0.9\linewidth}{
-                \centering
-                \textbf{Placeholder for plot}\\[0.4em]
-                #1
-            }
-        }
-        \caption{#2}
-    \end{figure}
-}
-
 \begin{document}
 \begin{titlepage}
     \centering
@@ -77,91 +63,164 @@ Executing the programs as defined in the \texttt{README.md} file, they receive t
 \begin{itemize}
     \item the dataset size \texttt{N},
     \item the number of partitions \texttt{P},
-    \item the hash function name,
+    \item the name of the hash function to be used,
     \item the output CSV file path. 
 \end{itemize}
 The runtime workflow includes: loading the two input datasets, partitioning both relations with the 
-selected hash function, computing throughput and checksums, writing partitioned binary outputs, and appending one result row 
+selected hash function, computing throughput and checksums, writing partitioned binary outputs and appending one result row 
 to the CSV file. This row contains the full experiment metadata (\texttt{N}, \texttt{P}, hash, execution type), timing metrics 
 (partition time, global time) and other fields (like throughput and checksum), which are then used by the analysis notebooks 
 to extract statistics.
 
 \subsection{Grid Search approach}
-The experimental automation is handled by Bash scripts and Slurm runners. The script \texttt{run\_grid\_search.sh} executes 
-the complete sweep across all configured \texttt{N}, \texttt{P} and hash-function combinations. The script \texttt{stability\_benchmark.sh} 
-executes repeated runs over a restricted configuration with \texttt{N} fixed, hash fixed and varying \texttt{P} to quantify run-to-run 
-stability and variance. Both scripts regenerate datasets, rebuild binaries, 
-and produce CSV outputs consumed then by \texttt{statistics.ipynb} and \texttt{stable\_statistics.ipynb}.
+The experimental automation is implemented with Bash orchestrators and Slurm runners. The script \texttt{run\_grid\_search.sh} performs:
+\begin{itemize}
+    \item cleanup (\texttt{make cleanall}) and compilation (\texttt{make}),
+    \item dataset generation job submission,
+    \item chained Slurm submissions with dependencies for \texttt{plain\_novec} $\rightarrow$ \texttt{plain\_vec} $\rightarrow$ \texttt{avx2}.
+\end{itemize}
 
-Overall, the implementation combines algorithmic flexibility (multiple hashes and partition counts), systems-level optimization 
-(scalar vs vectorized vs AVX2 variants), and reproducible experimentation (scripted batch execution and notebook-based analysis). 
-This makes the project suitable for both performance tuning and methodological comparison.
+The search space is defined in \texttt{runners/grid\_config.sh}: \texttt{N} $\in \{10^5, 10^6, 10^7\}$, \texttt{P} $\in \{16,\dots,4096\}$ (powers of two), hash $\in \{\texttt{mask}, \texttt{mul}, \texttt{fmix64}\}$. This gives 81 configurations per executable for each full sweep.
+
+The script \texttt{stability\_benchmark.sh} uses \texttt{runners/grid\_config\_2.sh} (\texttt{N} fixed to $10^7$) and repeats the same parameter grid \texttt{M} times (in the current dataset, 5 repetitions). This is used to separate raw performance from run-to-run variance.
+
+An important implementation detail is that \texttt{compute\_partitions\_avx2} currently supports only \texttt{mask}. For unsupported hashes (\texttt{mul}, \texttt{fmix64}), the AVX2 executable exits early after the runtime check. Therefore:
+\begin{itemize}
+    \item \texttt{results/results.csv} contains 81 rows for \texttt{plain\_novec}, 81 rows for \texttt{plain\_vec}, and 27 rows for \texttt{avx2};
+    \item \texttt{results/benchmark\_results.csv} is used for stable repeated-run analysis.
+\end{itemize}
+
+This design makes experiments reproducible and auditable: build flags, execution logs, and vectorization diagnostics are persisted and tied to each benchmark batch.
+
+
+\section{SIMD Optimization}
+\subsection{Compiler evidence of vectorization}
+Vectorization is checked through GCC diagnostics generated at build time. In the Makefile, \texttt{plain\_vec} and \texttt{avx2} are compiled with:
+\begin{itemize}
+    \item \texttt{-mavx2},
+    \item \texttt{-fopt-info-vec-optimized -fopt-info-vec-missed},
+\end{itemize}
+while, \texttt{plain\_novec} is compiled with:
+\begin{itemize}
+    \item \texttt{-fno-tree-vectorize}.
+\end{itemize}
+
+The following lines in \texttt{results/gcc\_vec\_report.txt} prove auto-vectorization for the \texttt{plain\_vec} build:
+\begin{verbatim}
+lib/partition.cpp:19:14: optimized: loop vectorized using 16 byte vectors
+lib/partition.cpp:13:20: optimized: basic block part vectorized using 32 byte vectors
+\end{verbatim}
+and the manual vectorization in the AVX2 path:
+\begin{verbatim}
+lib/partition_avx2.cpp:44:14: optimized: loop vectorized using 16 byte vectors
+lib/partition_avx2.cpp:29:27: missed: couldn't vectorize loop
+\end{verbatim}
+The missed one is the scalar tail of theAVX2 kernel, which is expected since doesn't fit the SIMD register width.
+
+\subsection{AVX2 mask hash implementation}
+The AVX2 partition kernel is implemented in \texttt{lib/partition\_avx2.cpp}. The logic is the following:
+\begin{enumerate}
+    \item Build SIMD constants: \texttt{mask\_vec = broadcast(P-1)} and \texttt{perm\_idx = [0,2,4,6,...]}.
+    \item Process four 64-bit keys per iteration (\texttt{\_\_m256i} register):
+    \begin{itemize}
+        \item load 256 bits with \texttt{\_mm256\_loadu\_si256},
+        \item compute partition ids via bitwise AND (\texttt{\_mm256\_and\_si256}),
+        \item pack low 32-bit lanes with \texttt{\_mm256\_permutevar8x32\_epi32},
+        \item store 4 contiguous \texttt{uint32\_t} outputs with \texttt{\_mm\_storeu\_si128}.
+    \end{itemize}
+    \item Handle the tail (\(< 4\) keys) with scalar code to preserve correctness for any input length.
+\end{enumerate}
+
+Why this structure is effective:
+\begin{itemize}
+    \item The \texttt{mask} hash is arithmetic-light and maps naturally to SIMD bitwise operations.
+    \item Writing packed \texttt{uint32\_t} partition ids reduces store bandwidth compared with 64-bit outputs.
+    \item A scalar tail keeps control-flow simple and avoids masked-store complexity for short remainders.
+\end{itemize}
+
+Overall, this AVX2 implementation reduces partition time by combining regular memory access with low-latency SIMD integer operations.
 
 
 \section{Results Analysis}
-This section summarizes the expected interpretation of the two analysis notebooks:
+All quantitative values in this section are computed from \texttt{results/benchmark\_results.csv}, because it is based on repeated runs and is more reliable than a single sweep.
+
+\subsection{Throughput}
+Figure~\ref{fig:throughput-vs-p} compares throughput over \texttt{P} for the three hash functions.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\linewidth]{img/throughput_vs_P_mask.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/throughput_vs_P_mul.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/throughput_vs_P_fmix64.png}
+    \caption{Throughput vs \texttt{P} for hash functions \texttt{mask}, \texttt{mul}, and \texttt{fmix64}.}
+    \label{fig:throughput-vs-p}
+\end{figure}
+
+The measured ordering is stable: \texttt{mask} is fastest, \texttt{mul} is second, \texttt{fmix64} is slowest. On average over \texttt{benchmark\_results.csv}, throughput is:
 \begin{itemize}
-    \item \texttt{statistics.ipynb}: full grid-search analysis on all values of \texttt{N}, \texttt{P}, and hash functions.
-    \item \texttt{stable\_statistics.ipynb}: repeated-run stability analysis with fixed $N=10^7$ and fixed hash function \texttt{mask}, varying only \texttt{P}.
+    \item \texttt{plain\_novec}: $3.60 \times 10^8$ elems/s (\texttt{mask}), $3.32 \times 10^8$ elems/s (\texttt{mul}), $1.40 \times 10^8$ elems/s (\texttt{fmix64}),
+    \item \texttt{plain\_vec}: $8.98 \times 10^8$ elems/s (\texttt{mask}), $4.13 \times 10^8$ elems/s (\texttt{mul}), $1.58 \times 10^8$ elems/s (\texttt{fmix64}),
+    \item \texttt{avx2} (\texttt{mask} only): $1.28 \times 10^9$ elems/s.
+\end{itemize}
+This reflects the arithmetic complexity of the hash: \texttt{mask} is a simple bit operation, while \texttt{fmix64} includes multiple shifts/xors/multiplications.
+
+\subsection{Partition-time}
+Figure~\ref{fig:partition-time-vs-p} shows partition time for each hash.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\linewidth]{img/partition_time_vs_P_mask.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/partition_time_vs_P_mul.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/partition_time_vs_P_fmix64.png}
+    \caption{Partition time vs \texttt{P} for hash functions \texttt{mask}, \texttt{mul}, and \texttt{fmix64}.}
+    \label{fig:partition-time-vs-p}
+\end{figure}
+
+Average partition time from \texttt{benchmark\_results.csv} confirms the same ranking:
+\begin{itemize}
+    \item \texttt{plain\_novec}: 0.05571 s (\texttt{mask}), 0.06023 s (\texttt{mul}), 0.14330 s (\texttt{fmix64}),
+    \item \texttt{plain\_vec}: 0.02237 s (\texttt{mask}), 0.04842 s (\texttt{mul}), 0.12624 s (\texttt{fmix64}),
+    \item \texttt{avx2} (\texttt{mask} only): 0.01568 s.
 \end{itemize}
 
-\subsection{Varying on \texttt{P}}
-The first family of plots should show how throughput and partition time evolve as the number of partitions increases, and how this 
-behavior changes with input size. In general, low values of \texttt{P} can reduce overhead but may worsen key distribution; very high 
-\texttt{P} can improve distribution but increase bookkeeping and memory-pressure costs. The best operating region is usually in the middle, 
-where the partitioning work is balanced and overhead is still moderate.
+The impact of \texttt{P} is visible but weaker than the impact of hash complexity and SIMD level. In other words, choosing the right execution kernel and hash function yields larger gains than fine-tuning \texttt{P} alone.
 
-\plotplaceholder
-{Insert a line plot or heatmap generated from \texttt{statistics.ipynb} that compares throughput across \texttt{P} for all tested \texttt{N} values and hash functions.}
-{Throughput trends across \texttt{N}, \texttt{P}, and hash functions (from \texttt{statistics.ipynb}).}
+\subsection{Speedup}
+Figure~\ref{fig:speedup-vs-p} reports speedup over the scalar baseline (\texttt{plain\_novec}).
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\linewidth]{img/speedup_vs_P_mask.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/speedup_vs_P_mul.png}\hfill
+    \includegraphics[width=0.32\linewidth]{img/speedup_vs_P_fmix64.png}
+    \caption{Speedup vs \texttt{P} (baseline: \texttt{plain\_novec}) for hash functions \texttt{mask}, \texttt{mul}, and \texttt{fmix64}.}
+    \label{fig:speedup-vs-p}
+\end{figure}
 
-\subsection{Varying on hash functions}
-Hash-function comparisons should highlight that different mixing strategies can produce distinct locality and collision patterns, 
-which in turn affect partitioning efficiency. The analysis should discuss whether one hash is consistently better or only better 
-in specific regions of \texttt{N} and \texttt{P}. If performance rankings change with configuration size, this indicates that the 
-optimal hash choice is workload-dependent rather than absolute.
+For \texttt{mul} and \texttt{fmix64}, AVX2 is currently unsupported; speedup is therefore driven by \texttt{plain\_vec} only. 
+Table~\ref{tab:exec-summary} summarizes the \texttt{mask}-only repeated benchmark. Speedup is computed as:
+\[
+\mathrm{speedup(exec\_type)} = \frac{\overline{T}_{\texttt{plain\_novec}}}{\overline{T}_{\texttt{exec\_type}}}
+\]
 
-\plotplaceholder
-{Insert a grouped-bar chart generated from \texttt{statistics.ipynb} that compares partition time for \texttt{mask}, \texttt{mul}, and \texttt{fmix64} at representative \texttt{P} values.}
-{Partition time comparison among hash functions at different partition counts.}
-
-\subsection{Speedup of vectorized and AVX2 kernels}
-A key result is the relative speedup of the optimized kernels with respect to the non-vectorized baseline. The expected observation 
-is that \texttt{plain\_vec} improves performance over \texttt{plain\_novec}, while \texttt{avx2} can provide additional gains when 
-memory access and data layout permit efficient SIMD execution. The analysis should identify where speedup saturates, because this 
-typically signals that the bottleneck has moved from arithmetic to memory subsystem limits.
-
-\plotplaceholder
-{Insert a speedup chart (baseline: \texttt{plain\_novec}) from \texttt{statistics.ipynb} for both \texttt{plain\_vec} and \texttt{avx2} over varying \texttt{P}.}
-{Speedup of vectorized implementations over the scalar baseline.}
-
-When discussing these plots, it is important to separate algorithmic effects (hash quality, partition count) from architectural effects 
-(vectorization and AVX2 usage). This distinction clarifies whether a performance gain is due to better parameter tuning or due to low-level kernel optimization.
-
-\subsection{Repeated Runs for Stable Results}
-The repeated benchmark should quantify not only mean performance but also variance and distribution shape. Even when average throughput 
-is high, large variability can reduce predictability in production workloads. Therefore, this section should report central tendency 
-(mean/median), spread (standard deviation or interquartile range), and potentially coefficient of variation for each \texttt{P} value.
-
-\plotplaceholder
-{Insert a boxplot or violin plot from \texttt{stable\_statistics.ipynb} showing the distribution of throughput over repeated runs for each \texttt{P}.}
-{Run-to-run throughput distribution for fixed \texttt{N} and fixed hash function.}
-
-If the variance is low in the same \texttt{P} range where throughput is high, that region is a strong candidate for practical deployment. 
-If the best mean appears in a highly unstable region, then a slightly lower but more stable configuration may be preferable depending on service-level constraints.
-
-\plotplaceholder
-{Insert an error-bar plot from \texttt{stable\_statistics.ipynb} with mean partition time and variability bands versus \texttt{P}.}
-{Stability of partition time across repeated runs.}
-
-\plotplaceholder
-{Optional: insert a coefficient-of-variation plot from \texttt{stable\_statistics.ipynb} to emphasize robustness across partition counts.}
-{Relative variability (CV) as a function of \texttt{P}.}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lrrr}
+        \toprule
+        \texttt{exec\_type} & \texttt{partition\_time} [s] & \texttt{throughput} [elems/s] & \texttt{speedup} \\
+        \midrule
+        \texttt{plain\_novec} & 0.055712889 & 360389759.942 & 1.0000 \\
+        \texttt{plain\_vec}   & 0.022372444 & 897678323.000 & 2.4902 \\
+        \texttt{avx2}         & 0.015679778 & 1283223576.758 & 3.5532 \\
+        \bottomrule
+    \end{tabular}
+    \caption{Average performance for \texttt{mask} over repeated runs (\texttt{benchmark\_results.csv}).}
+    \label{tab:exec-summary}
+\end{table}
 
 
 \section{Conclusions}
-The experiments show that partition performance depends on both parameter selection (\texttt{N}, \texttt{P}, hash) and implementation 
-strategy (scalar, vectorized, AVX2), with clear non-linear trade-offs.\\
-Across the tested configurations, the best practical region is the one that jointly maximizes throughput and maintains low run-to-run variability.
+Partition performance is driven by both algorithmic parameters (\texttt{hash}, \texttt{P}) and execution strategy (\texttt{plain\_novec}, \texttt{plain\_vec}, \texttt{avx2}).
+
+SIMD is the main improvement lever: on \texttt{mask}, \texttt{plain\_vec} reaches about $2.49\times$ speedup and \texttt{avx2} about $3.55\times$ over the scalar baseline.
+
+Among hash functions, \texttt{mask} is consistently the fastest, \texttt{mul} is intermediate, and \texttt{fmix64} is the slowest due to higher arithmetic cost.
 
 \end{document}

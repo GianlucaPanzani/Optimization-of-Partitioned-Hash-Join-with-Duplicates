@@ -1,9 +1,11 @@
 \contentsline {section}{\numberline {1}Implementation}{1}{section.2}%
 \contentsline {subsection}{\numberline {1.1}Execution Variants}{1}{subsection.3}%
 \contentsline {subsection}{\numberline {1.2}Grid Search approach}{1}{subsection.4}%
-\contentsline {section}{\numberline {2}Results Analysis}{2}{section.5}%
-\contentsline {subsection}{\numberline {2.1}Varying on \texttt {P}}{2}{subsection.6}%
-\contentsline {subsection}{\numberline {2.2}Varying on hash functions}{2}{subsection.8}%
-\contentsline {subsection}{\numberline {2.3}Speedup of vectorized and AVX2 kernels}{3}{subsection.10}%
-\contentsline {subsection}{\numberline {2.4}Repeated Runs for Stable Results}{3}{subsection.12}%
-\contentsline {section}{\numberline {3}Conclusions}{4}{section.16}%
+\contentsline {section}{\numberline {2}SIMD Optimization}{2}{section.5}%
+\contentsline {subsection}{\numberline {2.1}Compiler evidence of vectorization}{2}{subsection.6}%
+\contentsline {subsection}{\numberline {2.2}AVX2 mask hash implementation}{2}{subsection.7}%
+\contentsline {section}{\numberline {3}Results Analysis}{3}{section.11}%
+\contentsline {subsection}{\numberline {3.1}Throughput}{3}{subsection.12}%
+\contentsline {subsection}{\numberline {3.2}Partition-time}{4}{subsection.14}%
+\contentsline {subsection}{\numberline {3.3}Speedup}{4}{subsection.16}%
+\contentsline {section}{\numberline {4}Conclusions}{5}{section.19}%
