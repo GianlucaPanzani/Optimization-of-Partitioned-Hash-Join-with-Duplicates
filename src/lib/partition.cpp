@@ -22,22 +22,20 @@ static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::
 }
 
 
+
+static inline uint32_t mul_hash_u64_to_partition(uint64_t x, uint32_t bits) {
+    constexpr uint64_t kMul = 11400714819323198485ull;
+    return static_cast<uint32_t>((x * kMul) >> (64 - bits));
+}
+
 static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     const uint32_t bits = __builtin_ctz(P);
-    constexpr uint64_t kMul = 11400714819323198485ull; // Fibonacci hashing constant
     const std::size_t n = keys.size();
     const uint64_t* in = keys.data();
+    uint32_t* out = part_id.data();
 
-    std::size_t i = 0;
-    for (; i < n-4; ++i) {
-        part_id[i] = static_cast<uint32_t>((in[i] * kMul) >> (64 - bits));
-        part_id[i+1] = static_cast<uint32_t>((in[i+1] * kMul) >> (64 - bits));
-        part_id[i+2] = static_cast<uint32_t>((in[i+2] * kMul) >> (64 - bits));
-        part_id[i+3] = static_cast<uint32_t>((in[i+3] * kMul) >> (64 - bits));
-    }
-    // Handle remaining elements
-    for (; i < n; ++i) {
-        part_id[i] = static_cast<uint32_t>((in[i] * kMul) >> (64 - bits));
+    for (std::size_t i = 0; i < n; ++i) {
+        out[i] = mul_hash_u64_to_partition(in[i], bits);
     }
 }
 
@@ -56,17 +54,10 @@ static void partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std
     const uint64_t mask = static_cast<uint64_t>(P - 1);
     const std::size_t n = keys.size();
     const uint64_t* in = keys.data();
+    uint32_t* out = part_id.data();
 
-    std::size_t i = 0;
-    for (; i < n-4; ++i) {
-        part_id[i] = fmix64(in[i], mask);
-        part_id[i+1] = fmix64(in[i+1], mask);
-        part_id[i+2] = fmix64(in[i+2], mask);
-        part_id[i+3] = fmix64(in[i+3], mask);
-    }
-    // Handle remaining elements
-    for (; i < n; ++i) {
-        part_id[i] = fmix64(in[i], mask);
+    for (std::size_t i = 0; i < n; ++i) {
+        out[i] = fmix64(in[i], mask);
     }
 }
 

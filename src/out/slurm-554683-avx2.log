@@ -1,0 +1,83 @@
+[1/81] run=1/1 N=100000 P=16 HASH=mask PARTITION_TIME[s]=0.00017 THROUGHPUT[elems/s]=1.17647e+09
+[2/81] run=1/1 N=100000 P=16 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[3/81] run=1/1 N=100000 P=16 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[4/81] run=1/1 N=100000 P=32 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[5/81] run=1/1 N=100000 P=32 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[6/81] run=1/1 N=100000 P=32 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[7/81] run=1/1 N=100000 P=64 HASH=mask PARTITION_TIME[s]=0.00015 THROUGHPUT[elems/s]=1.33333e+09
+[8/81] run=1/1 N=100000 P=64 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[9/81] run=1/1 N=100000 P=64 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[10/81] run=1/1 N=100000 P=128 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[11/81] run=1/1 N=100000 P=128 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[12/81] run=1/1 N=100000 P=128 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[13/81] run=1/1 N=100000 P=256 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[14/81] run=1/1 N=100000 P=256 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[15/81] run=1/1 N=100000 P=256 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[16/81] run=1/1 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[17/81] run=1/1 N=100000 P=512 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[18/81] run=1/1 N=100000 P=512 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[19/81] run=1/1 N=100000 P=1024 HASH=mask PARTITION_TIME[s]=0.00014 THROUGHPUT[elems/s]=1.42857e+09
+[20/81] run=1/1 N=100000 P=1024 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[21/81] run=1/1 N=100000 P=1024 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[22/81] run=1/1 N=100000 P=2048 HASH=mask PARTITION_TIME[s]=0.00018 THROUGHPUT[elems/s]=1.11111e+09
+[23/81] run=1/1 N=100000 P=2048 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[24/81] run=1/1 N=100000 P=2048 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[25/81] run=1/1 N=100000 P=4096 HASH=mask PARTITION_TIME[s]=0.00016 THROUGHPUT[elems/s]=1.25e+09
+[26/81] run=1/1 N=100000 P=4096 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[27/81] run=1/1 N=100000 P=4096 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[28/81] run=1/1 N=1000000 P=16 HASH=mask PARTITION_TIME[s]=0.00152 THROUGHPUT[elems/s]=1.31579e+09
+[29/81] run=1/1 N=1000000 P=16 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[30/81] run=1/1 N=1000000 P=16 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[31/81] run=1/1 N=1000000 P=32 HASH=mask PARTITION_TIME[s]=0.00156 THROUGHPUT[elems/s]=1.28205e+09
+[32/81] run=1/1 N=1000000 P=32 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[33/81] run=1/1 N=1000000 P=32 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[34/81] run=1/1 N=1000000 P=64 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[35/81] run=1/1 N=1000000 P=64 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[36/81] run=1/1 N=1000000 P=64 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[37/81] run=1/1 N=1000000 P=128 HASH=mask PARTITION_TIME[s]=0.00151 THROUGHPUT[elems/s]=1.3245e+09
+[38/81] run=1/1 N=1000000 P=128 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[39/81] run=1/1 N=1000000 P=128 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[40/81] run=1/1 N=1000000 P=256 HASH=mask PARTITION_TIME[s]=0.00158 THROUGHPUT[elems/s]=1.26582e+09
+[41/81] run=1/1 N=1000000 P=256 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[42/81] run=1/1 N=1000000 P=256 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[43/81] run=1/1 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00152 THROUGHPUT[elems/s]=1.31579e+09
+[44/81] run=1/1 N=1000000 P=512 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[45/81] run=1/1 N=1000000 P=512 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[46/81] run=1/1 N=1000000 P=1024 HASH=mask PARTITION_TIME[s]=0.0015 THROUGHPUT[elems/s]=1.33333e+09
+[47/81] run=1/1 N=1000000 P=1024 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[48/81] run=1/1 N=1000000 P=1024 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[49/81] run=1/1 N=1000000 P=2048 HASH=mask PARTITION_TIME[s]=0.00152 THROUGHPUT[elems/s]=1.31579e+09
+[50/81] run=1/1 N=1000000 P=2048 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[51/81] run=1/1 N=1000000 P=2048 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[52/81] run=1/1 N=1000000 P=4096 HASH=mask PARTITION_TIME[s]=0.00153 THROUGHPUT[elems/s]=1.30719e+09
+[53/81] run=1/1 N=1000000 P=4096 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[54/81] run=1/1 N=1000000 P=4096 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[55/81] run=1/1 N=10000000 P=16 HASH=mask PARTITION_TIME[s]=0.01458 THROUGHPUT[elems/s]=1.37174e+09
+[56/81] run=1/1 N=10000000 P=16 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[57/81] run=1/1 N=10000000 P=16 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[58/81] run=1/1 N=10000000 P=32 HASH=mask PARTITION_TIME[s]=0.01455 THROUGHPUT[elems/s]=1.37457e+09
+[59/81] run=1/1 N=10000000 P=32 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[60/81] run=1/1 N=10000000 P=32 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[61/81] run=1/1 N=10000000 P=64 HASH=mask PARTITION_TIME[s]=0.01467 THROUGHPUT[elems/s]=1.36333e+09
+[62/81] run=1/1 N=10000000 P=64 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[63/81] run=1/1 N=10000000 P=64 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[64/81] run=1/1 N=10000000 P=128 HASH=mask PARTITION_TIME[s]=0.0147 THROUGHPUT[elems/s]=1.36054e+09
+[65/81] run=1/1 N=10000000 P=128 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[66/81] run=1/1 N=10000000 P=128 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[67/81] run=1/1 N=10000000 P=256 HASH=mask PARTITION_TIME[s]=0.01468 THROUGHPUT[elems/s]=1.3624e+09
+[68/81] run=1/1 N=10000000 P=256 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[69/81] run=1/1 N=10000000 P=256 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[70/81] run=1/1 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.01477 THROUGHPUT[elems/s]=1.3541e+09
+[71/81] run=1/1 N=10000000 P=512 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[72/81] run=1/1 N=10000000 P=512 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[73/81] run=1/1 N=10000000 P=1024 HASH=mask PARTITION_TIME[s]=0.01465 THROUGHPUT[elems/s]=1.36519e+09
+[74/81] run=1/1 N=10000000 P=1024 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[75/81] run=1/1 N=10000000 P=1024 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[76/81] run=1/1 N=10000000 P=2048 HASH=mask PARTITION_TIME[s]=0.01467 THROUGHPUT[elems/s]=1.36333e+09
+[77/81] run=1/1 N=10000000 P=2048 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[78/81] run=1/1 N=10000000 P=2048 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+[79/81] run=1/1 N=10000000 P=4096 HASH=mask PARTITION_TIME[s]=0.01486 THROUGHPUT[elems/s]=1.3459e+09
+[80/81] run=1/1 N=10000000 P=4096 HASH=mul --> The hash function mul is not supported for the execution type avx2
+[81/81] run=1/1 N=10000000 P=4096 HASH=fmix64 --> The hash function fmix64 is not supported for the execution type avx2
+
+All jobs submitted.

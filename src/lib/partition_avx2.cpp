@@ -25,7 +25,7 @@ static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::
 
     // For each step are processed 4 uint64_t keys (= 1 lane)
     std::size_t i = 0;
-    const std::size_t simd_width = 4; // because AVX2 uses registers of 256 bits (256 / 64 = 4)
+    const std::size_t simd_width = 4;
     for (; i + simd_width <= n_keys; i += simd_width) {
         // Build the vector of 4 progressive uint64_t keys (from i to i+3)
         const __m256i key_vec = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(in + i));
