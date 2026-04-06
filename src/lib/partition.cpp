@@ -9,13 +9,6 @@ static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::
     const uint64_t* in = keys.data();
 
     std::size_t i = 0;
-    for (; i < n-4; ++i) {
-        part_id[i] = static_cast<uint32_t>(in[i] & mask);
-        part_id[i+1] = static_cast<uint32_t>(in[i+1] & mask);
-        part_id[i+2] = static_cast<uint32_t>(in[i+2] & mask);
-        part_id[i+3] = static_cast<uint32_t>(in[i+3] & mask);
-    }
-    // Handle remaining elements
     for (; i < n; ++i) {
         part_id[i] = static_cast<uint32_t>(in[i] & mask);
     }
