@@ -41,10 +41,10 @@ void check_args(const Args& args) {
     if (args.N == 0) {
         throw std::invalid_argument("N must be > 0");
     }
-    if (args.P == 0) {
-        throw std::invalid_argument("P must be > 0");
+    if ((args.P & (args.P - 1)) != 0) {
+        throw std::invalid_argument("P must be a power of two");
     }
-    if (args.hash_name != "mask" && args.hash_name != "mul" && args.hash_name != "fmix64") {
+    if (args.hash_name != "mask" && args.hash_name != "xorshift" && args.hash_name != "fmix32fold") {
         throw std::invalid_argument("Unsupported hash function: " + args.hash_name);
     }
     if (args.exec_type != "plain_novec" && args.exec_type != "plain_vec" && args.exec_type != "avx2") {
@@ -89,32 +89,56 @@ int main(int argc, char** argv) {
         std::cout << "[resize] Are used the first " << args.N << " keys of each dataset\n";
     }
 
-    // Choose the right partition function
-    using PartitionFn = std::function<void(const std::vector<uint64_t>&, std::vector<uint32_t>&, uint32_t, const std::string&)>;
-    PartitionFn partition_fn;
-    if (args.exec_type == "avx2") {
+    // Compute the partitions for each dataset
+    if (args.exec_type != "avx2") {
+        if (args.hash_name == "mask") {
+            t0 = get_time();
+            partition_with_mask_hashing(R.keys.data(), R_partitioned.data(), args.P, R.keys.size());
+            t1 = get_time();
+            partition_time = get_diff(t0, t1, n_digits);
+            t0 = get_time();
+            partition_with_mask_hashing(S.keys.data(), S_partitioned.data(), args.P, S.keys.size());
+            t1 = get_time();
+            partition_time += get_diff(t0, t1, n_digits);
+        } else if (args.hash_name == "xorshift") {
+            t0 = get_time();
+            partition_with_xorshift_hashing(R.keys.data(), R_partitioned.data(), args.P, R.keys.size());
+            t1 = get_time();
+            partition_time = get_diff(t0, t1, n_digits);
+            t0 = get_time();
+            partition_with_xorshift_hashing(S.keys.data(), S_partitioned.data(), args.P, S.keys.size());
+            t1 = get_time();
+            partition_time += get_diff(t0, t1, n_digits);
+        } else if (args.hash_name == "fmix32fold") {
+            t0 = get_time();
+            partition_with_fmix32fold_hashing(R.keys.data(), R_partitioned.data(), args.P, R.keys.size());
+            t1 = get_time();
+            partition_time = get_diff(t0, t1, n_digits);
+            t0 = get_time();
+            partition_with_fmix32fold_hashing(S.keys.data(), S_partitioned.data(), args.P, S.keys.size());
+            t1 = get_time();
+            partition_time += get_diff(t0, t1, n_digits);
+        } else {
+            throw std::invalid_argument("The hash function could only be: mask, xorshift, fmix32fold");
+        }
+    } else {
+        if (args.hash_name != "mask") {
+            std::cout << "--> The hash function " << args.hash_name << " is not supported for the execution type " << args.exec_type << "\n";
+            return 0;
+        }
         #ifdef ENABLE_AVX2
-            partition_fn = compute_partitions_avx2;
+            t0 = get_time();
+            partition_with_mask_hashing_avx2(R.keys, R_partitioned, args.P);
+            t1 = get_time();
+            partition_time = get_diff(t0, t1, n_digits);
+            t0 = get_time();
+            partition_with_mask_hashing_avx2(S.keys, S_partitioned, args.P);
+            t1 = get_time();
+            partition_time += get_diff(t0, t1, n_digits);
         #else
             throw std::invalid_argument("This binary was compiled without AVX2 support");
         #endif
-    } else {
-        partition_fn = compute_partitions;
-    }
-
-    // Compute the partitions for each dataset
-    try {
-        t0 = get_time();
-        partition_fn(R.keys, R_partitioned, args.P, args.hash_name);
-        t1 = get_time();
-        partition_time = get_diff(t0, t1, n_digits);
-        t0 = get_time();
-        partition_fn(S.keys, S_partitioned, args.P, args.hash_name);
-        t1 = get_time();
-        partition_time += get_diff(t0, t1, n_digits);
-    } catch (const std::exception&) {
-        std::cout << "--> The hash function " << args.hash_name << " is not supported for the execution type " << args.exec_type << "\n";
-        return 0;
+        
     }
     std::cout << "PARTITION_TIME[s]=" << partition_time << " ";
     

@@ -2,4 +2,4 @@
 
 N_VALUES=(10000000)
 P_VALUES=(16 32 64 128 256 512 1024 2048 4096)
-HASH_VALUES=(mask mul fmix64)
+HASH_VALUES=(mask xorshift fmix32fold)

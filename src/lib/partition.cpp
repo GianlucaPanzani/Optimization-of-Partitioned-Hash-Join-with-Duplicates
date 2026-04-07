@@ -3,65 +3,44 @@
 #include "partition.hpp"
 
 
-static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
-    const std::size_t n = keys.size();
-    const uint64_t mask = static_cast<uint64_t>(P - 1);
-    const uint64_t* in = keys.data();
 
-    std::size_t i = 0;
-    for (; i < n; ++i) {
-        part_id[i] = static_cast<uint32_t>(in[i] & mask);
+void partition_with_mask_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N) {
+    const uint32_t mask = P - 1u;
+    for (std::size_t i = 0; i < N; ++i) {
+        out[i] = in[i] & mask;
     }
 }
 
 
 
-static inline uint32_t mul_hash_u64_to_partition(uint64_t x, uint32_t bits) {
-    constexpr uint64_t kMul = 11400714819323198485ull;
-    return static_cast<uint32_t>((x * kMul) >> (64 - bits));
-}
+uint64_t kMul = 11400714819323198485ull;
 
-static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
-    const uint32_t bits = __builtin_ctz(P);
-    const std::size_t n = keys.size();
-    const uint64_t* in = keys.data();
-    uint32_t* out = part_id.data();
-
-    for (std::size_t i = 0; i < n; ++i) {
-        out[i] = mul_hash_u64_to_partition(in[i], bits);
+void partition_with_xorshift_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N) {
+    const uint32_t mask = P - 1u;
+    for (std::size_t i = 0; i < N; ++i) {
+        uint64_t k = in[i];
+        k ^= k >> 33;
+        k ^= k >> 17;
+        k ^= k >> 9;
+        out[i] = static_cast<uint32_t>(k) & mask;
     }
 }
 
 
 
-inline uint32_t fmix64(uint64_t x, uint64_t mask) {
-    x ^= x >> 33;
-    x *= 0xff51afd7ed558ccdull;
-    x ^= x >> 33;
-    x *= 0xc4ceb9fe1a85ec53ull;
-    x ^= x >> 33;
-    return static_cast<uint32_t>(x & mask);
-}
+constexpr std::uint64_t C1 = 0xff51afd7ed558ccdull;
+constexpr std::uint64_t C2 = 0xc4ceb9fe1a85ec53ull;
 
-static void partition_with_fmix64_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
-    const uint64_t mask = static_cast<uint64_t>(P - 1);
-    const std::size_t n = keys.size();
-    const uint64_t* in = keys.data();
-    uint32_t* out = part_id.data();
-
-    for (std::size_t i = 0; i < n; ++i) {
-        out[i] = fmix64(in[i], mask);
+void partition_with_fmix32fold_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N) {
+    const uint32_t mask = P - 1u;
+    for (std::size_t i = 0; i < N; ++i) {
+        uint32_t x = static_cast<uint32_t>(in[i]) ^ static_cast<uint32_t>(in[i] >> 32);
+        x ^= x >> 16;
+        x *= 0x85ebca6bu;
+        x ^= x >> 13;
+        x *= 0xc2b2ae35u;
+        x ^= x >> 16;
+        out[i] = x & mask;
     }
 }
 
-
-void compute_partitions(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
-    if (P == 0 || (P & (P - 1)) != 0) {
-        throw std::invalid_argument("P must be a power of two");
-    }
-
-    if (hash_name == "mask") partition_with_mask_hashing(keys, part_id, P);
-    else if (hash_name == "mul") partition_with_mul_hashing(keys, part_id, P);
-    else if (hash_name == "fmix64") partition_with_fmix64_hashing(keys, part_id, P);
-    else throw std::invalid_argument("The hash function could only be: mask, mul, fmix64");
-}

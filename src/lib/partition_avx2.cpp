@@ -6,7 +6,7 @@
 
 
 
-static void partition_with_mask_hashing(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
+void partition_with_mask_hashing_avx2(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
     // P validation check
     if (P == 0 || (P & (P - 1)) != 0) {
         throw std::invalid_argument("P must be a power of two");
@@ -123,12 +123,3 @@ static void partition_with_mul_hashing(const std::vector<uint64_t>& keys, std::v
 }
 */
 
-
-void compute_partitions_avx2(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name) {
-    if (P == 0 || (P & (P - 1)) != 0) {
-        throw std::invalid_argument("P must be a power of two");
-    }
-
-    if (hash_name == "mask") partition_with_mask_hashing(keys, part_id, P);
-    else throw std::invalid_argument("The hash function " + hash_name + " is not implemented for AVX2");
-}

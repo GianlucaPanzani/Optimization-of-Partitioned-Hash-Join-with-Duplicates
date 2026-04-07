@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
-void compute_partitions(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P, const std::string& hash_name);
+void partition_with_mask_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N);
+void partition_with_xorshift_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N);
+void partition_with_fmix32fold_hashing(const uint64_t* __restrict__ in, uint32_t* __restrict__ out, uint32_t P, std::size_t N);
 
 #endif

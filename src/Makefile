@@ -27,7 +27,7 @@ plain_novec: main.cpp $(LIB_SOURCES)
 	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(NOVECFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_NOVEC_REPORT)
 
 plain_vec: main.cpp $(LIB_SOURCES)
-	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) $(AUTOFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
+	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(AUTOFLAGS) -o $@ main.cpp $(LIB_SOURCES) $(LIBS) 2> $(GCC_VEC_REPORT)
 
 avx2: main.cpp $(LIB_SOURCES) $(AVX_SOURCES)
 	$(CXX) $(CXXFLAGS) $(OPTFLAGS) $(AVXFLAGS) $(AUTOFLAGS) -DENABLE_AVX2 -o $@ main.cpp $(LIB_SOURCES) $(AVX_SOURCES) $(LIBS) 2> $(GCC_AVX2_REPORT)
