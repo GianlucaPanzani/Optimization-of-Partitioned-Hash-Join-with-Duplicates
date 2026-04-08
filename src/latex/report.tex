@@ -79,17 +79,35 @@ An important implementation detail is that \texttt{compute\_partitions\_avx2} cu
 
 This design makes experiments reproducible and auditable: build flags, execution logs, and vectorization diagnostics are persisted and tied to each benchmark batch.
 
+\subsection{Choice of the number of partitions \texttt{P}}
+The implementation enforces \texttt{P} as a power of two (runtime check in \texttt{main.cpp}). This constraint enables partition-id computation with:
+\[
+\texttt{part\_id} = \texttt{hash} \ \& \ (\texttt{P}-1),
+\]
+which is used in all selected kernels and avoids modulo/division in the hot loop. In practice, this gives a predictable low-cost mapping and a SIMD-friendly pattern.
+
+The explored range \texttt{P} $\in \{16,32,\dots,4096\}$ spans 4 to 12 partition bits. It is large enough to test coarse-to-fine partitioning effects while keeping the full grid-search cost manageable.
+
+Observed results suggest that, inside this range, \texttt{P} has a smaller impact than hash complexity: for fixed \texttt{exec\_type} and hash, mean partition time varies by less than about 1\% across \texttt{P}, while switching hash changes absolute cost much more (e.g., in \texttt{plain\_novec}: \texttt{mask} $\approx 0.01837$ s, \texttt{xorshift} $\approx 0.02917$ s, \texttt{fmix32fold} $\approx 0.04391$ s).
+
 \subsection{Hash Functions}
-\subsubsection{Mask hashing}
+\textbf{Mask hashing}\\
 This is the simplest mapping. It does not really mix the bits of the key: it just keeps the lowest bits by applying a bitwise AND with P - 1.
 So, logically, it is just a bit selection operation: the partition id is obtained from the least significant bits of the input key.
-\subsubsection{Xorshift hashing}
+\\\textbf{Xorshift hashing}\\
 This function performs a sequence of right shifts and XORs on the 64-bit key.
 The idea is to spread information from higher bits into lower bits, so that the final low bits used for partitioning depend on more than just the original least significant bits.
-\subsubsection{Fold32 + fmix32 hashing}
+\\\textbf{Fold32 + fmix32 hashing}\\
 This function first folds the 64-bit key into 32 bits by XORing the lower 32 bits with the upper 32 bits.
 Then it applies the fmix32 finalizer, which combines XORs, shifts and 32-bit multiplications to further scramble the bits.
 So, it first compresses the 64-bit value into 32 bits, then performs a stronger bit diffusion so that small differences in the input affect many output bits.
+
+\subsection{Correctness verification}
+Correctness is validated with checksum-based comparisons: each run computes a checksum over the partitioned outputs and stores it in CSV, so implementations can be compared without printing full arrays.
+
+All optimized variants were checked against the plain reference (\texttt{plain\_novec}) over the benchmark grid. In both \texttt{results/results.csv} and \texttt{results/benchmark\_results.csv}, every comparable group has a single unique checksum.
+
+In addition, for one small input size (\texttt{N}=$10^5$), an explicit element-by-element comparison was performed between the plain output and an optimized output, confirming exact equality.
 
 
 \section{SIMD Optimization}
@@ -111,7 +129,10 @@ and the manual vectorization in the AVX2 path:
 lib/partition_avx2.cpp:36:14: optimized: loop vectorized using 16 byte vectors
 lib/partition_avx2.cpp:21:27: missed: couldn't vectorize loop
 \end{verbatim}
-The missed one is the loop of the manual AVX2 implementation. This is expected, because the compiler does not recognize the custom intrinsics as a vectorizable pattern.
+The missed one is the loop of the manual AVX2 implementation, the other is the loop for the tail of the data. This is expected, because the compiler 
+does not recognize the custom intrinsics as a vectorizable pattern.
+
+During development, initial 64-bit multiply-based mappings were also tested. GCC auto-vectorized those loops too, but they did not produce profitable end-to-end performance. The final selected hashes (\texttt{mask}, \texttt{xorshift}, \texttt{fmix32fold}) rely on simpler bitwise and 32-bit-friendly operations, which are more suitable for efficient auto-vectorization on the target CPU.
 
 \subsection{AVX2 mask hash implementation}
 The AVX2 partition kernel is implemented in \texttt{lib/partition\_avx2.cpp}. The logic is the following:
@@ -131,6 +152,34 @@ The AVX2 partition kernel is implemented in \texttt{lib/partition\_avx2.cpp}. Th
 \section{Results Analysis}
 All quantitative values in this section are computed from \texttt{results/benchmark\_results.csv}, because it is based on repeated runs and is more reliable than a single sweep.
 
+\subsection{Benchmarking methodology}
+The repeated benchmark uses \texttt{M=10} repetitions for each configuration in \texttt{runners/grid\_config\_2.sh} (\texttt{N} fixed to $10^7$, \texttt{P} in 9 powers-of-two values, 3 hashes, 3 execution variants with AVX2 limited to \texttt{mask}).
+
+All reported central values in this section are arithmetic means over repetitions (not medians); speedups are computed from mean partition times. Variability is reported with standard deviation.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{ll}
+        \toprule
+        Benchmark setting & Value \\
+        \midrule
+        Repetitions per configuration & 10 \\
+        Aggregation used in plots/tables & Mean over 10 runs \\
+        Variability metric & Standard deviation (\(\sigma\)) \\
+        Execution machine & Same machine for all runs: \texttt{node09} \\
+        \bottomrule
+    \end{tabular}
+    \caption{Methodology summary for \texttt{benchmark\_results.csv}.}
+    \label{tab:benchmark-method}
+\end{table}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.62\linewidth]{../img/stddev_partition_time.png}
+    \caption{Standard deviation of partition time (ms) across the 10 repetitions.}
+    \label{fig:stddev-partition-time}
+\end{figure}
+
 \subsection{Throughput}
 Figure~\ref{fig:throughput-vs-p} compares throughput over \texttt{P} for the three hash functions.
 \begin{figure}[H]
@@ -144,9 +193,9 @@ Figure~\ref{fig:throughput-vs-p} compares throughput over \texttt{P} for the thr
 
 The measured ordering is stable: \texttt{mask} is fastest, \texttt{xorshift} is second, \texttt{fmix32fold} is slowest. On average over \texttt{benchmark\_results.csv}, throughput is:
 \begin{itemize}
-    \item \texttt{plain\_novec}: $1.08 \times 10^9$ elems/s (\texttt{mask}), $6.81 \times 10^8$ elems/s (\texttt{xorshift}), $4.54 \times 10^8$ elems/s (\texttt{fmix32fold}),
-    \item \texttt{plain\_vec}: $1.20 \times 10^9$ elems/s (\texttt{mask}), $8.98 \times 10^8$ elems/s (\texttt{xorshift}), $7.97 \times 10^8$ elems/s (\texttt{fmix32fold}),
-    \item \texttt{avx2}: $1.36 \times 10^9$ elems/s (\texttt{mask} only).
+    \item \texttt{plain\_novec}: $1.09 \times 10^9$ elems/s (\texttt{mask}), $6.86 \times 10^8$ elems/s (\texttt{xorshift}), $4.55 \times 10^8$ elems/s (\texttt{fmix32fold}),
+    \item \texttt{plain\_vec}: $1.21 \times 10^9$ elems/s (\texttt{mask}), $8.98 \times 10^8$ elems/s (\texttt{xorshift}), $7.96 \times 10^8$ elems/s (\texttt{fmix32fold}),
+    \item \texttt{avx2}: $1.36 \times 10^9$ elems/s (\texttt{mask} only, AVX2-supported hash).
 \end{itemize}
 This reflects the arithmetic complexity of the hash: \texttt{mask} is a simple bit operation, \texttt{xorshift} adds only shift/XOR steps and \texttt{fmix32fold} adds 
 a stronger finalizer that includes 32-bit multiplications.
@@ -172,7 +221,7 @@ Figure~\ref{fig:partition-time-vs-p} shows partition time for each hash.
 \end{figure}
 
 Average partition time from \texttt{benchmark\_results.csv} is coherent with throughput. The impact of \texttt{P} (with fixed \texttt{N}) is not so visible, 
-rather than the impact of hash complexity.
+rather than the impact of hash complexity: the max/min ratio across \texttt{P} stays around 1.001--1.008 depending on kernel/hash.
 
 \subsection{Speedup}
 Figure~\ref{fig:speedup-vs-p} reports speedup over the scalar baseline (\texttt{plain\_novec}).
@@ -186,7 +235,7 @@ Figure~\ref{fig:speedup-vs-p} reports speedup over the scalar baseline (\texttt{
 \end{figure}
 
 For \texttt{xorshift} and \texttt{fmix32fold}, AVX2 is currently unsupported; speedup is therefore driven by \texttt{plain\_vec} only. 
-In the repeated benchmark, \texttt{plain\_vec} reaches about $1.32\times$ on \texttt{xorshift} and $1.76\times$ on \texttt{fmix32fold} versus \texttt{plain\_novec}.
+In the repeated benchmark, \texttt{plain\_vec} reaches about $1.31\times$ on \texttt{xorshift} and $1.75\times$ on \texttt{fmix32fold} versus \texttt{plain\_novec}.
 Table~\ref{tab:exec-summary} summarizes the \texttt{mask}-only repeated benchmark. Speedup is computed as:
 \[
 \mathrm{speedup(exec\_type)} = \frac{\overline{T}_{\texttt{plain\_novec}}}{\overline{T}_{\texttt{exec\_type}}}
@@ -196,16 +245,27 @@ Table~\ref{tab:exec-summary} summarizes the \texttt{mask}-only repeated benchmar
     \centering
     \begin{tabular}{lrrr}
         \toprule
-        \texttt{exec\_type} & \texttt{partition\_time} [s] & \texttt{throughput} [elems/s] & \texttt{speedup} \\
+        \texttt{exec\_type} & \texttt{partition\_time} [s] (mean $\pm \sigma$) & \texttt{throughput} [elems/s] (mean) & \texttt{speedup} \\
         \midrule
-        \texttt{plain\_novec} & 0.018672333 & 1076883683.042 & 1.0000 \\
-        \texttt{plain\_vec}   & 0.016631667 & 1204691892.527 & 1.1227 \\
-        \texttt{avx2}         & 0.014739778 & 1356894172.186 & 1.2668 \\
+        \texttt{plain\_novec} & $0.018373 \pm 0.000123$ & $1.089 \times 10^9$ & 1.0000 \\
+        \texttt{plain\_vec}   & $0.016536 \pm 0.000056$ & $1.210 \times 10^9$ & 1.1111 \\
+        \texttt{avx2}         & $0.014721 \pm 0.000058$ & $1.359 \times 10^9$ & 1.2481 \\
+        \midrule
+        \multicolumn{4}{l}{All executions of this benchmark batch were run on the same machine (\texttt{node09}).} \\
         \bottomrule
     \end{tabular}
-    \caption{Average performance for \texttt{mask} over repeated runs (\texttt{benchmark\_results.csv}).}
+    \caption{Mean performance and variability for \texttt{mask} over repeated runs (\texttt{benchmark\_results.csv}).}
     \label{tab:exec-summary}
 \end{table}
+
+\subsection{Limits analysis}
+The observed ranking (\texttt{mask} $>$ \texttt{xorshift} $>$ \texttt{fmix32fold} in absolute throughput) and speedups indicate different limiting factors across kernels.
+
+For \texttt{mask}, arithmetic intensity is minimal (load + bitwise AND + store), and measured SIMD gains are relatively modest (\(\approx 1.11\times\) for \texttt{plain\_vec}, \(\approx 1.25\times\) for \texttt{avx2} over \texttt{plain\_novec}). This is consistent with a kernel that is closer to memory-bound behavior: computation is cheap, so memory traffic and write bandwidth limit the maximum gain.
+
+For \texttt{xorshift}, extra shift/XOR instructions increase compute work and still vectorize well, giving a larger gain (\(\approx 1.31\times\)) but still below \texttt{fmix32fold}. For \texttt{fmix32fold}, two 32-bit multiplications and additional mixing steps raise arithmetic cost substantially; scalar throughput is lowest, but SIMD has more compute to amortize and reaches the highest relative gain (\(\approx 1.75\times\)). So, increasing hash complexity lowers absolute throughput but can increase relative SIMD speedup when the kernel becomes more compute-bound.
+
+Fixed overheads are also visible at smaller \texttt{N}: from \texttt{results/results.csv} for \texttt{mask}, throughput increases from about \(9.95\times 10^8\) elems/s at \texttt{N}=$10^5$ to \(1.09\times 10^9\) at \texttt{N}=$10^7$ in \texttt{plain\_novec} (similar trend in \texttt{plain\_vec} and \texttt{avx2}). This supports the interpretation that setup and non-kernel costs matter more for small inputs and are progressively amortized.
 
 
 \section{Conclusions}
@@ -213,7 +273,7 @@ The experiments confirm that partition performance is shaped by both algorithmic
 
 Hash selection has the strongest effect on absolute cost: \texttt{mask} is consistently the fastest, \texttt{xorshift} is intermediate, and \texttt{fmix32fold} is the most expensive due to stronger mixing.
 
-SIMD still helps, but gains are not uniform. In the repeated benchmark, \texttt{plain\_vec} improves over \texttt{plain\_novec} by about $1.12\times$ on \texttt{mask}, $1.32\times$ on \texttt{xorshift}, and $1.76\times$ on \texttt{fmix32fold}. The manual AVX2 kernel gives the best \texttt{mask} throughput (\(\approx 1.36 \times 10^9\) elems/s), with about $1.27\times$ speedup over scalar.
+ SIMD still helps, but gains are not uniform. In the repeated benchmark, \texttt{plain\_vec} improves over \texttt{plain\_novec} by about $1.11\times$ on \texttt{mask}, $1.31\times$ on \texttt{xorshift}, and $1.75\times$ on \texttt{fmix32fold}. The manual AVX2 kernel gives the best \texttt{mask} throughput (\(\approx 1.36 \times 10^9\) elems/s), with about $1.25\times$ speedup over scalar.
 
 The number of partitions \texttt{P} still affects runtime, but in these results its impact is generally smaller than the choice of hash and execution kernel. At the same time, AVX2 support is currently limited to \texttt{mask}, so the fastest path is not yet available for the other hash functions.
 
