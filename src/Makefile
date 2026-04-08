@@ -9,9 +9,9 @@ LIBS           		=
 TARGETS 			= generate_datasets plain_novec plain_vec avx2
 LIB_SOURCES    		= lib/dataset.cpp lib/timing.cpp lib/checksum.cpp lib/results.cpp lib/partition.cpp lib/config.cpp
 AVX_SOURCES 		= lib/partition_avx2.cpp
-GCC_VEC_REPORT  	= results/gcc_vec_report.txt
-GCC_NOVEC_REPORT	= results/gcc_novec_report.txt
-GCC_AVX2_REPORT 	= results/gcc_avx2_report.txt
+GCC_VEC_REPORT  	= compilation/gcc_vec_report.txt
+GCC_NOVEC_REPORT	= compilation/gcc_novec_report.txt
+GCC_AVX2_REPORT 	= compilation/gcc_avx2_report.txt
 RESULTS_FILES		=
 LOG_FILES			= out/*.log err/*.log
 

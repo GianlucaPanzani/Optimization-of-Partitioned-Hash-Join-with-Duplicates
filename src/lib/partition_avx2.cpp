@@ -6,11 +6,7 @@
 
 
 
-void partition_with_mask_hashing_avx2(const std::vector<uint64_t>& keys, std::vector<uint32_t>& part_id, uint32_t P) {
-    // P validation check
-    if (P == 0 || (P & (P - 1)) != 0) {
-        throw std::invalid_argument("P must be a power of two");
-    }
+void partition_with_mask_hashing_avx2(const uint64_t* in, uint32_t* out, uint32_t P, std::size_t N) {
 
     // Build the mask vector to be applied to 4 progressive uint64_t keys
     const uint64_t P_mask = static_cast<uint64_t>(P - 1);
@@ -19,14 +15,10 @@ void partition_with_mask_hashing_avx2(const std::vector<uint64_t>& keys, std::ve
     // Select 32-bit lanes 0,2,4,6 = low 32 bits of each 64-bit lane
     const __m256i perm_idx = _mm256_setr_epi32(0, 2, 4, 6, 0, 0, 0, 0);
 
-    const std::size_t n_keys = keys.size();
-    const uint64_t* in = keys.data();
-    uint32_t* out = part_id.data();
-
     // For each step are processed 4 uint64_t keys (= 1 lane)
     std::size_t i = 0;
     const std::size_t simd_width = 4;
-    for (; i + simd_width <= n_keys; i += simd_width) {
+    for (; i + simd_width <= N; i += simd_width) {
         // Build the vector of 4 progressive uint64_t keys (from i to i+3)
         const __m256i key_vec = _mm256_loadu_si256(reinterpret_cast<const __m256i*>(in + i));
 
@@ -41,7 +33,7 @@ void partition_with_mask_hashing_avx2(const std::vector<uint64_t>& keys, std::ve
     }
     
     // Cycle done for the last possible positions remained (< 4)
-    for (; i < n_keys; ++i) {
+    for (; i < N; ++i) {
         out[i] = static_cast<uint32_t>(in[i] & P_mask);
     }
 }

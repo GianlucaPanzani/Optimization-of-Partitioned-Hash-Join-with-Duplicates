@@ -128,11 +128,11 @@ int main(int argc, char** argv) {
         }
         #ifdef ENABLE_AVX2
             t0 = get_time();
-            partition_with_mask_hashing_avx2(R.keys, R_partitioned, args.P);
+            partition_with_mask_hashing_avx2(R.keys.data(), R_partitioned.data(), args.P, R.keys.size());
             t1 = get_time();
             partition_time = get_diff(t0, t1, n_digits);
             t0 = get_time();
-            partition_with_mask_hashing_avx2(S.keys, S_partitioned, args.P);
+            partition_with_mask_hashing_avx2(S.keys.data(), S_partitioned.data(), args.P, S.keys.size());
             t1 = get_time();
             partition_time += get_diff(t0, t1, n_digits);
         #else
