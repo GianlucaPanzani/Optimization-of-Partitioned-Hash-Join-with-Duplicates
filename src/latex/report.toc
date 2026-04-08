@@ -1,11 +1,15 @@
 \contentsline {section}{\numberline {1}Implementation}{1}{section.2}%
 \contentsline {subsection}{\numberline {1.1}Execution Variants}{1}{subsection.3}%
 \contentsline {subsection}{\numberline {1.2}Grid Search approach}{1}{subsection.4}%
-\contentsline {section}{\numberline {2}SIMD Optimization}{2}{section.5}%
-\contentsline {subsection}{\numberline {2.1}Compiler evidence of vectorization}{2}{subsection.6}%
-\contentsline {subsection}{\numberline {2.2}AVX2 mask hash implementation}{2}{subsection.7}%
-\contentsline {section}{\numberline {3}Results Analysis}{3}{section.11}%
-\contentsline {subsection}{\numberline {3.1}Throughput}{3}{subsection.12}%
-\contentsline {subsection}{\numberline {3.2}Partition-time}{4}{subsection.14}%
-\contentsline {subsection}{\numberline {3.3}Speedup}{4}{subsection.16}%
-\contentsline {section}{\numberline {4}Conclusions}{5}{section.19}%
+\contentsline {section}{\numberline {2}Hash Functions}{2}{section.5}%
+\contentsline {subsection}{\numberline {2.1}Mask hashing}{2}{subsection.6}%
+\contentsline {subsection}{\numberline {2.2}Xorshift hashing}{2}{subsection.7}%
+\contentsline {subsection}{\numberline {2.3}Fold32 + fmix32 hashing}{2}{subsection.8}%
+\contentsline {section}{\numberline {3}SIMD Optimization}{2}{section.9}%
+\contentsline {subsection}{\numberline {3.1}Compiler evidence of vectorization}{2}{subsection.10}%
+\contentsline {subsection}{\numberline {3.2}AVX2 mask hash implementation}{3}{subsection.11}%
+\contentsline {section}{\numberline {4}Results Analysis}{3}{section.15}%
+\contentsline {subsection}{\numberline {4.1}Throughput}{3}{subsection.16}%
+\contentsline {subsection}{\numberline {4.2}Partition-time}{4}{subsection.18}%
+\contentsline {subsection}{\numberline {4.3}Speedup}{4}{subsection.20}%
+\contentsline {section}{\numberline {5}Conclusions}{5}{section.23}%
