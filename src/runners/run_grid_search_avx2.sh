@@ -1,6 +1,6 @@
 #!/bin/bash
 #SBATCH --job-name=avx2_with_timeout_6min
-#SBATCH --time=00:07:00
+#SBATCH --time=00:10:00
 #SBATCH --nodes=1
 #SBATCH --partition=gpu-shared
 #SBATCH --output=out/slurm-%j-avx2.log
