@@ -1,0 +1,122 @@
+[1/120] run=1/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.683e-05 THROUGHPUT[elems/s]=1.18835e+09
+[2/120] run=1/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[3/120] run=1/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[4/120] run=1/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016493 THROUGHPUT[elems/s]=1.21264e+09
+[5/120] run=1/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[6/120] run=1/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[7/120] run=1/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00158762 THROUGHPUT[elems/s]=1.25975e+09
+[8/120] run=1/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[9/120] run=1/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[10/120] run=1/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0147144 THROUGHPUT[elems/s]=1.35921e+09
+[11/120] run=1/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[12/120] run=1/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[13/120] run=2/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.71e-05 THROUGHPUT[elems/s]=1.16959e+09
+[14/120] run=2/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[15/120] run=2/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[16/120] run=2/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00017062 THROUGHPUT[elems/s]=1.1722e+09
+[17/120] run=2/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[18/120] run=2/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[19/120] run=2/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00153657 THROUGHPUT[elems/s]=1.3016e+09
+[20/120] run=2/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[21/120] run=2/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[22/120] run=2/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.014701 THROUGHPUT[elems/s]=1.36045e+09
+[23/120] run=2/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[24/120] run=2/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[25/120] run=3/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.678e-05 THROUGHPUT[elems/s]=1.1919e+09
+[26/120] run=3/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[27/120] run=3/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[28/120] run=3/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00018978 THROUGHPUT[elems/s]=1.05385e+09
+[29/120] run=3/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[30/120] run=3/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[31/120] run=3/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.001561 THROUGHPUT[elems/s]=1.28123e+09
+[32/120] run=3/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[33/120] run=3/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[34/120] run=3/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0146846 THROUGHPUT[elems/s]=1.36198e+09
+[35/120] run=3/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[36/120] run=3/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[37/120] run=4/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.667e-05 THROUGHPUT[elems/s]=1.19976e+09
+[38/120] run=4/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[39/120] run=4/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[40/120] run=4/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016856 THROUGHPUT[elems/s]=1.18652e+09
+[41/120] run=4/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[42/120] run=4/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[43/120] run=4/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.0015361 THROUGHPUT[elems/s]=1.302e+09
+[44/120] run=4/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[45/120] run=4/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[46/120] run=4/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0147819 THROUGHPUT[elems/s]=1.353e+09
+[47/120] run=4/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[48/120] run=4/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[49/120] run=5/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.493e-05 THROUGHPUT[elems/s]=1.33958e+09
+[50/120] run=5/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[51/120] run=5/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[52/120] run=5/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016273 THROUGHPUT[elems/s]=1.22903e+09
+[53/120] run=5/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[54/120] run=5/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[55/120] run=5/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00154886 THROUGHPUT[elems/s]=1.29127e+09
+[56/120] run=5/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[57/120] run=5/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[58/120] run=5/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0147021 THROUGHPUT[elems/s]=1.36035e+09
+[59/120] run=5/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[60/120] run=5/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[61/120] run=6/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.951e-05 THROUGHPUT[elems/s]=1.02512e+09
+[62/120] run=6/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[63/120] run=6/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[64/120] run=6/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00015791 THROUGHPUT[elems/s]=1.26654e+09
+[65/120] run=6/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[66/120] run=6/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[67/120] run=6/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00153591 THROUGHPUT[elems/s]=1.30216e+09
+[68/120] run=6/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[69/120] run=6/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[70/120] run=6/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0146345 THROUGHPUT[elems/s]=1.36663e+09
+[71/120] run=6/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[72/120] run=6/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[73/120] run=7/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.391e-05 THROUGHPUT[elems/s]=1.43781e+09
+[74/120] run=7/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[75/120] run=7/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[76/120] run=7/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00017629 THROUGHPUT[elems/s]=1.13449e+09
+[77/120] run=7/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[78/120] run=7/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[79/120] run=7/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00155683 THROUGHPUT[elems/s]=1.28466e+09
+[80/120] run=7/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[81/120] run=7/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[82/120] run=7/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0147236 THROUGHPUT[elems/s]=1.35836e+09
+[83/120] run=7/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[84/120] run=7/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[85/120] run=8/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.754e-05 THROUGHPUT[elems/s]=1.14025e+09
+[86/120] run=8/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[87/120] run=8/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[88/120] run=8/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00015929 THROUGHPUT[elems/s]=1.25557e+09
+[89/120] run=8/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[90/120] run=8/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[91/120] run=8/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00153739 THROUGHPUT[elems/s]=1.30091e+09
+[92/120] run=8/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[93/120] run=8/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[94/120] run=8/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0145259 THROUGHPUT[elems/s]=1.37685e+09
+[95/120] run=8/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[96/120] run=8/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[97/120] run=9/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.746e-05 THROUGHPUT[elems/s]=1.14548e+09
+[98/120] run=9/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[99/120] run=9/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[100/120] run=9/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016268 THROUGHPUT[elems/s]=1.22941e+09
+[101/120] run=9/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[102/120] run=9/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[103/120] run=9/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00158444 THROUGHPUT[elems/s]=1.26228e+09
+[104/120] run=9/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[105/120] run=9/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[106/120] run=9/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.014798 THROUGHPUT[elems/s]=1.35154e+09
+[107/120] run=9/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[108/120] run=9/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[109/120] run=10/10 N=10000 P=512 HASH=mask PARTITION_TIME[s]=1.611e-05 THROUGHPUT[elems/s]=1.24146e+09
+[110/120] run=10/10 N=10000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[111/120] run=10/10 N=10000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[112/120] run=10/10 N=100000 P=512 HASH=mask PARTITION_TIME[s]=0.00016246 THROUGHPUT[elems/s]=1.23107e+09
+[113/120] run=10/10 N=100000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[114/120] run=10/10 N=100000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[115/120] run=10/10 N=1000000 P=512 HASH=mask PARTITION_TIME[s]=0.00154012 THROUGHPUT[elems/s]=1.2986e+09
+[116/120] run=10/10 N=1000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[117/120] run=10/10 N=1000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+[118/120] run=10/10 N=10000000 P=512 HASH=mask PARTITION_TIME[s]=0.0147165 THROUGHPUT[elems/s]=1.35902e+09
+[119/120] run=10/10 N=10000000 P=512 HASH=xorshift --> The hash function xorshift is not supported for the execution type avx2
+[120/120] run=10/10 N=10000000 P=512 HASH=fmix32fold --> The hash function fmix32fold is not supported for the execution type avx2
+
+All jobs submitted.
