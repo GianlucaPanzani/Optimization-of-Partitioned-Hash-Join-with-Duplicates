@@ -224,8 +224,8 @@ main.cpp:74:45: missed: not vectorized: statement can throw an exception: S = lo
 main.cpp:74:45: missed: splitting region at control altering definition _64 = get_time ();
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_217, _165);
 main.cpp:75:18: missed: not vectorized: statement can throw an exception: _64 = get_time ();
-main.cpp:75:18: missed: splitting region at control altering definition _66 = get_diff (_50, _64, 5);
-main.cpp:76:17: missed: not vectorized: statement can throw an exception: _66 = get_diff (_50, _64, 5);
+main.cpp:75:18: missed: splitting region at control altering definition _66 = get_diff (_50, _64, 8);
+main.cpp:76:17: missed: not vectorized: statement can throw an exception: _66 = get_diff (_50, _64, 8);
 main.cpp:76:17: missed: splitting region at control altering definition _95 = std::basic_ostream<char>::_M_insert<double> (&cout, _66);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "LOADING_TIME[s]=", 16);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _95 = std::basic_ostream<char>::_M_insert<double> (&cout, _66);
@@ -270,15 +270,15 @@ main.cpp:113:26: missed: not vectorized: statement can throw an exception: _85 =
 main.cpp:113:26: missed: splitting region at control altering definition _90 = get_time ();
 main.cpp:114:46: missed: not vectorized: statement can throw an exception: partition_with_fmix32fold_hashing (_235, _233, _14, _238);
 main.cpp:115:26: missed: not vectorized: statement can throw an exception: _90 = get_time ();
-main.cpp:115:26: missed: splitting region at control altering definition _92 = get_diff (_85, _90, 5);
-main.cpp:116:38: missed: not vectorized: statement can throw an exception: _92 = get_diff (_85, _90, 5);
+main.cpp:115:26: missed: splitting region at control altering definition _92 = get_diff (_85, _90, 8);
+main.cpp:116:38: missed: not vectorized: statement can throw an exception: _92 = get_diff (_85, _90, 8);
 main.cpp:116:38: missed: splitting region at control altering definition _94 = get_time ();
 main.cpp:117:26: missed: not vectorized: statement can throw an exception: _94 = get_time ();
 main.cpp:117:26: missed: splitting region at control altering definition _98 = get_time ();
 main.cpp:118:46: missed: not vectorized: statement can throw an exception: partition_with_fmix32fold_hashing (_241, _239, _15, _244);
 main.cpp:119:26: missed: not vectorized: statement can throw an exception: _98 = get_time ();
-main.cpp:119:26: missed: splitting region at control altering definition _100 = get_diff (_94, _98, 5);
-main.cpp:120:39: missed: not vectorized: statement can throw an exception: _100 = get_diff (_94, _98, 5);
+main.cpp:119:26: missed: splitting region at control altering definition _100 = get_diff (_94, _98, 8);
+main.cpp:120:39: missed: not vectorized: statement can throw an exception: _100 = get_diff (_94, _98, 8);
 main.cpp:120:39: missed: splitting region at dominance boundary bb156
 main.cpp:120:28: missed: splitting region at dominance boundary bb154
 main.cpp:120:28: missed: splitting region at dominance boundary bb152
@@ -293,15 +293,15 @@ main.cpp:104:26: missed: not vectorized: statement can throw an exception: _103 
 main.cpp:104:26: missed: splitting region at control altering definition _109 = get_time ();
 main.cpp:105:44: missed: not vectorized: statement can throw an exception: partition_with_xorshift_hashing (_222, _43, _12, _225);
 main.cpp:106:26: missed: not vectorized: statement can throw an exception: _109 = get_time ();
-main.cpp:106:26: missed: splitting region at control altering definition _111 = get_diff (_103, _109, 5);
-main.cpp:107:38: missed: not vectorized: statement can throw an exception: _111 = get_diff (_103, _109, 5);
+main.cpp:106:26: missed: splitting region at control altering definition _111 = get_diff (_103, _109, 8);
+main.cpp:107:38: missed: not vectorized: statement can throw an exception: _111 = get_diff (_103, _109, 8);
 main.cpp:107:38: missed: splitting region at control altering definition _113 = get_time ();
 main.cpp:108:26: missed: not vectorized: statement can throw an exception: _113 = get_time ();
 main.cpp:108:26: missed: splitting region at control altering definition _117 = get_time ();
 main.cpp:109:44: missed: not vectorized: statement can throw an exception: partition_with_xorshift_hashing (_228, _226, _13, _231);
 main.cpp:110:26: missed: not vectorized: statement can throw an exception: _117 = get_time ();
-main.cpp:110:26: missed: splitting region at control altering definition _119 = get_diff (_113, _117, 5);
-main.cpp:111:39: missed: not vectorized: statement can throw an exception: _119 = get_diff (_113, _117, 5);
+main.cpp:110:26: missed: splitting region at control altering definition _119 = get_diff (_113, _117, 8);
+main.cpp:111:39: missed: not vectorized: statement can throw an exception: _119 = get_diff (_113, _117, 8);
 main.cpp:111:39: missed: splitting region at dominance boundary bb138
 main.cpp:111:28: missed: splitting region at dominance boundary bb136
 main.cpp:111:28: missed: splitting region at dominance boundary bb134
@@ -316,15 +316,15 @@ main.cpp:95:26: missed: not vectorized: statement can throw an exception: _122 =
 main.cpp:95:26: missed: splitting region at control altering definition _127 = get_time ();
 main.cpp:96:40: missed: not vectorized: statement can throw an exception: partition_with_mask_hashing (_104, _106, _10, _132);
 main.cpp:97:26: missed: not vectorized: statement can throw an exception: _127 = get_time ();
-main.cpp:97:26: missed: splitting region at control altering definition _129 = get_diff (_122, _127, 5);
-main.cpp:98:38: missed: not vectorized: statement can throw an exception: _129 = get_diff (_122, _127, 5);
+main.cpp:97:26: missed: splitting region at control altering definition _129 = get_diff (_122, _127, 8);
+main.cpp:98:38: missed: not vectorized: statement can throw an exception: _129 = get_diff (_122, _127, 8);
 main.cpp:98:38: missed: splitting region at control altering definition _131 = get_time ();
 main.cpp:99:26: missed: not vectorized: statement can throw an exception: _131 = get_time ();
 main.cpp:99:26: missed: splitting region at control altering definition _137 = get_time ();
 main.cpp:100:40: missed: not vectorized: statement can throw an exception: partition_with_mask_hashing (_60, _124, _11, _51);
 main.cpp:101:26: missed: not vectorized: statement can throw an exception: _137 = get_time ();
-main.cpp:101:26: missed: splitting region at control altering definition _139 = get_diff (_131, _137, 5);
-main.cpp:102:39: missed: not vectorized: statement can throw an exception: _139 = get_diff (_131, _137, 5);
+main.cpp:101:26: missed: splitting region at control altering definition _139 = get_diff (_131, _137, 8);
+main.cpp:102:39: missed: not vectorized: statement can throw an exception: _139 = get_diff (_131, _137, 8);
 main.cpp:102:39: missed: splitting region at dominance boundary bb175
 main.cpp:102:28: missed: splitting region at control altering definition _254 = std::basic_ostream<char>::_M_insert<double> (&cout, partition_time_21);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "PARTITION_TIME[s]=", 18);
@@ -363,8 +363,8 @@ main.cpp:156:42: missed: splitting region at control altering definition _547 = 
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_259, _261);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/bits/new_allocator.h:158:26: missed: statement clobbers memory: operator delete (_256, _258);
 main.cpp:157:18: missed: not vectorized: statement can throw an exception: _157 = get_time ();
-main.cpp:157:18: missed: splitting region at control altering definition _159 = get_diff (_146, _157, 5);
-main.cpp:158:17: missed: not vectorized: statement can throw an exception: _159 = get_diff (_146, _157, 5);
+main.cpp:157:18: missed: splitting region at control altering definition _159 = get_diff (_146, _157, 8);
+main.cpp:158:17: missed: not vectorized: statement can throw an exception: _159 = get_diff (_146, _157, 8);
 main.cpp:158:17: missed: splitting region at control altering definition _262 = std::basic_ostream<char>::_M_insert<double> (&cout, _159);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "CHECKSUM_TIME[s]=", 17);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _262 = std::basic_ostream<char>::_M_insert<double> (&cout, _159);
@@ -383,10 +383,10 @@ main.cpp:168:43: missed: not vectorized: statement can throw an exception: std::
 main.cpp:168:25: missed: not vectorized: statement can throw an exception: write_binary_dataset<unsigned int> (&D.109353, &S_partitioned);
 main.cpp:168:43: missed: statement clobbers memory: std::filesystem::__cxx11::path::~path (&D.109353);
 main.cpp:169:30: missed: not vectorized: statement can throw an exception: _178 = get_time ();
-main.cpp:169:30: missed: splitting region at control altering definition _180 = get_diff (_162, _178, 5);
-main.cpp:170:17: missed: not vectorized: statement can throw an exception: _180 = get_diff (_162, _178, 5);
-main.cpp:170:17: missed: splitting region at control altering definition _182 = get_diff (_50, _178, 5);
-main.cpp:171:27: missed: not vectorized: statement can throw an exception: _182 = get_diff (_50, _178, 5);
+main.cpp:169:30: missed: splitting region at control altering definition _180 = get_diff (_162, _178, 8);
+main.cpp:170:17: missed: not vectorized: statement can throw an exception: _180 = get_diff (_162, _178, 8);
+main.cpp:170:17: missed: splitting region at control altering definition _182 = get_diff (_50, _178, 8);
+main.cpp:171:27: missed: not vectorized: statement can throw an exception: _182 = get_diff (_50, _178, 8);
 main.cpp:171:27: missed: splitting region at control altering definition _263 = std::basic_ostream<char>::_M_insert<double> (&cout, _180);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:620:18: missed: not vectorized: statement can throw an exception: std::__ostream_insert<char, std::char_traits<char> > (&cout, "SAVE_TIME[s]=", 13);
 /opt/ohpc/pub/compiler/gcc/12.2.0/include/c++/12.2.0/ostream:221:25: missed: not vectorized: statement can throw an exception: _263 = std::basic_ostream<char>::_M_insert<double> (&cout, _180);

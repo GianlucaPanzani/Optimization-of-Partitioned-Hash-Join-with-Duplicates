@@ -66,7 +66,7 @@ int main(int argc, char** argv) {
 
     std::vector<std::uint32_t> R_partitioned(args.N), S_partitioned(args.N);
     double t0_global, t1_global, global_time, t0, t1, t, partition_time;
-    const int n_digits = 5;
+    const int n_digits = 8;
 
     // Loading datasets
     t0 = t0_global = get_time();
