@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  8 APR 2026 15:55
+This is pdfTeX, Version 3.141592653-2.6-1.40.27 (TeX Live 2025) (preloaded format=pdflatex 2025.12.28)  8 APR 2026 17:48
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -342,14 +342,14 @@ LaTeX Font Info:    External font `cmex10' loaded for size
 
 
 [1]
-Overfull \hbox (4.98592pt too wide) in paragraph at lines 44--46
+Overfull \hbox (4.98592pt too wide) in paragraph at lines 44--45
 []\OT1/cmr/m/n/10.95 The ex-e-cutable tar-gets can be built with the com-mands:
  \OT1/cmtt/m/n/10.95 make plain[]novec\OT1/cmr/m/n/10.95 , \OT1/cmtt/m/n/10.95 
 make plain[]vec
  []
 
 
-Overfull \hbox (14.09079pt too wide) in paragraph at lines 83--85
+Overfull \hbox (14.09079pt too wide) in paragraph at lines 67--69
 []\OT1/cmr/m/n/10.95 The search space is de-fined in \OT1/cmtt/m/n/10.95 runner
 s/grid[]config.sh\OT1/cmr/m/n/10.95 : \OT1/cmtt/m/n/10.95 N $\OMS/cmsy/m/n/10.9
 5 2 f\OT1/cmr/m/n/10.95 10[]\OML/cmm/m/it/10.95 ; \OT1/cmr/m/n/10.95 10[]\OML/c
@@ -362,7 +362,7 @@ m/it/10.95 ; [] ; \OT1/cmr/m/n/10.95 4096\OMS/cmsy/m/n/10.95 g$
 
 [1{/usr/local/texlive/2025/texmf-dist/fonts/enc/dvips/cm-super/cm-super-ts1.enc
 }]
-Overfull \hbox (3.25061pt too wide) in paragraph at lines 114--116
+Overfull \hbox (3.25061pt too wide) in paragraph at lines 97--99
 \OT1/cmtt/m/n/10.95 plain[]vec \OT1/cmr/m/n/10.95 and \OT1/cmtt/m/n/10.95 avx2 
 \OT1/cmr/m/n/10.95 are com-piled with: \OT1/cmtt/m/n/10.95 -fopt-info-vec-optim
 ized -fopt-info-vec-missed\OT1/cmr/m/n/10.95 ,
@@ -371,62 +371,68 @@ ized -fopt-info-vec-missed\OT1/cmr/m/n/10.95 ,
 
 
 [2]
-<../img/throughput_vs_P_mask.png, id=107, 570.933pt x 354.123pt>
+<../img/throughput_vs_P_mask.png, id=109, 570.933pt x 354.123pt>
 File: ../img/throughput_vs_P_mask.png Graphic file (type png)
 <use ../img/throughput_vs_P_mask.png>
-Package pdftex.def Info: ../img/throughput_vs_P_mask.png  used on input line 15
-5.
+Package pdftex.def Info: ../img/throughput_vs_P_mask.png  used on input line 13
+8.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/throughput_vs_P_xorshift.png, id=109, 570.933pt x 354.123pt>
+<../img/throughput_vs_P_xorshift.png, id=111, 570.933pt x 354.123pt>
 File: ../img/throughput_vs_P_xorshift.png Graphic file (type png)
 <use ../img/throughput_vs_P_xorshift.png>
 Package pdftex.def Info: ../img/throughput_vs_P_xorshift.png  used on input lin
-e 156.
+e 139.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/throughput_vs_P_fmix32fold.png, id=110, 570.933pt x 354.123pt>
+<../img/throughput_vs_P_fmix32fold.png, id=112, 570.933pt x 354.123pt>
 File: ../img/throughput_vs_P_fmix32fold.png Graphic file (type png)
 <use ../img/throughput_vs_P_fmix32fold.png>
 Package pdftex.def Info: ../img/throughput_vs_P_fmix32fold.png  used on input l
-ine 157.
+ine 140.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
+<../img/throughput_vs_N_mask.png, id=113, 570.933pt x 354.123pt>
+File: ../img/throughput_vs_N_mask.png Graphic file (type png)
+<use ../img/throughput_vs_N_mask.png>
+Package pdftex.def Info: ../img/throughput_vs_N_mask.png  used on input line 15
+6.
+(pdftex.def)             Requested size: 203.83417pt x 126.4305pt.
 
 
 [3 <../img/throughput_vs_P_mask.png> <../img/throughput_vs_P_xorshift.png> <../
-img/throughput_vs_P_fmix32fold.png>]
-<../img/partition_time_vs_P_mask.png, id=123, 570.933pt x 354.123pt>
+img/throughput_vs_P_fmix32fold.png> <../img/throughput_vs_N_mask.png>]
+<../img/partition_time_vs_P_mask.png, id=126, 570.933pt x 354.123pt>
 File: ../img/partition_time_vs_P_mask.png Graphic file (type png)
 <use ../img/partition_time_vs_P_mask.png>
 Package pdftex.def Info: ../img/partition_time_vs_P_mask.png  used on input lin
-e 175.
+e 167.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/partition_time_vs_P_xorshift.png, id=124, 570.933pt x 354.123pt>
+<../img/partition_time_vs_P_xorshift.png, id=127, 570.933pt x 354.123pt>
 File: ../img/partition_time_vs_P_xorshift.png Graphic file (type png)
 <use ../img/partition_time_vs_P_xorshift.png>
 Package pdftex.def Info: ../img/partition_time_vs_P_xorshift.png  used on input
- line 176.
+ line 168.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/partition_time_vs_P_fmix32fold.png, id=125, 570.933pt x 354.123pt>
+<../img/partition_time_vs_P_fmix32fold.png, id=128, 570.933pt x 354.123pt>
 File: ../img/partition_time_vs_P_fmix32fold.png Graphic file (type png)
 <use ../img/partition_time_vs_P_fmix32fold.png>
 Package pdftex.def Info: ../img/partition_time_vs_P_fmix32fold.png  used on inp
-ut line 177.
+ut line 169.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/speedup_vs_P_mask.png, id=127, 570.933pt x 354.123pt>
+<../img/speedup_vs_P_mask.png, id=130, 570.933pt x 354.123pt>
 File: ../img/speedup_vs_P_mask.png Graphic file (type png)
 <use ../img/speedup_vs_P_mask.png>
-Package pdftex.def Info: ../img/speedup_vs_P_mask.png  used on input line 189.
+Package pdftex.def Info: ../img/speedup_vs_P_mask.png  used on input line 181.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/speedup_vs_P_xorshift.png, id=128, 570.933pt x 354.123pt>
+<../img/speedup_vs_P_xorshift.png, id=131, 570.933pt x 354.123pt>
 File: ../img/speedup_vs_P_xorshift.png Graphic file (type png)
 <use ../img/speedup_vs_P_xorshift.png>
 Package pdftex.def Info: ../img/speedup_vs_P_xorshift.png  used on input line 1
-90.
+82.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
-<../img/speedup_vs_P_fmix32fold.png, id=129, 570.933pt x 354.123pt>
+<../img/speedup_vs_P_fmix32fold.png, id=132, 570.933pt x 354.123pt>
 File: ../img/speedup_vs_P_fmix32fold.png Graphic file (type png)
 <use ../img/speedup_vs_P_fmix32fold.png>
 Package pdftex.def Info: ../img/speedup_vs_P_fmix32fold.png  used on input line
- 191.
+ 183.
 (pdftex.def)             Requested size: 144.95303pt x 89.9084pt.
 
 
@@ -439,17 +445,21 @@ ng> <../img/partition_time_vs_P_fmix32fold.png> <../img/speedup_vs_P_mask.png>
 LaTeX2e <2024-11-01> patch level 2
 L3 programming layer <2025-01-18>
  ***********
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
 Package rerunfilecheck Info: File `report.out' has not changed.
-(rerunfilecheck)             Checksum: 9A235586FCD9C6C8658A46AE93E40F35;2107.
+(rerunfilecheck)             Checksum: 281AF05FB0560253D648F97A9888F6D6;2137.
  ) 
 Here is how much of TeX's memory you used:
- 9201 strings out of 473190
- 144779 string characters out of 5715799
- 552277 words of memory out of 5000000
- 32337 multiletter control sequences out of 15000+600000
+ 9210 strings out of 473190
+ 145098 string characters out of 5715799
+ 552407 words of memory out of 5000000
+ 32345 multiletter control sequences out of 15000+600000
  564209 words of font info for 54 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 75i,9n,79p,432b,583s stack positions out of 10000i,1000n,20000p,200000b,200000s
+ 75i,9n,79p,432b,590s stack positions out of 10000i,1000n,20000p,200000b,200000s
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx10.pfb
 ></usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pfb>
 </usr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmmi10.pfb><
@@ -459,10 +469,10 @@ sr/local/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr
 cal/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmsy10.pfb></usr/loc
 al/texlive/2025/texmf-dist/fonts/type1/public/amsfonts/cm/cmtt10.pfb></usr/loca
 l/texlive/2025/texmf-dist/fonts/type1/public/cm-super/sfrm1095.pfb>
-Output written on report.pdf (7 pages, 330486 bytes).
+Output written on report.pdf (7 pages, 350234 bytes).
 PDF statistics:
- 199 PDF objects out of 1000 (max. 8388607)
- 152 compressed objects within 2 object streams
- 31 named destinations out of 1000 (max. 500000)
- 166 words of extra memory for PDF output out of 10000 (max. 10000000)
+ 202 PDF objects out of 1000 (max. 8388607)
+ 153 compressed objects within 2 object streams
+ 32 named destinations out of 1000 (max. 500000)
+ 171 words of extra memory for PDF output out of 10000 (max. 10000000)
 

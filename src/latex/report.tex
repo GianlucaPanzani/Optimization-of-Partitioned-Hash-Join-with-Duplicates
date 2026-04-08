@@ -42,22 +42,6 @@ The codebase provides a reproducible benchmarking pipeline to compare three exec
 and applies the same high-level algorithm but uses different optimization strategies.
 
 The executable targets can be built with the commands: \texttt{make plain\_novec}, \texttt{make plain\_vec} and \texttt{make avx2}. 
-The corresponding compiler invocations defined in the Makefile are:
-\begin{verbatim}
-g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -fno-tree-vectorize \
-    -o plain_novec main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
-    lib/results.cpp lib/partition.cpp lib/config.cpp
-
-g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -mavx2 \
-    -fopt-info-vec-optimized -fopt-info-vec-missed \
-    -o plain_vec main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
-    lib/results.cpp lib/partition.cpp lib/config.cpp
-
-g++ -std=c++17 -Wall -Wextra -I. -O3 -march=native -mavx2 \
-    -fopt-info-vec-optimized -fopt-info-vec-missed -DENABLE_AVX2 \
-    -o avx2 main.cpp lib/dataset.cpp lib/timing.cpp lib/checksum.cpp \
-    lib/results.cpp lib/partition.cpp lib/config.cpp lib/partition_avx2.cpp
-\end{verbatim}
 
 Executing the programs as defined in the \texttt{README.md} file, they receive the same command-line arguments, which include:
 \begin{itemize}
@@ -95,15 +79,14 @@ An important implementation detail is that \texttt{compute\_partitions\_avx2} cu
 
 This design makes experiments reproducible and auditable: build flags, execution logs, and vectorization diagnostics are persisted and tied to each benchmark batch.
 
-
-\section{Hash Functions}
-\subsection{Mask hashing}
+\subsection{Hash Functions}
+\subsubsection{Mask hashing}
 This is the simplest mapping. It does not really mix the bits of the key: it just keeps the lowest bits by applying a bitwise AND with P - 1.
 So, logically, it is just a bit selection operation: the partition id is obtained from the least significant bits of the input key.
-\subsection{Xorshift hashing}
+\subsubsection{Xorshift hashing}
 This function performs a sequence of right shifts and XORs on the 64-bit key.
 The idea is to spread information from higher bits into lower bits, so that the final low bits used for partitioning depend on more than just the original least significant bits.
-\subsection{Fold32 + fmix32 hashing}
+\subsubsection{Fold32 + fmix32 hashing}
 This function first folds the 64-bit key into 32 bits by XORing the lower 32 bits with the upper 32 bits.
 Then it applies the fmix32 finalizer, which combines XORs, shifts and 32-bit multiplications to further scramble the bits.
 So, it first compresses the 64-bit value into 32 bits, then performs a stronger bit diffusion so that small differences in the input affect many output bits.
@@ -167,6 +150,15 @@ The measured ordering is stable: \texttt{mask} is fastest, \texttt{xorshift} is 
 \end{itemize}
 This reflects the arithmetic complexity of the hash: \texttt{mask} is a simple bit operation, \texttt{xorshift} adds only shift/XOR steps and \texttt{fmix32fold} adds 
 a stronger finalizer that includes 32-bit multiplications.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.45\linewidth]{../img/throughput_vs_N_mask.png}
+    \caption{Throughput vs \texttt{N} for \texttt{mask}, with grouped bars for \texttt{plain\_novec}, \texttt{plain\_vec} and \texttt{avx2} at each \texttt{N}.}
+    \label{fig:throughput-vs-n}
+\end{figure}
+
+The throughput remains relatively stable across \texttt{N}, with a moderate increase for larger inputs. This suggests that fixed overheads are amortized as \texttt{N} grows, while asymptotic behavior stays close to linear.
 
 \subsection{Partition-time}
 Figure~\ref{fig:partition-time-vs-p} shows partition time for each hash.
