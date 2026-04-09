@@ -8,7 +8,7 @@
 \contentsline {subsection}{\numberline {2.1}Vectorization evidence and hash selection}{2}{subsection.9}%
 \contentsline {subsection}{\numberline {2.2}AVX2 mask kernel}{2}{subsection.10}%
 \contentsline {section}{\numberline {3}Results Analysis}{2}{section.16}%
-\contentsline {subsection}{\numberline {3.1}Benchmarking methodology}{2}{subsection.17}%
-\contentsline {subsection}{\numberline {3.2}Performance and limits}{3}{subsection.20}%
-\contentsline {subsection}{\numberline {3.3}Speedup}{4}{subsection.22}%
-\contentsline {section}{\numberline {4}Conclusions}{4}{section.25}%
+\contentsline {subsection}{\numberline {3.1}Benchmarking methodology}{3}{subsection.17}%
+\contentsline {subsection}{\numberline {3.2}Performance and limits}{3}{subsection.19}%
+\contentsline {subsection}{\numberline {3.3}Speedup}{4}{subsection.21}%
+\contentsline {section}{\numberline {4}Conclusions}{4}{section.24}%
